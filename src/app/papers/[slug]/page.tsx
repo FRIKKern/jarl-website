@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPaperBySlug, getPapers, getSiteSettings } from "@/content/loaders";
+import { Band } from "@/components/Band";
 import { PaperRenderer } from "@/components/PaperRenderer";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
@@ -49,9 +50,16 @@ export default async function PaperPage({
   if (!paper) notFound();
 
   return (
-    <article className={styles.shell}>
+    <article>
       <JsonLd data={paperSchema(paper, settings)} />
-      <PaperRenderer blocks={paper.blocks} />
+      <Band surface="paper" rule>
+        {/* The mechanical spacing law lives inside PaperRenderer: no renderer
+            margins, one empty paragraph block = exactly one blank row. The
+            band only decides where the column starts. */}
+        <div className={styles.shell}>
+          <PaperRenderer blocks={paper.blocks} />
+        </div>
+      </Band>
     </article>
   );
 }

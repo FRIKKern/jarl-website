@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getNavigation, getProjects, getSiteSettings } from "@/content/loaders";
+import { Band } from "@/components/Band";
 import { ProjectCard } from "@/components/ProjectCard";
 import { routeMetadata } from "@/lib/metadata";
 import styles from "../article.module.css";
@@ -22,22 +23,30 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProsjekterPage() {
-  const [navItems, projects] = await Promise.all([
+  const [navItems, projects, settings] = await Promise.all([
     getNavigation(),
     getProjects(),
+    getSiteSettings(),
   ]);
   const nav = navItems.find((i) => i.href === "/prosjekter");
 
   return (
-    <div className={styles.shell}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>{nav?.label}</h1>
-      </header>
-      <div className={styles.grid}>
-        {projects.map((project) => (
-          <ProjectCard key={project._id} project={project} headingLevel={2} />
-        ))}
-      </div>
-    </div>
+    <>
+      <Band surface="paper" rule space="tight">
+        <header className={styles.header}>
+          <h1 className={styles.displayTitle}>{nav?.label}</h1>
+          {settings?.tagline ? (
+            <p className={styles.intro}>{settings.tagline}</p>
+          ) : null}
+        </header>
+      </Band>
+      <Band surface="paper" rule>
+        <div className={styles.grid}>
+          {projects.map((project) => (
+            <ProjectCard key={project._id} project={project} headingLevel={2} />
+          ))}
+        </div>
+      </Band>
+    </>
   );
 }

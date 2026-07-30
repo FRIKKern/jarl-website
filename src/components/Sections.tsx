@@ -22,23 +22,23 @@ export function Sections({
   sections: KnownSection[];
   after?: string;
 }) {
-  let previous = after;
+  /* Seams are decided up front, so rendering stays a pure map. */
+  const needsRule = sections.map(
+    (section, i) => section.surface === (i === 0 ? after : sections[i - 1].surface),
+  );
+
   return (
     <>
-      {sections.map((section, i) => {
-        const rule = section.surface === previous;
-        previous = section.surface;
-        return (
-          <Band
-            key={i}
-            surface={section.surface}
-            rule={rule}
-            space={section.kind === "quote" ? "tight" : "normal"}
-          >
-            <SectionBody section={section} />
-          </Band>
-        );
-      })}
+      {sections.map((section, i) => (
+        <Band
+          key={i}
+          surface={section.surface}
+          rule={needsRule[i]}
+          space={section.kind === "quote" ? "tight" : "normal"}
+        >
+          <SectionBody section={section} />
+        </Band>
+      ))}
     </>
   );
 }

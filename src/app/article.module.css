@@ -1,17 +1,13 @@
-/* Shared shell for article-like pages (om, kontakt, detail pages, lists). */
+/* Typography shared by article-like routes.
 
-.shell {
-  max-width: var(--site-width);
-  margin-inline: auto;
-  padding: 0 var(--space-5);
-}
+   Width and padding are NOT here any more — a <Band> owns those, and every
+   route is a stack of bands. What is left is what a page header and its
+   trimmings look like once something else has decided where they sit. */
 
 .header {
-  padding: var(--space-8) 0 var(--space-6);
   display: grid;
   gap: var(--space-4);
-  border-bottom: 1px solid var(--color-line);
-  margin-bottom: var(--space-6);
+  max-width: var(--site-width);
 }
 
 .overline {
@@ -25,8 +21,17 @@
 .title {
   font-size: var(--text-xl);
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.012em;
   max-width: 24ch;
+}
+
+/* A page-title band gets the display cut: the largest type on any route
+   that is not the home page. */
+.displayTitle {
+  font-size: var(--text-display);
+  font-weight: 480;
+  letter-spacing: -0.018em;
+  max-width: 16ch;
 }
 
 .intro {
@@ -47,8 +52,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: var(--space-5);
 }
 
 .tags {
@@ -69,9 +74,30 @@
   padding: 0 var(--space-2);
 }
 
+/* -- project header: the words on one side, the figure on the other ------ */
+
+.projectHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.projectFigure {
+  min-width: 0;
+}
+
+@media (max-width: 56rem) {
+  .projectHeader {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+/* -- trimmings ----------------------------------------------------------- */
+
 .external {
   margin-top: var(--space-5);
-  font-size: var(--text-sm);
 }
 
 .contactEmail {
@@ -86,7 +112,7 @@
 
 .linkList {
   list-style: none;
-  margin: 0;
+  margin: var(--space-6) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -110,16 +136,16 @@
   font: inherit;
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--color-ink);
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
+  color: var(--color-solid-fg);
+  background-color: var(--color-solid-bg);
+  border: 1px solid transparent;
   border-radius: var(--radius);
-  padding: var(--space-2) var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  margin-top: var(--space-6);
   cursor: pointer;
-  transition: border-color 140ms ease;
+  transition: opacity var(--dur) var(--ease);
 }
 
 .button:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  opacity: 0.88;
 }

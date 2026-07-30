@@ -20,7 +20,7 @@ export function ArrowLink({
   children,
 }: {
   href?: string;
-  variant?: "text" | "solid" | "quiet";
+  variant?: "text" | "solid" | "quiet" | "heading";
   static?: boolean;
   children: React.ReactNode;
 }) {

@@ -5,6 +5,11 @@ import {
   getProjects,
   getSiteSettings,
 } from "@/content/loaders";
+import { normalizeSections } from "@/content/sections";
+import { Band } from "@/components/Band";
+import { Sections } from "@/components/Sections";
+import { Artwork } from "@/components/Artwork";
+import { ArrowLink } from "@/components/ArrowLink";
 import { Prose } from "@/components/Prose";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
@@ -54,34 +59,56 @@ export default async function ProsjektPage({
   ]);
   if (!project) notFound();
 
+  const sections = normalizeSections(project.sections);
+  const seed = project.slug ?? project._id;
+  const hasBody = Boolean(project.body);
+
   return (
-    <article className={styles.shell}>
+    <article>
       <JsonLd data={projectSchema(project, settings)} />
-      <header className={styles.header}>
-        {project.overline ? (
-          <p className={styles.overline}>{project.overline}</p>
-        ) : null}
-        <h1 className={styles.title}>{project.title}</h1>
-        {project.summary ? (
-          <p className={styles.intro}>{project.summary}</p>
-        ) : null}
-        {project.tags?.length ? (
-          <ul className={styles.tags}>
-            {project.tags.map((tag) => (
-              <li key={tag} className={styles.tag}>
-                {tag}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </header>
-      <Prose text={project.body} />
+
+      {/* The project's own hero: the words on one side, its figure on the
+          other. The figure is generated from the slug — see lib/artwork.ts. */}
+      <Band surface="ink" space="hero">
+        <div className={styles.projectHeader}>
+          <header className={styles.header}>
+            {project.overline ? (
+              <p className={styles.overline}>{project.overline}</p>
+            ) : null}
+            <h1 className={styles.displayTitle}>{project.title}</h1>
+            {project.summary ? (
+              <p className={styles.intro}>{project.summary}</p>
+            ) : null}
+            {project.tags?.length ? (
+              <ul className={styles.tags}>
+                {project.tags.map((tag) => (
+                  <li key={tag} className={styles.tag}>
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </header>
+          <div className={styles.projectFigure}>
+            <Artwork seed={seed} />
+          </div>
+        </div>
+      </Band>
+
+      {hasBody ? (
+        <Band surface="paper">
+          <Prose text={project.body} />
+        </Band>
+      ) : null}
+
+      <Sections sections={sections} after={hasBody ? "paper" : "ink"} />
+
       {project.url ? (
-        <p className={styles.external}>
-          <a href={project.url} rel="noreferrer">
-            {project.url}
-          </a>
-        </p>
+        <Band surface="paper" rule space="tight">
+          <p className={styles.external}>
+            <ArrowLink href={project.url}>{project.url}</ArrowLink>
+          </p>
+        </Band>
       ) : null}
     </article>
   );

@@ -10,6 +10,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { artworkDataUri } from "./artwork";
 import { monogramDataUri } from "./monogram";
 import { token } from "./palette";
 import { SITE_HOST } from "./site";
@@ -69,16 +70,28 @@ export interface OgCard {
   title?: string;
   /** One quiet line under the rule — a summary, tagline or date. */
   footer?: string;
+  /**
+   * Seed for the generative figure — a project slug. When present the card
+   * gains the same drawing the project's card carries on the site, so the
+   * social image and the page agree on what the project looks like.
+   * See src/lib/artwork.ts.
+   */
+  artworkSeed?: string;
 }
+
+/** The figure's column on the card, when there is one. */
+const ART_W = 430;
 
 export async function renderOgImage({
   kicker,
   title,
   footer,
+  artworkSeed,
 }: OgCard): Promise<ImageResponse> {
   const headline = clip(title, 84);
-  const size =
-    headline.length > 58 ? 62 : headline.length > 34 ? 78 : 96;
+  const wide = !artworkSeed;
+  const size = headline.length > 58 ? 62 : headline.length > 34 ? 78 : 96;
+  const scale = wide ? 1 : 0.78;
 
   return new ImageResponse(
     (
@@ -87,13 +100,20 @@ export async function renderOgImage({
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
           background: token("--paper-bg"),
           color: token("--paper-fg"),
           fontFamily: "Instrument Sans",
-          padding: "72px 80px",
           borderLeft: `16px solid ${token("--paper-accent")}`,
+        }}
+      >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          flexGrow: 1,
+          minWidth: 0,
+          padding: "72px 80px",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
@@ -117,10 +137,10 @@ export async function renderOgImage({
           style={{
             display: "flex",
             fontFamily: "Fraunces",
-            fontSize: size,
+            fontSize: Math.round(size * scale),
             lineHeight: 1.08,
             letterSpacing: "-0.02em",
-            maxWidth: 960,
+            maxWidth: wide ? 960 : 560,
           }}
         >
           {headline}
@@ -134,17 +154,41 @@ export async function renderOgImage({
             gap: 48,
             paddingTop: 28,
             borderTop: `1px solid ${token("--paper-line")}`,
-            fontSize: 28,
+            fontSize: wide ? 28 : 24,
             color: token("--paper-muted"),
           }}
         >
-          <div style={{ display: "flex", maxWidth: 760 }}>
-            {clip(footer, 110)}
+          <div style={{ display: "flex", maxWidth: wide ? 760 : 380 }}>
+            {clip(footer, wide ? 110 : 76)}
           </div>
           <div style={{ display: "flex", whiteSpace: "nowrap" }}>
             {SITE_HOST}
           </div>
         </div>
+      </div>
+
+      {/* The project's figure, on its own ground, hairline-divided. Drawn
+          from the same geometry the site uses — never an empty box. */}
+      {artworkSeed ? (
+        <div
+          style={{
+            display: "flex",
+            width: ART_W,
+            flexShrink: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            background: token("--ink-bg"),
+            borderLeft: `1px solid ${token("--paper-line")}`,
+          }}
+        >
+          <img
+            src={artworkDataUri(artworkSeed, ART_W, OG_SIZE.height, "ink")}
+            width={ART_W}
+            height={OG_SIZE.height}
+            alt=""
+          />
+        </div>
+      ) : null}
       </div>
     ),
     { ...OG_SIZE, fonts: await loadFonts() },

@@ -55,7 +55,7 @@ function isRenderable(section: KnownSection): boolean {
 export function normalizeSections(sections?: Section[]): KnownSection[] {
   return (sections ?? [])
     .filter((s): s is Section & { kind: string } => KNOWN.has(s.kind ?? ""))
-    .map((s) => ({
+    .map<KnownSection>((s) => ({
       ...s,
       kind: s.kind as SectionKind,
       surface: s.surface === "ink" ? "ink" : "paper",

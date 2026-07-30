@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getNoteBySlug, getNotes, getSiteSettings } from "@/content/loaders";
+import { Band } from "@/components/Band";
 import { Prose } from "@/components/Prose";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
@@ -57,19 +58,23 @@ export default async function NotatPage({
   if (!note) notFound();
 
   return (
-    <article className={styles.shell}>
+    <article>
       <JsonLd data={notePostingSchema(note, settings)} />
-      <header className={styles.header}>
-        <h1 className={styles.title}>{note.title}</h1>
-        {note.publishedAt ? (
-          <p className={styles.meta}>
-            <time dateTime={note.publishedAt}>
-              {formatDate(note.publishedAt)}
-            </time>
-          </p>
-        ) : null}
-      </header>
-      <Prose text={note.body} />
+      <Band surface="paper" rule space="tight">
+        <header className={styles.header}>
+          <h1 className={styles.displayTitle}>{note.title}</h1>
+          {note.publishedAt ? (
+            <p className={styles.meta}>
+              <time dateTime={note.publishedAt}>
+                {formatDate(note.publishedAt)}
+              </time>
+            </p>
+          ) : null}
+        </header>
+      </Band>
+      <Band surface="paper" rule>
+        <Prose text={note.body} />
+      </Band>
     </article>
   );
 }

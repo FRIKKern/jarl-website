@@ -5,6 +5,7 @@ import {
   getSiteSettings,
 } from "@/content/loaders";
 import { getChrome } from "@/content/chrome";
+import { Band } from "@/components/Band";
 import { Prose } from "@/components/Prose";
 import styles from "./article.module.css";
 
@@ -24,10 +25,12 @@ export default async function NotFound() {
   const chrome = getChrome(settings);
 
   return (
-    <div className={styles.shell}>
+    <Band surface="ink" space="hero">
       <header className={styles.header}>
         <p className={styles.overline}>404</p>
-        <h1 className={styles.title}>{page?.title ?? chrome.notFoundTitle}</h1>
+        <h1 className={styles.displayTitle}>
+          {page?.title ?? chrome.notFoundTitle}
+        </h1>
         <p className={styles.intro}>{page?.intro ?? chrome.notFoundIntro}</p>
       </header>
       {page?.body ? <Prose text={page.body} /> : null}
@@ -40,6 +43,6 @@ export default async function NotFound() {
           ))}
         </ul>
       ) : null}
-    </div>
+    </Band>
   );
 }

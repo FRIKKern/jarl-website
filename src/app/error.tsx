@@ -7,6 +7,7 @@
 
 import { useEffect } from "react";
 import { CHROME_FALLBACK } from "@/content/chrome";
+import { Band } from "@/components/Band";
 import styles from "./article.module.css";
 
 export default function Error({
@@ -21,14 +22,14 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className={styles.shell}>
+    <Band surface="ink" space="hero">
       <header className={styles.header}>
-        <h1 className={styles.title}>{CHROME_FALLBACK.errorTitle}</h1>
+        <h1 className={styles.displayTitle}>{CHROME_FALLBACK.errorTitle}</h1>
         <p className={styles.intro}>{CHROME_FALLBACK.errorIntro}</p>
       </header>
       <button type="button" className={styles.button} onClick={reset}>
         {CHROME_FALLBACK.retry}
       </button>
-    </div>
+    </Band>
   );
 }

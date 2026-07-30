@@ -1,9 +1,12 @@
 import type { SiteSettings } from "@/content/types";
+import { Band } from "./Band";
 import styles from "./SiteFooter.module.css";
 
+/** The page closes on the inverted ground — the same band primitive every
+    section uses, so the footer is not a special case. */
 export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
   return (
-    <footer className={styles.footer}>
+    <Band as="footer" surface="ink" space="tight">
       <div className={styles.inner}>
         <div className={styles.left}>
           {settings?.email ? (
@@ -29,6 +32,6 @@ export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
           </ul>
         ) : null}
       </div>
-    </footer>
+    </Band>
   );
 }

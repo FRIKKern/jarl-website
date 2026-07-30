@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getNavigation, getNotes, getSiteSettings } from "@/content/loaders";
+import { Band } from "@/components/Band";
 import { NoteList } from "@/components/NoteList";
 import { routeMetadata } from "@/lib/metadata";
 import styles from "../article.module.css";
@@ -24,11 +25,15 @@ export default async function NotaterPage() {
   const nav = navItems.find((i) => i.href === "/notater");
 
   return (
-    <div className={styles.shell}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>{nav?.label}</h1>
-      </header>
-      <NoteList notes={notes} />
-    </div>
+    <>
+      <Band surface="paper" rule space="tight">
+        <header className={styles.header}>
+          <h1 className={styles.displayTitle}>{nav?.label}</h1>
+        </header>
+      </Band>
+      <Band surface="paper" rule>
+        <NoteList notes={notes} />
+      </Band>
+    </>
   );
 }

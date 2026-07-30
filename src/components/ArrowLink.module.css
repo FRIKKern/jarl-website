@@ -39,6 +39,25 @@
   border-radius: var(--radius);
 }
 
+/* A section heading that is also its own link. Same primitive, heading cut —
+   so the arrow behaves identically whether it is 12px or 28px. */
+.link[data-variant="heading"] {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 520;
+  letter-spacing: -0.008em;
+  color: var(--color-ink);
+  gap: calc(var(--arrow-gap) + var(--space-2));
+  transition:
+    gap var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.link[data-variant="heading"]:hover,
+.link[data-variant="heading"]:focus-visible {
+  color: var(--color-accent);
+}
+
 /* Inside a card, where the card already carries the accent on hover. */
 .link[data-variant="quiet"] {
   color: var(--color-muted);
