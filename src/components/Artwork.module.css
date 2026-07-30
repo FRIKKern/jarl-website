@@ -1,0 +1,38 @@
+/* The generative figure. Every stroke is a token, so the drawing inverts
+   with the band it sits on instead of shipping a second asset. */
+
+.artwork {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.grid {
+  stroke: var(--color-line);
+  stroke-width: 1;
+  fill: none;
+}
+
+.contours {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Presence is a custom property, so an ancestor can raise it on hover
+   without a second rule about what hovering means — the same contract the
+   arrow-gap primitive uses. */
+.line {
+  stroke: var(--color-muted);
+  stroke-width: 1;
+  opacity: var(--figure-ink, 0.55);
+  transition: opacity var(--dur) var(--ease);
+}
+
+.accentLine {
+  stroke: var(--color-accent);
+  stroke-width: 1.6;
+}
+
+.tick {
+  fill: var(--color-accent);
+}

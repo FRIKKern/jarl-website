@@ -2,16 +2,44 @@
   position: relative;
   display: grid;
   align-content: start;
-  gap: var(--space-3);
-  padding: var(--space-5);
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
-  background: var(--color-surface);
-  transition: border-color 140ms ease;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  overflow: hidden;
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
 }
 
-.card:hover {
+/* Hover opens every affordance in the card at once by moving the two
+   properties the primitives read. Nothing here restates what an arrow or a
+   figure does — see ArrowLink.module.css and Artwork.module.css. */
+.card:hover,
+.card:focus-within {
   border-color: var(--color-accent);
+  transform: translateY(-2px);
+  --arrow-gap: var(--arrow-gap-open);
+  --figure-ink: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+}
+
+.figure {
+  border-bottom: 1px solid var(--color-line);
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.body {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
 }
 
 .overline {
@@ -29,6 +57,7 @@
 .titleLink {
   color: var(--color-ink);
   text-decoration: none;
+  transition: color var(--dur) var(--ease);
 }
 
 /* whole card clickable without nested-link tricks */
@@ -64,4 +93,8 @@
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   padding: 0 var(--space-2);
+}
+
+.more {
+  margin-top: var(--space-2);
 }

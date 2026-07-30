@@ -43,12 +43,62 @@ export interface Navigation extends BarkparkDoc {
   items?: NavItem[];
 }
 
+/* ---- composable sections ------------------------------------------------
+   An ORDERED, typed list authored in Studio and rendered top to bottom.
+   One composite shape with a `kind` discriminant: every archetype reads the
+   fields it needs and ignores the rest, so adding an archetype is a schema
+   option and a renderer branch — never a new document type.
+
+   Forward compatibility is a hard rule: a `kind` this build does not know
+   renders NOTHING. Content can therefore be authored ahead of the code. */
+
+/** Which ground a band stands on. See the surface families in globals.css. */
+export type Surface = "paper" | "ink";
+
+/** The archetypes this build renders. Anything else is ignored on purpose. */
+export const SECTION_KINDS = [
+  "split",
+  "timeline",
+  "featureGrid",
+  "callout",
+  "steps",
+  "quote",
+] as const;
+
+export type SectionKind = (typeof SECTION_KINDS)[number];
+
+/** A row, column, cell or step. Which of the three fields matter is the
+    parent section's business. */
+export interface SectionItem {
+  overline?: string;
+  title?: string;
+  body?: string;
+}
+
+export interface Section {
+  /** Deliberately widened to `string`: unknown kinds must survive the type
+      system exactly the way they survive the renderer. */
+  kind?: string;
+  surface?: string;
+  overline?: string;
+  title?: string;
+  body?: string;
+  attribution?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  items?: SectionItem[];
+}
+
 export interface Page extends BarkparkDoc {
   _type: "page";
   title?: string;
   slug?: string;
   intro?: string;
+  /** The home hero's single arrow link. */
+  ctaLabel?: string;
+  ctaHref?: string;
   body?: string;
+  sections?: Section[];
   seoDescription?: string;
 }
 
@@ -59,6 +109,7 @@ export interface Project extends BarkparkDoc {
   overline?: string;
   summary?: string;
   body?: string;
+  sections?: Section[];
   tags?: string[];
   url?: string;
   order?: number;

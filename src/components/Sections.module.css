@@ -1,0 +1,271 @@
+/* The six section archetypes.
+
+   Rules of the system:
+   - no archetype paints a surface; the band under it already did,
+   - the only decoration is a hairline,
+   - the only solid fill is the callout's button (see ArrowLink). */
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--measure);
+  margin-bottom: var(--space-7);
+}
+
+.head[data-center] {
+  justify-items: center;
+  text-align: center;
+  margin-inline: auto;
+  margin-bottom: var(--space-8);
+}
+
+.overline {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-accent);
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+.itemBody {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  max-width: 46ch;
+}
+
+/* -- split --------------------------------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.splitCol {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  justify-items: center;
+  text-align: center;
+  padding: var(--space-2) var(--space-7);
+}
+
+.splitCol + .splitCol {
+  border-left: 1px solid var(--color-line);
+}
+
+.splitTitle {
+  font-size: var(--text-lg);
+  font-weight: 520;
+}
+
+.splitCol .itemBody {
+  max-width: 38ch;
+}
+
+/* -- timeline ------------------------------------------------------------ */
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+
+.timelineRow {
+  display: grid;
+  grid-template-columns: var(--rail-width) minmax(0, 1fr);
+  border-top: 1px solid var(--color-line);
+  padding-block: var(--space-5);
+}
+
+.timelineRow:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.rail {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  padding-top: 0.4em;
+  padding-right: var(--space-5);
+}
+
+/* the rail itself — a continuous hairline, because contiguous rows stack
+   their left borders into one unbroken line */
+.timelineEntry {
+  display: grid;
+  gap: var(--space-3);
+  border-left: 1px solid var(--color-line);
+  padding-left: var(--space-6);
+  /* the row padding is on the row, so the rule must be pulled back out */
+  margin-block: calc(-1 * var(--space-5));
+  padding-block: var(--space-5);
+}
+
+.entryTitle {
+  font-size: var(--text-md);
+  font-weight: 560;
+}
+
+.timelineEntry .itemBody {
+  max-width: 62ch;
+}
+
+/* -- feature grid -------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-6) var(--space-6);
+}
+
+.cell {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-4);
+}
+
+.cellTitle {
+  font-size: var(--text-md);
+  font-weight: 560;
+}
+
+@media (min-width: 60rem) {
+  .grid[data-cols="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid[data-cols="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* -- callout ------------------------------------------------------------- */
+
+.callout {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-5);
+  max-width: 52rem;
+}
+
+.calloutTitle {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  max-width: 20ch;
+}
+
+.calloutCta {
+  margin-top: var(--space-2);
+}
+
+/* -- steps --------------------------------------------------------------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-6);
+  counter-reset: none;
+}
+
+.step {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-4);
+}
+
+.stepIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+}
+
+.step .overline {
+  color: var(--color-muted);
+}
+
+.step .cellTitle {
+  margin-top: var(--space-1);
+}
+
+/* -- quote --------------------------------------------------------------- */
+
+.quote {
+  margin: 0;
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.quoteText {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.quoteBy {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-muted);
+}
+
+/* -- narrow -------------------------------------------------------------- */
+
+@media (max-width: 52rem) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .splitCol {
+    padding-inline: 0;
+    padding-block: var(--space-6);
+  }
+
+  .splitCol + .splitCol {
+    border-left: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .timelineRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .rail {
+    padding: 0;
+  }
+
+  .timelineEntry {
+    border-left: 0;
+    padding-left: 0;
+    margin-block: 0;
+    padding-block: 0;
+  }
+}

@@ -19,8 +19,11 @@
 }
 
 .bar {
+  /* check-hover-allow: a skeleton bar is a shape standing in for text that
+     has not arrived. It has no children and never renders a glyph, so a text
+     color here would state something untrue about the placeholder. */
   display: block;
-  background: var(--color-surface);
+  background-color: var(--color-surface);
   border-radius: var(--radius);
   animation: pulse 1.6s ease-in-out infinite;
 }

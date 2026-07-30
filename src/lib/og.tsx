@@ -89,11 +89,11 @@ export async function renderOgImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: token("--color-bg"),
-          color: token("--color-ink"),
+          background: token("--paper-bg"),
+          color: token("--paper-fg"),
           fontFamily: "Instrument Sans",
           padding: "72px 80px",
-          borderLeft: `16px solid ${token("--color-accent")}`,
+          borderLeft: `16px solid ${token("--paper-accent")}`,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
@@ -105,7 +105,7 @@ export async function renderOgImage({
                 fontSize: 26,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: token("--color-accent"),
+                color: token("--paper-accent"),
               }}
             >
               {clip(kicker, 42)}
@@ -133,9 +133,9 @@ export async function renderOgImage({
             alignItems: "flex-end",
             gap: 48,
             paddingTop: 28,
-            borderTop: `1px solid ${token("--color-line")}`,
+            borderTop: `1px solid ${token("--paper-line")}`,
             fontSize: 28,
-            color: token("--color-muted"),
+            color: token("--paper-muted"),
           }}
         >
           <div style={{ display: "flex", maxWidth: 760 }}>

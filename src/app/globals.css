@@ -1,19 +1,56 @@
 /* ============================================================
-   Jarl — design tokens (the Frick pattern)
+   Jarl — design tokens
    The ONLY file allowed to contain raw color literals.
-   Colors are OKLCH; AA contrast is enforced by
+
+   TWO MIRRORED SURFACE FAMILIES, not two themes:
+     --paper-*  the warm default ground
+     --ink-*    the inverted ground
+   Each family is fully restated for light and dark, so a band
+   flips ground with ONE attribute — `data-surface="ink"` —
+   and stays correct in both color schemes.
+
+   The semantic --color-* names are BINDINGS onto the active
+   family. Every component reads only --color-*, so nothing
+   downstream knows which ground it is standing on.
+
+   Colors are OKLCH; AA contrast is enforced across all four
+   combinations (light/dark × paper/ink) by
    scripts/check-contrast.mjs parsing this exact file.
    ============================================================ */
 
 :root {
-  /* -- color · light (warm paper / deep ink / fjord accent) -- */
-  --color-bg: oklch(0.972 0.007 85);
-  --color-surface: oklch(0.941 0.009 85);
-  --color-ink: oklch(0.235 0.02 265);
-  --color-muted: oklch(0.45 0.02 265);
-  --color-accent: oklch(0.44 0.09 185);
-  --color-line: oklch(0.868 0.012 85);
-  --color-accent-soft: oklch(0.9 0.03 185);
+  /* -- paper · light (warm paper, deep ink, fjord accent) ------ */
+  --paper-bg: oklch(0.972 0.007 85);
+  --paper-surface: oklch(0.941 0.009 85);
+  --paper-fg: oklch(0.235 0.02 265);
+  --paper-muted: oklch(0.45 0.02 265);
+  --paper-accent: oklch(0.44 0.09 185);
+  --paper-line: oklch(0.868 0.012 85);
+  --paper-accent-soft: oklch(0.9 0.03 185);
+  --paper-solid-bg: oklch(0.44 0.09 185);
+  --paper-solid-fg: oklch(0.98 0.006 85);
+
+  /* -- ink · light (the paper foreground becomes the ground) --- */
+  --ink-bg: oklch(0.235 0.02 265);
+  --ink-surface: oklch(0.285 0.022 265);
+  --ink-fg: oklch(0.958 0.008 85);
+  --ink-muted: oklch(0.775 0.016 265);
+  --ink-accent: oklch(0.82 0.1 175);
+  --ink-line: oklch(0.365 0.02 265);
+  --ink-accent-soft: oklch(0.34 0.045 185);
+  --ink-solid-bg: oklch(0.82 0.1 175);
+  --ink-solid-fg: oklch(0.2 0.02 265);
+
+  /* -- the active ground · paper unless a band says otherwise -- */
+  --color-bg: var(--paper-bg);
+  --color-surface: var(--paper-surface);
+  --color-ink: var(--paper-fg);
+  --color-muted: var(--paper-muted);
+  --color-accent: var(--paper-accent);
+  --color-line: var(--paper-line);
+  --color-accent-soft: var(--paper-accent-soft);
+  --color-solid-bg: var(--paper-solid-bg);
+  --color-solid-fg: var(--paper-solid-fg);
 
   /* -- type ---------------------------------------------------- */
   --font-display: var(--next-font-display, serif);
@@ -27,6 +64,7 @@
   --text-lg: clamp(1.375rem, 1.1rem + 1.2vw, 1.75rem);
   --text-xl: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
   --text-display: clamp(2.5rem, 1.6rem + 4.5vw, 4.75rem);
+  --text-hero: clamp(3.25rem, 1.2rem + 9.5vw, 8.5rem);
 
   --leading-tight: 1.12;
   --leading-snug: 1.35;
@@ -49,21 +87,73 @@
   --measure: 42rem;
   --site-width: 70rem;
   --radius: 3px;
+  /* period rail of the timeline archetype */
+  --rail-width: 11rem;
+
+  /* -- motion · ONE easing and ONE duration for the whole site -- */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 150ms;
+  --arrow-gap: 0.5rem;
+  --arrow-gap-open: 0.75rem;
 
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* -- color · dark (deep ink / warm white / mint accent) ---- */
-    --color-bg: oklch(0.208 0.014 265);
-    --color-surface: oklch(0.252 0.016 265);
-    --color-ink: oklch(0.93 0.008 85);
-    --color-muted: oklch(0.735 0.015 265);
-    --color-accent: oklch(0.8 0.1 175);
-    --color-line: oklch(0.33 0.018 265);
-    --color-accent-soft: oklch(0.32 0.04 185);
+    /* -- paper · dark (deep ink ground, warm white, mint) ------ */
+    --paper-bg: oklch(0.208 0.014 265);
+    --paper-surface: oklch(0.252 0.016 265);
+    --paper-fg: oklch(0.93 0.008 85);
+    --paper-muted: oklch(0.735 0.015 265);
+    --paper-accent: oklch(0.8 0.1 175);
+    --paper-line: oklch(0.33 0.018 265);
+    --paper-accent-soft: oklch(0.32 0.04 185);
+    --paper-solid-bg: oklch(0.8 0.1 175);
+    --paper-solid-fg: oklch(0.19 0.02 265);
+
+    /* -- ink · dark (the inverted band goes DEEPER, not lighter;
+          in a dark scheme the mirror of "quiet" is "quieter") --- */
+    --ink-bg: oklch(0.148 0.016 265);
+    --ink-surface: oklch(0.19 0.016 265);
+    --ink-fg: oklch(0.945 0.008 85);
+    --ink-muted: oklch(0.72 0.015 265);
+    --ink-accent: oklch(0.82 0.1 175);
+    --ink-line: oklch(0.272 0.018 265);
+    --ink-accent-soft: oklch(0.27 0.04 185);
+    --ink-solid-bg: oklch(0.82 0.1 175);
+    --ink-solid-fg: oklch(0.16 0.02 265);
   }
+}
+
+/* ============================================================
+   Surface bands
+   `data-surface` rebinds the active family for a whole subtree.
+   Nothing else in the codebase knows the family names.
+   ============================================================ */
+
+[data-surface="paper"] {
+  --color-bg: var(--paper-bg);
+  --color-surface: var(--paper-surface);
+  --color-ink: var(--paper-fg);
+  --color-muted: var(--paper-muted);
+  --color-accent: var(--paper-accent);
+  --color-line: var(--paper-line);
+  --color-accent-soft: var(--paper-accent-soft);
+  --color-solid-bg: var(--paper-solid-bg);
+  --color-solid-fg: var(--paper-solid-fg);
+}
+
+[data-surface="ink"] {
+  --color-bg: var(--ink-bg);
+  --color-surface: var(--ink-surface);
+  --color-ink: var(--ink-fg);
+  --color-muted: var(--ink-muted);
+  --color-accent: var(--ink-accent);
+  --color-line: var(--ink-line);
+  --color-accent-soft: var(--ink-accent-soft);
+  --color-solid-bg: var(--ink-solid-bg);
+  --color-solid-fg: var(--ink-solid-fg);
 }
 
 /* ============================================================
@@ -82,7 +172,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: var(--text-base);
@@ -116,7 +206,8 @@ a:hover {
 }
 
 ::selection {
-  background: var(--color-accent-soft);
+  background-color: var(--color-accent-soft);
+  color: var(--color-ink);
 }
 
 :focus-visible {
@@ -126,8 +217,8 @@ a:hover {
 
 /* ============================================================
    Motion
-   Nothing on the site animates by choice; this makes the
-   promise explicit for anyone who has asked for less motion.
+   Everything that moves uses --ease and --dur, and stops
+   entirely for anyone who has asked for less motion.
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {

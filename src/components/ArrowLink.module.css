@@ -1,0 +1,48 @@
+/* The single arrow-gap rule for the whole site.
+
+   The gap reads a custom property so an ancestor can open it (see
+   ProjectCard). --dur and --ease are the site's only motion values, and
+   prefers-reduced-motion in globals.css switches the transition off. */
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--arrow-gap);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: gap var(--dur) var(--ease);
+}
+
+.link:hover,
+.link:focus-visible {
+  --arrow-gap: var(--arrow-gap-open);
+  text-decoration: none;
+}
+
+.arrow {
+  flex: none;
+  /* the stroke sits on the x-height, not the baseline */
+  transform: translateY(0.5px);
+}
+
+/* -- variants ------------------------------------------------------------ */
+
+/* The ONE solid fill on the site. Its own ground, so it declares its own ink. */
+.link[data-variant="solid"] {
+  background-color: var(--color-solid-bg);
+  color: var(--color-solid-fg);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius);
+}
+
+/* Inside a card, where the card already carries the accent on hover. */
+.link[data-variant="quiet"] {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+}

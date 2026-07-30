@@ -2,9 +2,9 @@
  * The Jarl mark — a serif `J` cut from geometry, not from a typeface, so the
  * favicon renders identically everywhere and needs no font payload.
  *
- * Colors come from the design tokens (see src/lib/palette.ts): an ink tile,
- * the letter in paper, the crossbar in the dark-theme accent so it stays
- * legible against the ink.
+ * Colors come from the inverted surface family (see src/lib/palette.ts):
+ * the ink ground, its foreground for the letter, its accent for the crossbar.
+ * The mark is therefore an ink band shrunk to 64 units.
  */
 
 import { token } from "./palette";
@@ -16,9 +16,9 @@ export interface MonogramOptions {
 
 /** Square SVG markup for the mark, sized to `size` pixels. */
 export function monogramSvg(size: number, options: MonogramOptions = {}): string {
-  const tile = token("--color-ink");
-  const letter = token("--color-bg");
-  const bar = token("--color-accent", "dark");
+  const tile = token("--ink-bg");
+  const letter = token("--ink-fg");
+  const bar = token("--ink-accent");
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64">`,
     `<rect width="64" height="64" rx="${options.radius ?? 14}" fill="${tile}"/>`,

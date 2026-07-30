@@ -91,7 +91,8 @@
 
 .callout {
   border-left: 3px solid var(--color-accent);
-  background: var(--color-surface);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
   padding: var(--space-4) var(--space-5);
   border-radius: 0 var(--radius) var(--radius) 0;
 }

@@ -67,7 +67,7 @@ const paletteSource = readFileSync(PALETTE_FILE, "utf8");
 
 function cssTokens(source) {
   const out = {};
-  const re = /(--color-[\w-]+)\s*:\s*oklch\(([^)]+)\)/g;
+  const re = /(--(?:paper|ink)-[\w-]+)\s*:\s*oklch\(([^)]+)\)/g;
   let m;
   while ((m = re.exec(source)) !== null) {
     out[m[1]] = m[2].trim().split(/[\s/]+/).map(Number);
@@ -80,7 +80,7 @@ function tsTokens(name) {
   if (start === -1) return null;
   const block = paletteSource.slice(start, paletteSource.indexOf("};", start));
   const out = {};
-  const re = /"(--color-[\w-]+)":\s*\[([^\]]+)\]/g;
+  const re = /"(--(?:paper|ink)-[\w-]+)":\s*\[([^\]]+)\]/g;
   let m;
   while ((m = re.exec(block)) !== null) {
     out[m[1]] = m[2].split(",").map((n) => Number(n.trim()));
@@ -126,3 +126,59 @@ if (drift.length > 0) {
   process.exit(1);
 }
 console.log("check-tokens: src/lib/palette.ts mirrors globals.css exactly.");
+
+/* ============================================================
+   Part three — the surface bindings are complete.
+
+   Components read only the semantic --color-* names. Each one must be
+   bound in :root and re-bound by BOTH surface-family selectors, or a
+   band would inherit half a palette from the ground behind it.
+   ============================================================ */
+
+const SEMANTIC = Object.keys(cssLight)
+  .filter((n) => n.startsWith("--paper-"))
+  .map((n) => n.replace("--paper-", ""));
+
+function bindingsIn(selector) {
+  const at = css.indexOf(selector);
+  if (at === -1) return null;
+  const open = css.indexOf("{", at);
+  const block = css.slice(open, css.indexOf("}", open));
+  const out = new Set();
+  const re = /(--color-[\w-]+)\s*:\s*var\(\s*(--(?:paper|ink)-[\w-]+)\s*\)/g;
+  let m;
+  while ((m = re.exec(block)) !== null) out.add(`${m[1]}→${m[2]}`);
+  return out;
+}
+
+const holes = [];
+for (const [selector, family] of [
+  [':root {\n  /* -- paper', "paper"],
+  ['[data-surface="paper"]', "paper"],
+  ['[data-surface="ink"]', "ink"],
+]) {
+  /* :root is matched by its first declaration group; fall back to the
+     bare selector so a reformat cannot silently disable the check. */
+  const bound = bindingsIn(selector) ?? bindingsIn(selector.split(" {")[0]);
+  if (!bound) {
+    holes.push(`missing surface selector: ${selector}`);
+    continue;
+  }
+  for (const suffix of SEMANTIC) {
+    const want = `--color-${suffix === "fg" ? "ink" : suffix}→--${family}-${suffix}`;
+    if (!bound.has(want)) holes.push(`${selector}: no binding ${want}`);
+  }
+}
+
+if (holes.length > 0) {
+  console.error("\ncheck-tokens: incomplete surface bindings:\n");
+  for (const h of holes) console.error("  " + h);
+  console.error(
+    "\ncheck-tokens: every --color-* must be bound by :root and by both" +
+      " [data-surface] selectors.",
+  );
+  process.exit(1);
+}
+console.log(
+  `check-tokens: all ${SEMANTIC.length} semantic colors bound on both surfaces.`,
+);

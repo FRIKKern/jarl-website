@@ -2,10 +2,14 @@
  * Design tokens as numbers, for the surfaces that cannot read CSS.
  *
  * `next/og` (satori) rasterises server-side and never sees a stylesheet, so
- * the icon and OG-image routes need the palette as plain values. The lightness
- * / chroma / hue triples below MIRROR `src/app/globals.css`, which stays the
- * single source of truth — `scripts/check-tokens.mjs` fails the build if the
- * two ever drift apart.
+ * the icon, artwork and OG-image routes need the palette as plain values. The
+ * lightness / chroma / hue triples below MIRROR `src/app/globals.css`, which
+ * stays the single source of truth — `scripts/check-tokens.mjs` fails the
+ * build if the two ever drift apart.
+ *
+ * Both surface families are mirrored: `--paper-*` (the default ground) and
+ * `--ink-*` (the inverted ground). The semantic `--color-*` bindings are a
+ * CSS-only concept and deliberately absent here.
  *
  * Values are converted to sRGB hex programmatically; no color literal is
  * written here, so the tokens-only design gate still holds.
@@ -13,26 +17,48 @@
 
 export type Lch = readonly [number, number, number];
 
-/** Light theme — mirrors the `:root` block of globals.css. */
+/** Light scheme — mirrors the `:root` block of globals.css. */
 export const LIGHT: Record<string, Lch> = {
-  "--color-bg": [0.972, 0.007, 85],
-  "--color-surface": [0.941, 0.009, 85],
-  "--color-ink": [0.235, 0.02, 265],
-  "--color-muted": [0.45, 0.02, 265],
-  "--color-accent": [0.44, 0.09, 185],
-  "--color-line": [0.868, 0.012, 85],
-  "--color-accent-soft": [0.9, 0.03, 185],
+  "--paper-bg": [0.972, 0.007, 85],
+  "--paper-surface": [0.941, 0.009, 85],
+  "--paper-fg": [0.235, 0.02, 265],
+  "--paper-muted": [0.45, 0.02, 265],
+  "--paper-accent": [0.44, 0.09, 185],
+  "--paper-line": [0.868, 0.012, 85],
+  "--paper-accent-soft": [0.9, 0.03, 185],
+  "--paper-solid-bg": [0.44, 0.09, 185],
+  "--paper-solid-fg": [0.98, 0.006, 85],
+  "--ink-bg": [0.235, 0.02, 265],
+  "--ink-surface": [0.285, 0.022, 265],
+  "--ink-fg": [0.958, 0.008, 85],
+  "--ink-muted": [0.775, 0.016, 265],
+  "--ink-accent": [0.82, 0.1, 175],
+  "--ink-line": [0.365, 0.02, 265],
+  "--ink-accent-soft": [0.34, 0.045, 185],
+  "--ink-solid-bg": [0.82, 0.1, 175],
+  "--ink-solid-fg": [0.2, 0.02, 265],
 };
 
-/** Dark theme — mirrors the prefers-color-scheme override of globals.css. */
+/** Dark scheme — mirrors the prefers-color-scheme override of globals.css. */
 export const DARK: Record<string, Lch> = {
-  "--color-bg": [0.208, 0.014, 265],
-  "--color-surface": [0.252, 0.016, 265],
-  "--color-ink": [0.93, 0.008, 85],
-  "--color-muted": [0.735, 0.015, 265],
-  "--color-accent": [0.8, 0.1, 175],
-  "--color-line": [0.33, 0.018, 265],
-  "--color-accent-soft": [0.32, 0.04, 185],
+  "--paper-bg": [0.208, 0.014, 265],
+  "--paper-surface": [0.252, 0.016, 265],
+  "--paper-fg": [0.93, 0.008, 85],
+  "--paper-muted": [0.735, 0.015, 265],
+  "--paper-accent": [0.8, 0.1, 175],
+  "--paper-line": [0.33, 0.018, 265],
+  "--paper-accent-soft": [0.32, 0.04, 185],
+  "--paper-solid-bg": [0.8, 0.1, 175],
+  "--paper-solid-fg": [0.19, 0.02, 265],
+  "--ink-bg": [0.148, 0.016, 265],
+  "--ink-surface": [0.19, 0.016, 265],
+  "--ink-fg": [0.945, 0.008, 85],
+  "--ink-muted": [0.72, 0.015, 265],
+  "--ink-accent": [0.82, 0.1, 175],
+  "--ink-line": [0.272, 0.018, 265],
+  "--ink-accent-soft": [0.27, 0.04, 185],
+  "--ink-solid-bg": [0.82, 0.1, 175],
+  "--ink-solid-fg": [0.16, 0.02, 265],
 };
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -62,8 +88,11 @@ export function toHex([l, c, h]: Lch): string {
   return "#" + channelHex(r) + channelHex(g) + channelHex(bl);
 }
 
-/** Hex value of a token in a given theme, for satori-rendered surfaces. */
-export function token(name: keyof typeof LIGHT, theme: "light" | "dark" = "light"): string {
-  const source = theme === "dark" ? DARK : LIGHT;
+/** Hex value of a token in a given color scheme, for satori-rendered surfaces. */
+export function token(
+  name: keyof typeof LIGHT,
+  scheme: "light" | "dark" = "light",
+): string {
+  const source = scheme === "dark" ? DARK : LIGHT;
   return toHex(source[name]);
 }

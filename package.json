@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
-    "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens"
+    "check:hover": "node scripts/check-hover.mjs",
+    "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens && pnpm check:hover"
   },
   "dependencies": {
     "next": "^16.2.12",

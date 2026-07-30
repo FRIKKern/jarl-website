@@ -6,6 +6,12 @@
  * block and the dark `@media (prefers-color-scheme: dark)` override),
  * converts OKLCH → linear sRGB → WCAG relative luminance, and verifies
  * every declared foreground/background pair meets its minimum ratio.
+ *
+ * The site has TWO mirrored surface families — `--paper-*` (the default
+ * ground) and `--ink-*` (the inverted band ground) — and two color
+ * schemes, so every pair is checked four times. A band that flips its
+ * ground with `data-surface="ink"` therefore cannot ship unreadable.
+ *
  * Exits 1 with a table of failures.
  */
 
@@ -17,20 +23,27 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const cssPath = resolve(root, "src/app/globals.css");
 const css = readFileSync(cssPath, "utf8");
 
-/* ---- pairs under contract: [foreground, background, minimum] ---------- */
+const FAMILIES = ["paper", "ink"];
+
+/* ---- pairs under contract, per family: [fg, bg, minimum] -------------- */
 const PAIRS = [
-  ["--color-ink", "--color-bg", 4.5],
-  ["--color-ink", "--color-surface", 4.5],
-  ["--color-muted", "--color-bg", 4.5],
-  ["--color-muted", "--color-surface", 4.5],
-  ["--color-accent", "--color-bg", 4.5],
-  ["--color-accent", "--color-surface", 4.5],
+  ["fg", "bg", 4.5],
+  ["fg", "surface", 4.5],
+  ["muted", "bg", 4.5],
+  ["muted", "surface", 4.5],
+  ["accent", "bg", 4.5],
+  ["accent", "surface", 4.5],
+  /* the one solid fill on the site — its label must survive it */
+  ["solid-fg", "solid-bg", 4.5],
 ];
 
-/* ---- parse tokens per theme ------------------------------------------- */
+/* Cross-family text never happens: a band rebinds the whole --color-* set
+   at once, so no paper foreground is ever painted on an ink ground. */
+
+/* ---- parse tokens per scheme ------------------------------------------ */
 function parseBlock(source) {
   const tokens = {};
-  const re = /(--color-[\w-]+)\s*:\s*oklch\(([^)]+)\)/g;
+  const re = /(--(?:paper|ink)-[\w-]+)\s*:\s*oklch\(([^)]+)\)/g;
   let m;
   while ((m = re.exec(source)) !== null) {
     const [l, c, h] = m[2].trim().split(/[\s/]+/).map(Number);
@@ -41,7 +54,7 @@ function parseBlock(source) {
 
 const darkStart = css.indexOf("@media (prefers-color-scheme: dark)");
 if (darkStart === -1) {
-  console.error("check-contrast: no dark theme block found in globals.css");
+  console.error("check-contrast: no dark scheme block found in globals.css");
   process.exit(1);
 }
 const lightTokens = parseBlock(css.slice(0, darkStart));
@@ -76,29 +89,41 @@ function contrast(fg, bg) {
 
 /* ---- run --------------------------------------------------------------- */
 let failures = 0;
-for (const [themeName, tokens] of [
+let checked = 0;
+for (const [schemeName, tokens] of [
   ["light", lightTokens],
   ["dark", darkTokens],
 ]) {
-  for (const [fg, bg, min] of PAIRS) {
-    if (!tokens[fg] || !tokens[bg]) {
-      console.error(`FAIL [${themeName}] missing token ${!tokens[fg] ? fg : bg}`);
-      failures++;
-      continue;
-    }
-    const ratio = contrast(tokens[fg], tokens[bg]);
-    const ok = ratio >= min;
-    const line = `${ok ? " ok " : "FAIL"} [${themeName}] ${fg} on ${bg}: ${ratio.toFixed(2)}:1 (min ${min}:1)`;
-    if (ok) console.log(line);
-    else {
-      console.error(line);
-      failures++;
+  for (const family of FAMILIES) {
+    for (const [fgSuffix, bgSuffix, min] of PAIRS) {
+      const fg = `--${family}-${fgSuffix}`;
+      const bg = `--${family}-${bgSuffix}`;
+      if (!tokens[fg] || !tokens[bg]) {
+        console.error(
+          `FAIL [${schemeName}] missing token ${!tokens[fg] ? fg : bg}`,
+        );
+        failures++;
+        continue;
+      }
+      checked++;
+      const ratio = contrast(tokens[fg], tokens[bg]);
+      const ok = ratio >= min;
+      const line = `${ok ? " ok " : "FAIL"} [${schemeName}] ${fg} on ${bg}: ${ratio.toFixed(2)}:1 (min ${min}:1)`;
+      if (ok) console.log(line);
+      else {
+        console.error(line);
+        failures++;
+      }
     }
   }
 }
 
 if (failures > 0) {
-  console.error(`\ncheck-contrast: ${failures} pair(s) below AA — fix the tokens.`);
+  console.error(
+    `\ncheck-contrast: ${failures} pair(s) below AA — fix the tokens.`,
+  );
   process.exit(1);
 }
-console.log("\ncheck-contrast: all pairs pass WCAG AA.");
+console.log(
+  `\ncheck-contrast: ${checked} pairs pass WCAG AA (2 schemes × ${FAMILIES.length} surface families).`,
+);
