@@ -1,0 +1,83 @@
+/* Shared shell for article-like pages (om, kontakt, detail pages, lists). */
+
+.shell {
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding: 0 var(--space-5);
+}
+
+.header {
+  padding: var(--space-8) 0 var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: var(--space-6);
+}
+
+.overline {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-accent);
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  max-width: 24ch;
+}
+
+.intro {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+  color: var(--color-muted);
+  max-width: 44ch;
+  text-wrap: balance;
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: var(--space-4);
+}
+
+.tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: 0 var(--space-2);
+}
+
+.external {
+  margin-top: var(--space-5);
+  font-size: var(--text-sm);
+}
+
+.contactEmail {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  display: inline-block;
+  margin-top: var(--space-5);
+}
