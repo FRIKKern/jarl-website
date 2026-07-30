@@ -1,0 +1,55 @@
+.shell {
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding: 0 var(--space-5);
+}
+
+.header {
+  padding: var(--space-8) 0 var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: var(--space-6);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--measure);
+}
+
+.bar {
+  display: block;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.title {
+  height: 2.5rem;
+  width: min(24ch, 100%);
+}
+
+.intro {
+  height: 1.25rem;
+  width: min(40ch, 100%);
+}
+
+.row {
+  height: 1rem;
+}
+
+.row:last-child {
+  width: 60%;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
