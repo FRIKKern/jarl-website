@@ -20,6 +20,16 @@ export interface SiteSettings extends BarkparkDoc {
   email?: string;
   footerText?: string;
   socialLinks?: SocialLink[];
+
+  /* Optional chrome overrides — see src/content/chrome.ts. Absent from the
+     schema today; the moment they exist in Studio they win over the
+     fallbacks, with no code change. */
+  skipToContentLabel?: string;
+  notFoundTitle?: string;
+  notFoundIntro?: string;
+  errorTitle?: string;
+  errorIntro?: string;
+  retryLabel?: string;
 }
 
 export interface NavItem {

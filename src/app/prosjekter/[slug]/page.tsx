@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getProjects } from "@/content/loaders";
+import {
+  getProjectBySlug,
+  getProjects,
+  getSiteSettings,
+} from "@/content/loaders";
 import { Prose } from "@/components/Prose";
+import { JsonLd } from "@/components/JsonLd";
+import { routeMetadata } from "@/lib/metadata";
+import { projectSchema } from "@/lib/structured-data";
 import styles from "../../article.module.css";
 
 export const revalidate = 60;
@@ -20,8 +27,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
-  return { title: project?.title, description: project?.summary };
+  const [project, settings] = await Promise.all([
+    getProjectBySlug(slug),
+    getSiteSettings(),
+  ]);
+  return routeMetadata({
+    title: project?.title,
+    description: project?.summary,
+    path: `/prosjekter/${slug}`,
+    siteName: settings?.title,
+    type: "article",
+    publishedTime: project?._createdAt,
+    modifiedTime: project?._updatedAt,
+  });
 }
 
 export default async function ProsjektPage({
@@ -30,11 +48,15 @@ export default async function ProsjektPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const [project, settings] = await Promise.all([
+    getProjectBySlug(slug),
+    getSiteSettings(),
+  ]);
   if (!project) notFound();
 
   return (
     <article className={styles.shell}>
+      <JsonLd data={projectSchema(project, settings)} />
       <header className={styles.header}>
         {project.overline ? (
           <p className={styles.overline}>{project.overline}</p>

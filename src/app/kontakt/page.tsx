@@ -2,13 +2,22 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPageBySlug, getSiteSettings } from "@/content/loaders";
 import { Prose } from "@/components/Prose";
+import { routeMetadata } from "@/lib/metadata";
 import styles from "../article.module.css";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPageBySlug("kontakt");
-  return { title: page?.title, description: page?.seoDescription };
+  const [page, settings] = await Promise.all([
+    getPageBySlug("kontakt"),
+    getSiteSettings(),
+  ]);
+  return routeMetadata({
+    title: page?.title,
+    description: page?.seoDescription,
+    path: "/kontakt",
+    siteName: settings?.title,
+  });
 }
 
 export default async function KontaktPage() {

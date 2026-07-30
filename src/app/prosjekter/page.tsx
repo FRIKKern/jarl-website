@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { getNavigation, getProjects } from "@/content/loaders";
+import { getNavigation, getProjects, getSiteSettings } from "@/content/loaders";
 import { ProjectCard } from "@/components/ProjectCard";
+import { routeMetadata } from "@/lib/metadata";
 import styles from "../article.module.css";
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const navItems = await getNavigation();
-  return { title: navItems.find((i) => i.href === "/prosjekter")?.label };
+  const [navItems, settings] = await Promise.all([
+    getNavigation(),
+    getSiteSettings(),
+  ]);
+  return routeMetadata({
+    title: navItems.find((i) => i.href === "/prosjekter")?.label,
+    /* an index page has no CMS description of its own; the site tagline is
+       the closest true statement about it */
+    description: settings?.tagline,
+    path: "/prosjekter",
+    siteName: settings?.title,
+  });
 }
 
 export default async function ProsjekterPage() {
@@ -24,7 +35,7 @@ export default async function ProsjekterPage() {
       </header>
       <div className={styles.grid}>
         {projects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
+          <ProjectCard key={project._id} project={project} headingLevel={2} />
         ))}
       </div>
     </div>

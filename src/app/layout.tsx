@@ -1,31 +1,60 @@
 import type { Metadata } from "next";
 import { Fraunces, Instrument_Sans } from "next/font/google";
 import { getNavigation, getSiteSettings } from "@/content/loaders";
+import { getChrome } from "@/content/chrome";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { HTML_LANG, OG_LOCALE, SITE_URL } from "@/lib/site";
+import styles from "./layout.module.css";
 import "./globals.css";
 
 const display = Fraunces({
   subsets: ["latin", "latin-ext"],
   variable: "--next-font-display",
   axes: ["opsz", "SOFT", "WONK"],
+  display: "swap",
 });
 
 const body = Instrument_Sans({
   subsets: ["latin", "latin-ext"],
   variable: "--next-font-body",
+  display: "swap",
 });
 
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
+  const title = settings?.title ?? "";
+  const description = settings?.tagline;
+
   return {
-    title: {
-      default: settings?.title ?? "",
-      template: `%s · ${settings?.title ?? ""}`,
+    metadataBase: new URL(SITE_URL),
+    title: { default: title, template: `%s · ${title}` },
+    description,
+    applicationName: title || undefined,
+    authors: title ? [{ name: title, url: SITE_URL }] : undefined,
+    creator: title || undefined,
+    publisher: title || undefined,
+    alternates: {
+      types: {
+        "application/rss+xml": [{ url: "/feed.xml", title: title || undefined }],
+      },
     },
-    description: settings?.tagline,
+    openGraph: {
+      type: "website",
+      url: SITE_URL,
+      siteName: title || undefined,
+      locale: OG_LOCALE,
+      title: title || undefined,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title || undefined,
+      description,
+    },
+    robots: { index: true, follow: true },
   };
 }
 
@@ -36,12 +65,18 @@ export default async function RootLayout({
     getSiteSettings(),
     getNavigation(),
   ]);
+  const chrome = getChrome(settings);
 
   return (
-    <html lang="nb" className={`${display.variable} ${body.variable}`}>
+    <html lang={HTML_LANG} className={`${display.variable} ${body.variable}`}>
       <body>
+        <a href="#innhold" className={styles.skipLink}>
+          {chrome.skipToContent}
+        </a>
         <SiteHeader siteTitle={settings?.title} items={navItems} />
-        <main>{children}</main>
+        <main id="innhold" tabIndex={-1} className={styles.main}>
+          {children}
+        </main>
         <SiteFooter settings={settings} />
       </body>
     </html>

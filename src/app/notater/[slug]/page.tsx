@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getNoteBySlug, getNotes } from "@/content/loaders";
+import { getNoteBySlug, getNotes, getSiteSettings } from "@/content/loaders";
 import { Prose } from "@/components/Prose";
+import { JsonLd } from "@/components/JsonLd";
+import { routeMetadata } from "@/lib/metadata";
+import { notePostingSchema } from "@/lib/structured-data";
+import { excerpt } from "@/lib/text";
 import styles from "../../article.module.css";
 
 export const revalidate = 60;
@@ -25,8 +29,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const note = await getNoteBySlug(slug);
-  return { title: note?.title };
+  const [note, settings] = await Promise.all([
+    getNoteBySlug(slug),
+    getSiteSettings(),
+  ]);
+  return routeMetadata({
+    title: note?.title,
+    description: excerpt(note?.body),
+    path: `/notater/${slug}`,
+    siteName: settings?.title,
+    type: "article",
+    publishedTime: note?.publishedAt ?? note?._createdAt,
+    modifiedTime: note?._updatedAt,
+  });
 }
 
 export default async function NotatPage({
@@ -35,11 +50,15 @@ export default async function NotatPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const note = await getNoteBySlug(slug);
+  const [note, settings] = await Promise.all([
+    getNoteBySlug(slug),
+    getSiteSettings(),
+  ]);
   if (!note) notFound();
 
   return (
     <article className={styles.shell}>
+      <JsonLd data={notePostingSchema(note, settings)} />
       <header className={styles.header}>
         <h1 className={styles.title}>{note.title}</h1>
         {note.publishedAt ? (
