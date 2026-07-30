@@ -12,15 +12,13 @@
     transform var(--dur) var(--ease);
 }
 
-/* Hover opens every affordance in the card at once by moving the two
-   properties the primitives read. Nothing here restates what an arrow or a
-   figure does — see ArrowLink.module.css and Artwork.module.css. */
+/* Hover raises the figure by moving the one property the figure reads.
+   Nothing here restates what the drawing does — see Artwork.module.css. */
 .card:hover,
 .card:focus-within {
   border-color: var(--color-accent);
   transform: translateY(-2px);
-  --arrow-gap: var(--arrow-gap-open);
-  --figure-ink: 0.9;
+  --figure-ink: 0.95;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -93,8 +91,4 @@
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   padding: 0 var(--space-2);
-}
-
-.more {
-  margin-top: var(--space-2);
 }

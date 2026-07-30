@@ -57,11 +57,3 @@
 .link[data-variant="heading"]:focus-visible {
   color: var(--color-accent);
 }
-
-/* Inside a card, where the card already carries the accent on hover. */
-.link[data-variant="quiet"] {
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.04em;
-}

@@ -24,13 +24,13 @@
 .line {
   stroke: var(--color-muted);
   stroke-width: 1;
-  opacity: var(--figure-ink, 0.55);
+  opacity: var(--figure-ink, 0.72);
   transition: opacity var(--dur) var(--ease);
 }
 
 .accentLine {
   stroke: var(--color-accent);
-  stroke-width: 1.6;
+  stroke-width: 2;
 }
 
 .tick {

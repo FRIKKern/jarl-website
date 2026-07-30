@@ -4,7 +4,7 @@ import styles from "./Artwork.module.css";
 /** The drawing box. Every card gets the same frame so a row of cards lines
     up; the figure inside it is the part that differs. */
 const W = 640;
-const H = 232;
+const H = 260;
 
 /**
  * A project's generative figure, as real SVG in the document.

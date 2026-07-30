@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content/types";
 import { Artwork } from "./Artwork";
-import { ArrowLink } from "./ArrowLink";
 import styles from "./ProjectCard.module.css";
 
 /**
@@ -11,12 +10,9 @@ import styles from "./ProjectCard.module.css";
 export function ProjectCard({
   project,
   headingLevel = 3,
-  readLabel,
 }: {
   project: Project;
   headingLevel?: 2 | 3;
-  /** CMS label for the card's arrow affordance. Without one, no arrow. */
-  readLabel?: string;
 }) {
   const Heading = `h${headingLevel}` as "h2" | "h3";
   const slug = project.slug ?? project._id;
@@ -46,14 +42,6 @@ export function ProjectCard({
               </li>
             ))}
           </ul>
-        ) : null}
-        {readLabel ? (
-          <p className={styles.more}>
-            {/* the whole card is already the link; this is only the affordance */}
-            <ArrowLink variant="quiet" static>
-              {readLabel}
-            </ArrowLink>
-          </p>
         ) : null}
       </div>
     </article>

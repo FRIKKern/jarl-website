@@ -6,22 +6,21 @@ import styles from "./ArrowLink.module.css";
  * is this component, and nothing else copies its rule.
  *
  * The gap between label and arrow is a custom property, so the open state can
- * be driven either by the link's own hover/focus OR by an ancestor — a card
- * sets `--arrow-gap: var(--arrow-gap-open)` on hover and the arrow inside it
- * opens with no second selector and no second definition.
+ * be driven by the link's own hover/focus or by any ancestor that sets
+ * `--arrow-gap: var(--arrow-gap-open)` — no second selector, no second
+ * definition of what hovering means. The generative figure reads its
+ * presence from `--figure-ink` under exactly the same contract.
  *
- * `static` renders a span instead of a link, for the case where an enclosing
- * element is already the link (a whole-card ::after target).
+ * Without an `href` it renders a span, for the case where an enclosing
+ * element is already the link.
  */
 export function ArrowLink({
   href,
   variant = "text",
-  static: isStatic = false,
   children,
 }: {
   href?: string;
-  variant?: "text" | "solid" | "quiet" | "heading";
-  static?: boolean;
+  variant?: "text" | "solid" | "heading";
   children: React.ReactNode;
 }) {
   const inner = (
@@ -31,9 +30,9 @@ export function ArrowLink({
     </>
   );
 
-  if (isStatic || !href) {
+  if (!href) {
     return (
-      <span className={styles.link} data-variant={variant} aria-hidden={isStatic}>
+      <span className={styles.link} data-variant={variant}>
         {inner}
       </span>
     );

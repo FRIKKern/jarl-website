@@ -17,6 +17,9 @@ Epic 2 of the programme charted in the paper `/papers/jarl-website-epic-plan`
    │                                              │
    │  siteSettings · navigation · page ·          │
    │  project · note · paper (Bulldocs)           │
+   │                                              │
+   │  `page` and `project` carry an ORDERED       │
+   │  `sections` array — the composition system   │
    └──────────────────┬───────────────────────────┘
                       │  GET /v1/data/query/production/<type>
                       │  GET /v1/data/doc/production/<type>/<id>
@@ -27,11 +30,14 @@ Epic 2 of the programme charted in the paper `/papers/jarl-website-epic-plan`
    │                                              │
    │  src/content/   typed loaders (the only      │
    │                 way pages read content)      │
-   │  src/components PaperRenderer, cards, shell  │
+   │                 + section normaliser         │
+   │  src/components Band, Sections, ArrowLink,   │
+   │                 Artwork, PaperRenderer       │
    │  src/app/       routes (below)               │
    └──────────────────┬───────────────────────────┘
                       ▼
-     /            hero + featured projects + notes
+     /            inverted hero + section bands +
+                  featured projects + notes
      /prosjekter  + /prosjekter/[slug]
      /notater     + /notater/[slug]
      /om          /kontakt
@@ -74,23 +80,89 @@ Checks (all wired into CI):
 ```sh
 pnpm typecheck        # tsc --noEmit
 pnpm lint             # eslint
-pnpm check:contrast   # design gate: OKLCH tokens meet WCAG AA, both themes
-pnpm check:tokens     # design gate: no raw color literals outside globals.css
+pnpm check:contrast   # design gate: AA across 2 schemes × 2 surface families
+pnpm check:tokens     # design gate: tokens only, palette mirror, band bindings
+pnpm check:hover      # design gate: a painted surface pins its own ink
+pnpm check            # typecheck + all three gates
 pnpm build            # production build against the live instance
 ```
 
-## Design system (the Frick pattern)
+## Design system
 
 Hand-rolled CSS modules — no Tailwind. All design decisions live as CSS custom
-properties in `src/app/globals.css`: OKLCH colors (light + dark via
-`prefers-color-scheme`), a fluid type scale, and a spacing scale. Fraunces for
-display type, Instrument Sans for body. Two CI gates keep it honest:
-`scripts/check-contrast.mjs` parses the token file and verifies every declared
-foreground/background pair meets WCAG AA in both themes;
-`scripts/check-tokens.mjs` rejects any raw color literal outside the token
-file, **and** verifies that `src/lib/palette.ts` — the numeric restatement of
-the same colors, needed because `next/og` rasterises without a stylesheet —
-still mirrors `globals.css` exactly.
+properties in `src/app/globals.css`: OKLCH colors, a fluid type scale, a
+spacing scale, and exactly one easing and one duration. Fraunces for display
+type, Instrument Sans for body.
+
+### Two surface families, not two themes
+
+The palette is a mirrored pair — `--paper-*` (the warm default ground) and
+`--ink-*` (the inverted ground) — each fully restated for light and dark. The
+semantic `--color-*` names every component reads are *bindings* onto whichever
+family is active, so a band flips ground with one attribute:
+
+```html
+<section data-surface="ink"> … </section>
+```
+
+Nothing downstream knows which ground it is standing on. Four combinations
+exist (light/dark × paper/ink) and all four are under contract.
+
+### Composition — bands and sections
+
+Every route is a stack of full-bleed `<Band>`s. Rhythm comes from **tone and
+hairlines, never from boxes**, and the seam rule falls out of that: a band
+draws a hairline at its top only when the band above shares its ground, because
+where the ground changes the tone change *is* the seam.
+
+`page` and `project` documents carry an ordered `sections` array — one
+composite with a `kind` discriminant, so a new archetype is a schema option
+plus a renderer branch, never a new document type. Six ship today:
+
+| kind          | shape                                                        |
+| ------------- | ------------------------------------------------------------ |
+| `split`       | two columns divided by a vertical hairline                     |
+| `timeline`    | period rail left, entry right, hairline rows                   |
+| `featureGrid` | two or three columns, one hairline cap per cell                |
+| `callout`     | banded statement carrying the site's ONE solid fill            |
+| `steps`       | numbered sequence, generated numeral + authored overline       |
+| `quote`       | one pulled sentence and its attribution                        |
+
+`src/content/sections.ts` drops any `kind` this build does not know — content
+can be authored ahead of the code — and any section with no content of its own,
+so the site never paints a band around nothing.
+
+### Visual anchors
+
+There is no photography and none is faked. `src/lib/artwork.ts` generates a
+plotted contour field seeded from a project's slug: same slug, same figure,
+forever. One geometry module feeds two renderers — real SVG bound to
+`var(--color-*)` on the site (so the drawing inverts with its band and follows
+the reader's color scheme), and a flat SVG string coloured from the palette
+mirror for `next/og`. The figure is non-empty by construction.
+
+### Interaction
+
+`ArrowLink` owns the arrow-gap rule once: 0.5rem → 0.75rem over `--dur` with
+`--ease`. The gap is a custom property, so an ancestor opens it by moving that
+property instead of restating what hovering means; the figure reads
+`--figure-ink` under the same contract. No motion library.
+
+### The three gates
+
+- `scripts/check-contrast.mjs` — every foreground/background pair meets WCAG AA
+  in **all four** scheme × family combinations (28 pairs).
+- `scripts/check-tokens.mjs` — no raw color literal outside the token file;
+  `src/lib/palette.ts` (the numeric restatement `next/og` needs, since satori
+  rasterises without a stylesheet) still mirrors `globals.css` exactly; and
+  every semantic color is bound by `:root` **and** by both `[data-surface]`
+  selectors, so a band can never inherit half a palette.
+- `scripts/check-hover.mjs` — the cardinal rule: **any CSS rule that paints a
+  background must set `color` in the same rule.** A subtree that paints a
+  surface but inherits its ink is unreadable the moment it lands on the other
+  family. Gradients and image-only backgrounds are exempt; a rule may opt out
+  with `/* check-hover-allow: <reason> */`, and every exemption is printed on
+  every run so none of them go quiet.
 
 ## SEO, social and discovery
 
@@ -124,18 +196,14 @@ document behind them — the skip link, the error boundary and the bare 404 — 
 `siteSettings` field first. Add the field in Studio and it takes over with no
 code change. A 404 additionally prefers a `page` document with the slug `404`.
 
-## Known: soft 404 on list-backed detail routes
+## Do not add a `loading.tsx` to a list segment
 
-`/notater/<ukjent>` and `/prosjekter/<ukjent>` render the 404 page but answer
-`200` instead of `404`. `notFound()` is called correctly; Next 16.2.12 commits
-the status before the throw when a route combines `generateStaticParams` with
-`dynamicParams: true`. `/papers/<ukjent>` answers `404` (its loader hits a
-document endpoint that 404s outright), as does any unrouted path. The two
-workarounds both cost more than the wart: `dynamicParams: false` breaks the
-"publish in Studio, live in a minute" promise for *new* documents, and dropping
-`generateStaticParams` makes every detail page render per request. Revisit when
-Next fixes the status handling. This is also why detail routes have no
-`loading.tsx` — a Suspense boundary there makes the soft 404 unconditional.
+Unknown detail routes answer a real `404` — verified for
+`/prosjekter/<ukjent>` and `/notater/<ukjent>`. That only holds because the
+list segments have **no** `loading.tsx`. A Suspense boundary above a route that
+combines `generateStaticParams` with `dynamicParams: true` makes Next commit
+`200` before `notFound()` throws, turning every unknown slug into a soft 404.
+The boundaries were removed for exactly this reason; do not put them back.
 
 ## Papers — the mechanical spacing law
 

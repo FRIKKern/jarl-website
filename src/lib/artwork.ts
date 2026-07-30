@@ -115,7 +115,7 @@ export function artwork(seed: string, width: number, height: number): Artwork {
     const baseY = padY + spacing * (i + 1);
     /* a bell across the stack: the middle lines carry the ridge */
     const bell = Math.sin((Math.PI * (i + 1)) / (count + 1)) ** 1.4;
-    const amp = spacing * 0.92 * bell * (0.55 + random() * 0.45);
+    const amp = spacing * 1.18 * bell * (0.6 + random() * 0.45);
     const lineShift = i * drift;
 
     let d = "";
@@ -140,7 +140,7 @@ export function artwork(seed: string, width: number, height: number): Artwork {
   const tick = {
     cx: round(padX + (innerW * tickCol) / cols),
     cy: round(padY + (innerH * tickRow) / rows),
-    r: round(Math.min(width, height) * 0.018 + 1.5),
+    r: round(Math.min(width, height) * 0.026 + 2),
   };
 
   const baseY = round(height - padY * 0.45);
@@ -155,10 +155,6 @@ export function artwork(seed: string, width: number, height: number): Artwork {
 }
 
 /* ---- flat SVG, for surfaces that cannot read CSS ----------------------- */
-
-function esc(markup: string): string {
-  return markup;
-}
 
 /**
  * The same figure as a standalone SVG string, coloured from the palette
@@ -186,9 +182,9 @@ export function artworkSvg(
     `<g fill="none" stroke-linecap="round">`,
     ...art.contours.map(
       (c) =>
-        `<path d="${esc(c.d)}" stroke="${c.accent ? accent : ink}" stroke-width="${
-          c.accent ? 1.6 : 1
-        }" opacity="${c.accent ? 1 : 0.62}"/>`,
+        `<path d="${c.d}" stroke="${c.accent ? accent : ink}" stroke-width="${
+          c.accent ? 2 : 1
+        }" opacity="${c.accent ? 1 : 0.72}"/>`,
     ),
     `</g>`,
     `<path d="M${art.baseline.x1} ${art.baseline.y1}L${art.baseline.x2} ${art.baseline.y2}" stroke="${line}" stroke-width="1"/>`,
