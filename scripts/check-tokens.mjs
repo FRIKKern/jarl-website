@@ -51,3 +51,78 @@ if (violations.length > 0) {
   process.exit(1);
 }
 console.log("check-tokens: no raw color literals outside globals.css.");
+
+/* ============================================================
+   Part two — the satori mirror.
+
+   next/og rasterises the icons and social cards server-side and never sees a
+   stylesheet, so src/lib/palette.ts restates the same colors as plain numbers.
+   That copy is only legitimate while it is exact: this check fails the build
+   the moment the two files disagree.
+   ============================================================ */
+
+const PALETTE_FILE = resolve(root, "src/lib/palette.ts");
+const css = readFileSync(TOKEN_FILE, "utf8");
+const paletteSource = readFileSync(PALETTE_FILE, "utf8");
+
+function cssTokens(source) {
+  const out = {};
+  const re = /(--color-[\w-]+)\s*:\s*oklch\(([^)]+)\)/g;
+  let m;
+  while ((m = re.exec(source)) !== null) {
+    out[m[1]] = m[2].trim().split(/[\s/]+/).map(Number);
+  }
+  return out;
+}
+
+function tsTokens(name) {
+  const start = paletteSource.indexOf(`export const ${name}`);
+  if (start === -1) return null;
+  const block = paletteSource.slice(start, paletteSource.indexOf("};", start));
+  const out = {};
+  const re = /"(--color-[\w-]+)":\s*\[([^\]]+)\]/g;
+  let m;
+  while ((m = re.exec(block)) !== null) {
+    out[m[1]] = m[2].split(",").map((n) => Number(n.trim()));
+  }
+  return out;
+}
+
+const darkStart = css.indexOf("@media (prefers-color-scheme: dark)");
+const cssLight = cssTokens(css.slice(0, darkStart));
+const cssDark = { ...cssLight, ...cssTokens(css.slice(darkStart, css.indexOf("/* ==", darkStart))) };
+
+const drift = [];
+for (const [theme, expected] of [
+  ["LIGHT", cssLight],
+  ["DARK", cssDark],
+]) {
+  const actual = tsTokens(theme);
+  if (!actual) {
+    drift.push(`src/lib/palette.ts: missing export ${theme}`);
+    continue;
+  }
+  for (const [name, value] of Object.entries(expected)) {
+    const mirrored = actual[name];
+    if (!mirrored) {
+      drift.push(`${theme}: ${name} missing from palette.ts`);
+    } else if (
+      mirrored.length !== value.length ||
+      mirrored.some((n, i) => n !== value[i])
+    ) {
+      drift.push(
+        `${theme}: ${name} is [${mirrored.join(", ")}] in palette.ts, [${value.join(", ")}] in globals.css`,
+      );
+    }
+  }
+  for (const name of Object.keys(actual)) {
+    if (!expected[name]) drift.push(`${theme}: ${name} in palette.ts is not a token`);
+  }
+}
+
+if (drift.length > 0) {
+  console.error("\ncheck-tokens: palette.ts has drifted from globals.css:\n");
+  for (const d of drift) console.error("  " + d);
+  process.exit(1);
+}
+console.log("check-tokens: src/lib/palette.ts mirrors globals.css exactly.");
