@@ -48,3 +48,10 @@
   text-decoration: underline;
   text-underline-offset: 0.4em;
 }
+
+.navLink[aria-current="page"] {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}

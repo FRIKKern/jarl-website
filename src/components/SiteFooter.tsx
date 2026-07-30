@@ -16,18 +16,17 @@ export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
           ) : null}
         </div>
         {settings?.socialLinks?.length ? (
-          <nav className={styles.links}>
+          /* A list, not a <nav>: a second unlabelled navigation landmark
+             next to the header's only muddies the landmark map. */
+          <ul className={styles.links}>
             {settings.socialLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={styles.link}
-                rel="noreferrer"
-              >
-                {link.label}
-              </a>
+              <li key={link.href}>
+                <a href={link.href} className={styles.link} rel="noreferrer">
+                  {link.label}
+                </a>
+              </li>
             ))}
-          </nav>
+          </ul>
         ) : null}
       </div>
     </footer>
