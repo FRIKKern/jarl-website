@@ -43,14 +43,14 @@ function hasText(...values: (string | undefined)[]): boolean {
 }
 
 function itemHasContent(item: SectionItem): boolean {
-  return hasText(item.overline, item.title, item.body, item.value);
+  return hasText(item.overline, item.title, item.body, item.value, item.value2);
 }
 
 /** Rule 3 — inside a figure, a datum must carry a resolved source ref. Items
-    without a value (a lineage node that is just a period and a title) owe
-    nothing. */
+    without a value on EITHER side (a lineage node that is just a period and
+    a title) owe nothing; a duel row with only value2 is still a number. */
 function itemHasProvenance(section: Section, item: SectionItem): boolean {
-  if (!hasText(item.value)) return true;
+  if (!hasText(item.value, item.value2)) return true;
   return resolveSourceRef(item.source, section.sourceDefault) !== null;
 }
 

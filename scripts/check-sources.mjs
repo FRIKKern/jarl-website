@@ -54,6 +54,9 @@ async function fetchDocs(type) {
 
 const text = (v) => (typeof v === "string" ? v.trim() : "");
 const validRef = (v) => SOURCE_REF_PATTERN.test(text(v));
+/** A datum's value counts whether authored as a string or a bare number —
+    a stat block with `value: 75` owes a source exactly like `value: "75"`. */
+const hasValue = (v) => text(v) !== "" || typeof v === "number";
 
 const missing = [];
 let figureData = 0;
@@ -75,7 +78,7 @@ function walkSections(type, doc) {
     if (!FIGURE_KINDS.has(section.kind)) return;
     figureSections += 1;
     (section.items ?? []).forEach((item, j) => {
-      if (!text(item.value) && !text(item.value2)) return;
+      if (!hasValue(item.value) && !hasValue(item.value2)) return;
       const resolved = text(item.source) || text(section.sourceDefault);
       requireSource(
         `${type}/${doc._id}#sections[${i}].items[${j}]`,
@@ -96,7 +99,7 @@ function walkPaperBlocks(doc) {
     statBlocks += 1;
     const data = Array.isArray(block.items) ? block.items : [block];
     data.forEach((datum, j) => {
-      if (!text(datum.value)) return;
+      if (!hasValue(datum.value)) return;
       const resolved = text(datum.source) || text(block.source);
       requireSource(
         `paper/${doc._id}#blocks[${i}]${data.length > 1 ? `.items[${j}]` : ""}`,

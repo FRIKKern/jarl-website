@@ -231,7 +231,7 @@ function Quote({ section }: { section: KnownSection }) {
 function figureSources(section: KnownSection): SourceRef[] {
   const seen = new Map<string, SourceRef>();
   for (const item of section.items) {
-    if (!(item.value ?? "").trim()) continue;
+    if (!(item.value ?? "").trim() && !(item.value2 ?? "").trim()) continue;
     const ref = resolveSourceRef(item.source, section.sourceDefault);
     if (ref && !seen.has(ref.raw)) seen.set(ref.raw, ref);
   }
