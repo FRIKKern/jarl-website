@@ -298,3 +298,47 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
 .bp-paper-surface p:empty {
   display: none;
 }
+
+/* ============================================================
+   Reading measure inside the paper surface.
+
+   The canonical engine lays every block out at the full shell
+   width. jarl.no's own language is narrower: on a section page
+   prose stops at --measure while figures span the whole band,
+   both flush to the same left edge. Measured on production
+   before this rule: section prose 541-672px (~57-83ch) against
+   story prose 1072px (~105-126ch) — the same site speaking in
+   two different measures, and the wide one well past the
+   comfortable 45-75ch.
+
+   So: prose-level blocks take the measure, figure-level blocks
+   keep the full width. No auto margins — the column stays flush
+   left, exactly like a section page. Width only; the engine
+   still owns everything else inside .bp-paper-surface.
+   ============================================================ */
+
+.bp-paper-surface > p,
+.bp-paper-surface > h1,
+.bp-paper-surface > h2,
+.bp-paper-surface > h3,
+.bp-paper-surface > h4,
+.bp-paper-surface > h5,
+.bp-paper-surface > h6,
+.bp-paper-surface > ul,
+.bp-paper-surface > ol,
+.bp-paper-surface > dl,
+.bp-paper-surface > hr,
+.bp-paper-surface > .bp-blockquote,
+.bp-paper-surface > .bp-role-ingress,
+.bp-paper-surface > .bp-role-eyebrow,
+.bp-paper-surface > .bp-role-byline,
+.bp-paper-surface > .bp-role-pullquote,
+.bp-paper-surface > .bp-callout,
+.bp-paper-surface > .bp-note,
+.bp-paper-surface > .bp-notes,
+.bp-paper-surface > .bp-footnote,
+.bp-paper-surface > .bp-expandable,
+.bp-paper-surface > .bp-toc,
+.bp-paper-surface > .bp-equation {
+  max-width: var(--measure);
+}
