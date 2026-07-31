@@ -157,3 +157,18 @@
 .button:hover {
   opacity: 0.88;
 }
+
+/* Provenance under a captured hero. The kilde law covers screenshots as
+   well as figure data: a capture states which live surface it is and when
+   it was taken. Set like the engine's own kilde stamp — small, mono,
+   muted — so evidence reads the same everywhere on the site. The card
+   deliberately omits it; a thumbnail is no place for a citation. */
+.figureKilde {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs, 0.6875rem);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+  hyphens: none;
+}

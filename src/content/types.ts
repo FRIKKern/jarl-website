@@ -150,6 +150,11 @@ export interface ProjectImage {
   alt?: string;
   width?: number;
   height?: number;
+  /** Where this capture came from and when — the kilde law applies to
+      screenshots exactly as it does to figure data. Rendered under the
+      hero on the project page; the card omits it, a thumbnail is not a
+      place for provenance. */
+  caption?: string;
 }
 
 export interface Note extends BarkparkDoc {

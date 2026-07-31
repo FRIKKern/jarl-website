@@ -111,6 +111,9 @@ export default async function ProsjektPage({
             }
           >
             <ProjectVisual project={project} />
+            {project.image?.caption ? (
+              <p className={styles.figureKilde}>{project.image.caption}</p>
+            ) : null}
           </div>
         </div>
       </Band>
