@@ -85,11 +85,21 @@
 
   /* -- layout ---------------------------------------------------
      TWO deliberate widths, and no others: prose stops at --measure,
-     everything else takes the band. The review proposed a third — a
+     figures stop at --figure. The review proposed a third — a
      56rem (896px) figure column between them — and it was built and
      measured against the band before being dropped; the numbers are in
-     the figure-family section below. -------------------------- */
+     the figure-family section below.
+
+     --figure is the width a figure actually gets inside a <Band>:
+     the band's inner column (--site-width) minus its inline padding
+     (2 × --space-5, Band.module.css). Stated as the calc, not the
+     frozen result (67rem / 1072px today), so it can never go
+     arithmetically stale against the tokens it is made of — the
+     bulldocs house fixed exactly that bug when its hardcoded
+     `55ch + 80px` drifted 32px from its tokenised gutters.
+     -------------------------------------------------------- */
   --measure: 42rem;
+  --figure: calc(var(--site-width) - 2 * var(--space-5));
   --site-width: 70rem;
   --radius: 3px;
   /* period rail of the timeline archetype */
@@ -335,7 +345,7 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
 }
 
 /* ============================================================
-   Reading measure inside the paper surface.
+   Reading measure inside the paper surface — the DOCTRINE.
 
    The canonical engine lays every block out at the full shell
    width. jarl.no's own language is narrower: on a section page
@@ -346,36 +356,63 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
    two different measures, and the wide one well past the
    comfortable 45-75ch.
 
-   So: prose-level blocks take the measure, figure-level blocks
-   keep the full width. No auto margins — the column stays flush
-   left, exactly like a section page. Width only; the engine
-   still owns everything else inside .bp-paper-surface.
+   THE RULE IS INVERTED ON PURPOSE. The first cut of this fix was
+   a 21-selector allowlist of prose blocks, which meant every NEW
+   block the engine ships (the registry holds ~77 types and grows)
+   silently fell back to the 1072px band — the wrong default for
+   text. So: EVERY direct child defaults to the reading measure,
+   and the figure-level types — a small, known family — opt OUT to
+   --figure. A new prose block now ships correct with zero edits;
+   only a new FIGURE needs one line below, and scripts/
+   check-measure.mjs fails the build until an unknown block type is
+   triaged into one of the two widths.
+
+   Owning width here is the sanctioned pattern, not a hack: the
+   engine's own paper-surface.css keeps surface chrome (max-width,
+   padding) host-side by design — "the reader owns its own 820/720px
+   bp-theme shell".
+
+   No auto margins — the column stays flush left, exactly like a
+   section page. Width only; the engine still owns everything else
+   inside .bp-paper-surface.
    ============================================================ */
 
-.bp-paper-surface > p,
-.bp-paper-surface > h1,
-.bp-paper-surface > h2,
-.bp-paper-surface > h3,
-.bp-paper-surface > h4,
-.bp-paper-surface > h5,
-.bp-paper-surface > h6,
-.bp-paper-surface > ul,
-.bp-paper-surface > ol,
-.bp-paper-surface > dl,
-.bp-paper-surface > hr,
-.bp-paper-surface > .bp-blockquote,
-.bp-paper-surface > .bp-role-ingress,
-.bp-paper-surface > .bp-role-eyebrow,
-.bp-paper-surface > .bp-role-byline,
-.bp-paper-surface > .bp-role-pullquote,
-.bp-paper-surface > .bp-callout,
-.bp-paper-surface > .bp-note,
-.bp-paper-surface > .bp-notes,
-.bp-paper-surface > .bp-footnote,
-.bp-paper-surface > .bp-expandable,
-.bp-paper-surface > .bp-toc,
-.bp-paper-surface > .bp-equation {
+.bp-paper-surface > * {
   max-width: var(--measure);
+}
+
+/* The figure family opts out to the full band. Verified against the
+   vendored dist's top-level emissions: class-rooted figures, plus the
+   two element-rooted ones — <figure> (images, asciicast) and <pre>
+   (code fences, mermaid mounts), which are quoted material and keep
+   the band like every other figure. This list is the ONE place a new
+   wide block gets admitted; check-measure.mjs reads it from here. */
+.bp-paper-surface > figure,
+.bp-paper-surface > pre,
+.bp-paper-surface > .bp-stats,
+.bp-paper-surface > .bp-duel,
+.bp-paper-surface > .bp-lineage,
+.bp-paper-surface > .bp-table,
+.bp-paper-surface > .bp-chart,
+.bp-paper-surface > .bp-bar-chart,
+.bp-paper-surface > .bp-cards,
+.bp-paper-surface > .bp-cols,
+.bp-paper-surface > .bp-steps,
+.bp-paper-surface > .bp-pipe,
+.bp-paper-surface > .bp-board,
+.bp-paper-surface > .bp-asciicast,
+.bp-paper-surface > .bp-diff,
+.bp-paper-surface > .bp-filetree,
+.bp-paper-surface > .bp-code-tabs,
+.bp-paper-surface > .bp-heat,
+.bp-paper-surface > .bp-gauge,
+.bp-paper-surface > .bp-roadmap,
+.bp-paper-surface > .bp-canvas-stage,
+.bp-paper-surface > .bp-embed,
+.bp-paper-surface > .bp-term,
+.bp-paper-surface > .bp-tasks,
+.bp-paper-surface > .bp-dataviz {
+  max-width: var(--figure);
 }
 
 
@@ -464,7 +501,6 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
   border-left: 3px solid var(--color-accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: var(--space-4) var(--space-5);
-  max-width: var(--measure);
 }
 
 .bp-paper-surface .bp-callout.bp-callout > strong:first-child {
@@ -502,7 +538,7 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
    896 wins exactly one column — the size of the step — and loses the
    four-step ancestry that reads as four steps, the room around a
    five-digit number, and a quarter of the resolution on an 8.6× scale.
-   So: prose stops at --measure, figures take the band. Two widths.
+   So: prose stops at --measure, figures stop at --figure. Two widths.
    ============================================================ */
 
 /* -- stat tiles ---------------------------------------------------------

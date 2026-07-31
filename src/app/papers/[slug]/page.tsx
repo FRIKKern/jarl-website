@@ -9,7 +9,6 @@ import { PortableDocSurface } from "@/components/PortableDocSurface";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
 import { paperSchema } from "@/lib/structured-data";
-import styles from "./page.module.css";
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -62,10 +61,12 @@ export default async function PaperPage({
       <Band surface="paper" rule>
         {/* The canonical engine owns the markup and the Reader-Owned spacing
             law; the jarl drakt is token overrides scoped to .bp-paper-surface
-            in globals.css. The band only decides where the column starts. */}
-        <div className={styles.shell}>
-          <PortableDocSurface blocks={blocks} />
-        </div>
+            in globals.css. The band decides where the column starts; the
+            doctrine in globals.css (--measure / --figure) decides where every
+            block stops. The old .shell wrapper capped itself at --site-width
+            (1120px) inside a band column that is 1072px wide — a cap that
+            could never bind, measured and deleted. */}
+        <PortableDocSurface blocks={blocks} />
       </Band>
     </article>
   );

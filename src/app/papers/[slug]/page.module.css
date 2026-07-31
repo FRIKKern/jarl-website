@@ -1,6 +1,0 @@
-/* The paper column. Width and outer padding come from the <Band>; this only
-   exists so the renderer's own spacing law is never touched. */
-
-.shell {
-  max-width: var(--site-width);
-}

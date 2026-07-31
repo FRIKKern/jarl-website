@@ -49,6 +49,18 @@ jobs:
           BARKPARK_READ_TOKEN: ${{ secrets.BARKPARK_READ_TOKEN }}
         run: pnpm check:sources
 
+      # Renders the LIVE paper corpus with the vendored emitter and asserts
+      # every top-level block root stands on one of the doctrine's two
+      # widths: the `> *` measure default, or the --figure allowlist parsed
+      # out of globals.css itself. An engine block type the gate has never
+      # seen fails the build until it is triaged prose-or-figure. Public
+      # reads need no token; it is attached when present, same as the build.
+      - name: Design gate — the reading-measure doctrine holds
+        env:
+          BARKPARK_URL: https://jarl.barkpark.cloud
+          BARKPARK_READ_TOKEN: ${{ secrets.BARKPARK_READ_TOKEN }}
+        run: pnpm check:measure
+
       - name: Vendored canonical renderer smoke
         run: node --test test/vendored-renderer.test.mjs
 

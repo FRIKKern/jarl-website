@@ -12,6 +12,7 @@
     "check:tokens": "node scripts/check-tokens.mjs",
     "check:hover": "node scripts/check-hover.mjs",
     "check:sources": "node scripts/check-sources.mjs",
+    "check:measure": "node scripts/check-measure.mjs",
     "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens && pnpm check:hover"
   },
   "dependencies": {

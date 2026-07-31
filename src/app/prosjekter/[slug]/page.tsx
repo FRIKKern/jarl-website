@@ -119,11 +119,13 @@ export default async function ProsjektPage({
         <Band surface="paper">
           {/* The canonical engine owns the markup and the Reader-Owned
               spacing law inside .bp-paper-surface; the jarl drakt is the
-              token overrides scoped to it in globals.css. The band only
-              decides where the story column starts. */}
-          <div className={styles.storyShell}>
-            <PortableDocSurface blocks={storyBlocks} />
-          </div>
+              token overrides scoped to it in globals.css. The band decides
+              where the story column starts; the doctrine in globals.css
+              (--measure / --figure) decides where every block stops. The
+              old .storyShell wrapper capped itself at --site-width (1120px)
+              inside a band column that is 1072px wide — a cap that could
+              never bind, measured and deleted. */}
+          <PortableDocSurface blocks={storyBlocks} />
         </Band>
       ) : null}
 
