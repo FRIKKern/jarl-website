@@ -88,24 +88,46 @@ function walkSections(type, doc) {
   });
 }
 
-/* ---- stat blocks in papers ---------------------------------------------- */
+/* ---- figure blocks in papers --------------------------------------------
+   The canonical figure family (barkpark#8475): stat/stats/stat-grid items,
+   duel rows and lineage nodes are all figure data. The kilde law's fallback
+   is the block's `sourceDefault` (the engine's contract; bare `source` on a
+   single stat block is the pre-8475 spelling and still honoured). Only
+   datum-bearing entries owe a ref: a lineage node without a value is prose
+   on a line, not a number. */
 
 let statBlocks = 0;
 
 function walkPaperBlocks(doc) {
   const blocks = doc.blocks ?? doc.body?.blocks ?? [];
   blocks.forEach((block, i) => {
-    if (!STAT_BLOCK_TYPES.has(block.type)) return;
-    statBlocks += 1;
-    const data = Array.isArray(block.items) ? block.items : [block];
-    data.forEach((datum, j) => {
-      if (!hasValue(datum.value)) return;
-      const resolved = text(datum.source) || text(block.source);
-      requireSource(
-        `paper/${doc._id}#blocks[${i}]${data.length > 1 ? `.items[${j}]` : ""}`,
-        resolved,
-      );
-    });
+    const fallback = text(block.sourceDefault) || text(block.source);
+    if (STAT_BLOCK_TYPES.has(block.type)) {
+      statBlocks += 1;
+      const data = Array.isArray(block.items) ? block.items : [block];
+      data.forEach((datum, j) => {
+        if (!hasValue(datum.value)) return;
+        const resolved = text(datum.source) || fallback;
+        requireSource(
+          `paper/${doc._id}#blocks[${i}]${data.length > 1 ? `.items[${j}]` : ""}`,
+          resolved,
+        );
+      });
+    } else if (block.type === "duel") {
+      statBlocks += 1;
+      (Array.isArray(block.rows) ? block.rows : []).forEach((row, j) => {
+        if (!hasValue(row.valueA) && !hasValue(row.valueB)) return;
+        const resolved = text(row.source) || fallback;
+        requireSource(`paper/${doc._id}#blocks[${i}].rows[${j}]`, resolved);
+      });
+    } else if (block.type === "lineage") {
+      statBlocks += 1;
+      (Array.isArray(block.nodes) ? block.nodes : []).forEach((node, j) => {
+        if (!hasValue(node.value)) return;
+        const resolved = text(node.source) || fallback;
+        requireSource(`paper/${doc._id}#blocks[${i}].nodes[${j}]`, resolved);
+      });
+    }
   });
 }
 
@@ -131,7 +153,7 @@ for (const type of ["page", "project", "paper"]) {
 console.log(
   `check-sources: scanned ${counts.page} pages + ${counts.project} projects ` +
     `(${sectionCount} sections, ${figureSections} figure sections) and ` +
-    `${counts.paper} papers (${statBlocks} stat blocks): ` +
+    `${counts.paper} papers (${statBlocks} figure blocks): ` +
     `${figureData} figure data checked.`,
 );
 
