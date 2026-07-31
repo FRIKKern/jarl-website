@@ -14,9 +14,18 @@
     "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens && pnpm check:hover"
   },
   "dependencies": {
+    "@barkpark/core": "file:./vendor/barkpark-core.tgz",
+    "@barkpark/react": "file:./vendor/barkpark-react.tgz",
+    "asciinema-player": "^3.8.0",
+    "mermaid": "^11.0.0",
     "next": "^16.2.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
+  },
+  "pnpm": {
+    "overrides": {
+      "@barkpark/core": "file:./vendor/barkpark-core.tgz"
+    }
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
