@@ -63,16 +63,29 @@ export const SECTION_KINDS = [
   "callout",
   "steps",
   "quote",
+  "statBand",
+  "duel",
+  "lineage",
 ] as const;
 
 export type SectionKind = (typeof SECTION_KINDS)[number];
 
-/** A row, column, cell or step. Which of the three fields matter is the
-    parent section's business. */
+/** A row, column, cell, step — or a figure datum. Which of the fields matter
+    is the parent section's business. */
 export interface SectionItem {
   overline?: string;
   title?: string;
   body?: string;
+  /** Figure kinds — the datum. statBand: the tile's number. duel: the
+      legend-A value. lineage: an optional node value. */
+  value?: string;
+  /** Duel only — the legend-B value of this row. */
+  value2?: string;
+  /** Unit or qualifier rendered after the value ('%', 'USD', 'dager'). */
+  unit?: string;
+  /** Provenance ref for this datum — see src/content/sources.ts. A figure
+      datum whose source does not resolve is dropped by the normaliser. */
+  source?: string;
 }
 
 export interface Section {
@@ -86,6 +99,12 @@ export interface Section {
   attribution?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Duel only — the two column heads. A duel without both legends does not
+      render: the columns are MEANINGLESS without their names. */
+  legendA?: string;
+  legendB?: string;
+  /** Fallback source ref for every figure item without one of its own. */
+  sourceDefault?: string;
   items?: SectionItem[];
 }
 

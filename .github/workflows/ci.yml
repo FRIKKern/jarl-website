@@ -38,6 +38,17 @@ jobs:
       - name: Design gate — a painted surface pins its ink
         run: pnpm check:hover
 
+      # Walks LIVE content: every figure datum (statBand/duel/lineage
+      # sections, paper stat blocks) must carry a pattern-valid source ref.
+      # The env is REQUIRED here — without the token the script exits 2 by
+      # design, because an unauthenticated query answers 200 with zero
+      # documents and the gate would be green forever while checking nothing.
+      - name: Evidence gate — every figure datum has a source
+        env:
+          BARKPARK_URL: https://jarl.barkpark.cloud
+          BARKPARK_READ_TOKEN: ${{ secrets.BARKPARK_READ_TOKEN }}
+        run: pnpm check:sources
+
       - name: Vendored canonical renderer smoke
         run: node --test test/vendored-renderer.test.mjs
 
