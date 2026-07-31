@@ -126,10 +126,14 @@ export default async function ProsjektPage({
         </Band>
       ) : null}
 
-      <Sections
-        sections={sections}
-        after={hasStory || hasBody ? "paper" : "ink"}
-      />
+      {/* The ruling's second half: the story paper CARRIES the figures as
+          canonical blocks (stat-grid/duel/lineage + the kilde stamp), so a
+          project with a story never also renders its legacy CMS sections —
+          the same figure painted twice is worse than either alone. The
+          sections stay on the doc as the fallback for a dangling story. */}
+      {hasStory ? null : (
+        <Sections sections={sections} after={hasBody ? "paper" : "ink"} />
+      )}
 
       {project.url ? (
         <Band surface="paper" rule space="tight">
