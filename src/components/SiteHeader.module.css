@@ -25,6 +25,10 @@
   color: var(--color-ink);
   text-decoration: none;
   letter-spacing: -0.01em;
+  /* the wordmark is a link home; it gets the same 44px floor as the nav */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .wordmark:hover {
@@ -45,6 +49,12 @@
   letter-spacing: var(--tracking-wide);
   color: var(--color-muted);
   text-decoration: none;
+  /* the hit box, not the type: a 28px-tall nav link is a 28px-tall target
+     on a phone, and 44px is the floor a thumb needs. Nothing about how the
+     link LOOKS changes — the label is still 12px on the same baseline. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding-block: var(--space-1);
 }
 
@@ -59,4 +69,33 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.4em;
+}
+
+/* -- phone ----------------------------------------------------------------
+   Five destinations and a wordmark cannot share one 342px line, so on a
+   phone the header stops pretending: the wordmark takes its own row and the
+   nav takes the full width beneath it as ONE row, spread edge to edge. It
+   used to wrap mid-list — "HJEM PROSJEKTER NOTATER OM" and then "KONTAKT"
+   orphaned underneath — on every page of the site, and that ragged second
+   line was the first thing a phone visitor saw. */
+
+@media (max-width: 30rem) {
+  .inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-inline: var(--space-4);
+  }
+
+  .nav {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .navLink {
+    /* the tracking is what overflows, not the words */
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
 }

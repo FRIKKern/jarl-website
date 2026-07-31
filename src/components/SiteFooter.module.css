@@ -15,6 +15,10 @@
   font-family: var(--font-display);
   font-style: italic;
   font-size: var(--text-md);
+  /* the one address on the page — a full-size target for it */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .text {
@@ -38,9 +42,10 @@
   letter-spacing: var(--tracking-wide);
   color: var(--color-muted);
   text-decoration: none;
-}
-
-.link {
+  /* same law as the nav: a 15px-tall footer link is a 15px-tall target */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   transition: color var(--dur) var(--ease);
 }
 
