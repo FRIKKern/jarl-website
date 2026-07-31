@@ -68,8 +68,23 @@ export default async function RootLayout({
   const chrome = getChrome(settings);
 
   return (
-    <html lang={HTML_LANG} className={`${display.variable} ${body.variable}`}>
+    <html
+      lang={HTML_LANG}
+      className={`${display.variable} ${body.variable}`}
+      suppressHydrationWarning
+    >
       <body>
+        {/* Pre-paint theme stamp: the canonical paper-surface.css keys its
+            dark tokens on html[data-theme="dark"] ONLY (zero
+            prefers-color-scheme coverage), while jarl is media-query driven —
+            so mirror the media query onto the attribute before first paint,
+            and keep it live on scheme changes. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){try{var m=window.matchMedia("(prefers-color-scheme: dark)");var d=document.documentElement;var set=function(){d.setAttribute("data-theme",m.matches?"dark":"light")};set();m.addEventListener("change",set)}catch(e){}})()',
+          }}
+        />
         <a href="#innhold" className={styles.skipLink}>
           {chrome.skipToContent}
         </a>

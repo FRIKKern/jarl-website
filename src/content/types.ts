@@ -207,4 +207,6 @@ export interface Paper extends BarkparkDoc {
   title?: string;
   description?: string;
   blocks?: PaperBlock[];
+  /** Mirror of the top-level block array (byte-equal on the live instance). */
+  body?: { blocks?: PaperBlock[] };
 }

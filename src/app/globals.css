@@ -235,3 +235,66 @@ a:hover {
     transition-delay: 0ms !important;
   }
 }
+
+/* ============================================================
+   Paper drakt — jarl's skin over the canonical PortableDoc
+   engine (@barkpark/react/paper-surface.css).
+
+   READER SKIN, two-selector pattern (the bulldocs precedent): the
+   engine declares its own tokens at `.bp-paper-surface` (light
+   fallback, 0-1-0) and `html[data-theme=…] .bp-paper-surface`
+   (0-2-1), so the drakt restates every engine token it owns at
+   strictly higher specificity — once for the un-stamped fallback,
+   once under the stamp. Scoped to .bp-paper-surface, NEVER :root:
+   jarl owns its own COLLIDING --paper-* namespace above, and the
+   engine's names must not leak onto the site.
+
+   Every value is a var() binding onto the active --color-* family,
+   so the drakt flips with prefers-color-scheme exactly like the
+   rest of the site. The engine's OWN dark blocks (callout tones
+   etc.) key on html[data-theme="dark"], which jarl never used to
+   stamp — layout.tsx now stamps it pre-paint from the same media
+   query (with a matchMedia change listener), so both mechanisms
+   stay in sync.
+   ============================================================ */
+
+.bp-paper-surface.bp-paper-surface,
+html[data-theme] .bp-paper-surface.bp-paper-surface {
+  /* grounds + rules */
+  --paper-bg: var(--color-bg);
+  --paper-bg-deep: var(--color-surface);
+  --paper-ink: var(--color-ink);
+  --paper-ink-soft: var(--color-muted);
+  --paper-ink-faint: var(--color-muted);
+  --paper-rule: var(--color-line);
+  --paper-edit-hover: var(--color-surface);
+  --paper-accent: var(--color-accent);
+  --paper-accent-soft: var(--color-accent-soft);
+  --paper-chrome-bg: var(--color-surface);
+  --paper-chrome-border: var(--color-line);
+  --paper-reading-accent: var(--color-accent);
+
+  /* type: Fraunces display on headings, jarl mono; body text inherits
+     Instrument Sans from the page shell */
+  --paper-font-serif: var(--font-display);
+  --paper-font-mono: var(--font-mono);
+  --tok-reading-font: var(--font-display);
+  --tok-reading-heading-weight: 560;
+
+  /* reading scale: ride jarl's own type ramp instead of Studio's px */
+  --tok-reading-body-size: var(--text-base);
+  --tok-reading-body-lh: var(--leading-body);
+  --tok-reading-h1-size: var(--text-xl);
+  --tok-reading-h1-lh: var(--leading-tight);
+  --tok-reading-h2-size: var(--text-lg);
+  --tok-reading-h2-lh: var(--leading-snug);
+  --tok-reading-h3-size: var(--text-md);
+  --tok-reading-h3-lh: var(--leading-snug);
+}
+
+/* Reader-Owned spacing law: an empty paragraph block is never layout.
+   Scoped suppression so legacy blank-row spacer blocks render nothing —
+   not even their own paragraph margin. */
+.bp-paper-surface p:empty {
+  display: none;
+}

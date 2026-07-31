@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { Block } from "@barkpark/react";
+import "@barkpark/react/paper-surface.css";
 import { getPaperBySlug, getPapers, getSiteSettings } from "@/content/loaders";
 import { Band } from "@/components/Band";
-import { PaperRenderer } from "@/components/PaperRenderer";
+import { PortableDocSurface } from "@/components/PortableDocSurface";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
 import { paperSchema } from "@/lib/structured-data";
@@ -49,15 +51,19 @@ export default async function PaperPage({
   ]);
   if (!paper) notFound();
 
+  /* The wire (charter D5): top-level `blocks`, falling back to `body.blocks`
+     — byte-equal on the live instance; `body_html` is deliberately ignored. */
+  const blocks = (paper.blocks ?? paper.body?.blocks ?? []) as Block[];
+
   return (
     <article>
       <JsonLd data={paperSchema(paper, settings)} />
       <Band surface="paper" rule>
-        {/* The mechanical spacing law lives inside PaperRenderer: no renderer
-            margins, one empty paragraph block = exactly one blank row. The
-            band only decides where the column starts. */}
+        {/* The canonical engine owns the markup and the Reader-Owned spacing
+            law; the jarl drakt is token overrides scoped to .bp-paper-surface
+            in globals.css. The band only decides where the column starts. */}
         <div className={styles.shell}>
-          <PaperRenderer blocks={paper.blocks} />
+          <PortableDocSurface blocks={blocks} />
         </div>
       </Band>
     </article>
