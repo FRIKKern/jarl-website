@@ -83,7 +83,12 @@
   --space-8: 5.5rem;
   --space-9: 8rem;
 
-  /* -- layout -------------------------------------------------- */
+  /* -- layout ---------------------------------------------------
+     TWO deliberate widths, and no others: prose stops at --measure,
+     everything else takes the band. The review proposed a third — a
+     56rem (896px) figure column between them — and it was built and
+     measured against the band before being dropped; the numbers are in
+     the figure-family section below. -------------------------- */
   --measure: 42rem;
   --site-width: 70rem;
   --radius: 3px;
@@ -170,14 +175,25 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* The page always fills the viewport and always closes on the footer.
+   Without this a short route (kontakt, notater) ends its dark footer band
+   part-way up the screen and leaves a bare strip of ground underneath —
+   the one thing that is supposed to say "the end", with page below it. */
 body {
   margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-body);
   font-feature-settings: "ss01" on;
+}
+
+body > main {
+  flex: 1 0 auto;
 }
 
 h1,
@@ -281,6 +297,25 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
   --tok-reading-font: var(--font-display);
   --tok-reading-heading-weight: 560;
 
+  /* callout TONES. The engine ships a five-tone palette in ITS hues — the
+     info tone is a blue that exists nowhere in ink/cream/teal, and in dark
+     it sinks so close to the page that the highlight reads quieter than the
+     prose it is meant to outrank. jarl has one accent, so every tone is
+     rebound onto jarl's own ground: a raised surface, ordinary ink text,
+     and the emphasis carried by the accent rule below. Rebinding the tokens
+     (rather than only restyling `.bp-callout`) means no future block can
+     reach the foreign hue either. */
+  --bp-tone-info-bg: var(--color-surface);
+  --bp-tone-info-fg: var(--color-ink);
+  --bp-tone-success-bg: var(--color-surface);
+  --bp-tone-success-fg: var(--color-ink);
+  --bp-tone-warning-bg: var(--color-surface);
+  --bp-tone-warning-fg: var(--color-ink);
+  --bp-tone-danger-bg: var(--color-surface);
+  --bp-tone-danger-fg: var(--color-ink);
+  --bp-tone-neutral-bg: var(--color-surface);
+  --bp-tone-neutral-fg: var(--color-ink);
+
   /* reading scale: ride jarl's own type ramp instead of Studio's px */
   --tok-reading-body-size: var(--text-base);
   --tok-reading-body-lh: var(--leading-body);
@@ -341,4 +376,416 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
 .bp-paper-surface > .bp-toc,
 .bp-paper-surface > .bp-equation {
   max-width: var(--measure);
+}
+
+
+/* ============================================================
+   Paper typography.
+
+   The reading size is the SITE's reading size — the paper column and the
+   plain-prose column are the same column now that both stop at --measure,
+   so they must also be the same type. 19px/1.65 at 672px is ~74 characters;
+   17px was ~82.
+
+   And hyphenation is manual, like every other surface here. `hyphens: auto`
+   with Norwegian language rules broke identifiers it must never break —
+   `jarl.-no`, `next-13-sani-/ty-boiler`, `task:jarl-/corpus-epic`. Manual
+   still honours a soft hyphen an author types on purpose.
+   ============================================================ */
+
+.bp-paper-surface.bp-paper-surface {
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+
+  /* No token may leave its column. A single unbreakable string inside a
+     figure cell used to push the whole document 104px wider than a 390px
+     phone; `anywhere` also lets a grid track report an honest min-content,
+     so the cell shrinks with the column instead of pinning it open. */
+  overflow-wrap: anywhere;
+}
+
+.bp-paper-surface.bp-paper-surface p,
+.bp-paper-surface.bp-paper-surface li,
+.bp-paper-surface.bp-paper-surface h1,
+.bp-paper-surface.bp-paper-surface h2,
+.bp-paper-surface.bp-paper-surface h3,
+.bp-paper-surface.bp-paper-surface h4 {
+  hyphens: manual;
+}
+
+/* Identifiers, slugs, versions and measured numbers are never hyphenated
+   and never re-wrapped for aesthetics — they are quoted material. */
+.bp-paper-surface code,
+.bp-paper-surface pre,
+.bp-paper-surface .bp-kilde,
+.bp-paper-surface.bp-paper-surface .bp-stat__v,
+.bp-paper-surface .bp-duel__val,
+.bp-paper-surface .bp-duel__label,
+.bp-paper-surface .bp-lineage__overline,
+.bp-paper-surface .bp-lineage__title,
+.bp-paper-surface .bp-lineage__value {
+  hyphens: none;
+}
+
+/* ============================================================
+   The eyebrow opens a section; it does not caption the last one.
+
+   The engine gives a role-eyebrow the ordinary paragraph margin (16px)
+   and the heading under it 1.9em (≈53px), so the gap ABOVE an eyebrow was
+   half the gap below it and proximity made every one of them read as a
+   trailing label on the figure that had just ended. Inverted: a field of
+   air above, and the eyebrow locked to its own heading.
+   ============================================================ */
+
+.bp-paper-surface.bp-paper-surface .bp-role-eyebrow {
+  margin-top: var(--space-8);
+}
+
+.bp-paper-surface.bp-paper-surface .bp-role-eyebrow:first-child {
+  margin-top: 0;
+}
+
+.bp-paper-surface.bp-paper-surface .bp-role-eyebrow + h1,
+.bp-paper-surface.bp-paper-surface .bp-role-eyebrow + h2,
+.bp-paper-surface.bp-paper-surface .bp-role-eyebrow + h3 {
+  margin-top: var(--space-3);
+}
+
+/* ============================================================
+   The callout speaks jarl.
+
+   Tones are rebound in the token block above, so the surface and the text
+   already stand on jarl's ground. What is left is the emphasis itself: an
+   accent rule doing the work the foreign hue used to do, and the lead-in
+   set as a line of its own rather than running into its body.
+   ============================================================ */
+
+.bp-paper-surface .bp-callout.bp-callout {
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: var(--space-4) var(--space-5);
+  max-width: var(--measure);
+}
+
+.bp-paper-surface .bp-callout.bp-callout > strong:first-child {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+/* ============================================================
+   The figure family — stat tiles, lineage, duel.
+
+   Shared law: a figure cell is never narrower than it can be read at, and
+   a row never packs more cells than the column can carry. Both grids get
+   an explicit floor AND an explicit ceiling on cells-per-row, expressed as
+   one track function: `max(<floor>, (100% - gaps) / <max per row>)`.
+   auto-FILL, not auto-fit — an empty track must keep its width, or a
+   two-item lineage stretches into two half-page slabs.
+
+   THE WIDTH THE FIGURES TAKE. The review asked for a third width — a
+   56rem (896px) figure column, so the step from the 672px prose would be
+   224px rather than 400px. It was built and measured on /prosjekter/scaffy
+   against the band (1072px). Once the floors and ceilings below exist, the
+   band wins on everything the figures actually do:
+
+     4-item lineage      896: 3+1, 288px cells, 447px tall (one orphan)
+                        1072: 4 across, 256px cells, 241px tall
+     5-item lineage      896: 3+2          1072: 4+1
+     4-tile stat row     896: 4 @ 212px    1072: 4 @ 256px
+     widest stat value ("9 / 17 / 27" ≈ 193px) slack in its tile
+                         896: 19px         1072: 63px
+     duel scale length   896: 390px        1072: 488px
+     scaffy story height 896: 3608px      1072: 3362px
+
+   896 wins exactly one column — the size of the step — and loses the
+   four-step ancestry that reads as four steps, the room around a
+   five-digit number, and a quarter of the resolution on an 8.6× scale.
+   So: prose stops at --measure, figures take the band. Two widths.
+   ============================================================ */
+
+/* -- stat tiles ---------------------------------------------------------
+   Four per row at most, 200px at least. Before this a row of six packed to
+   145px and 30px numerals broke mid-value: "13 527 linjer" set as "13" over
+   "527 linjer", "9 / 17 / 27" as "9 / 17 /" over "27". A tile whose whole
+   job is one legible number must show one legible number.
+
+   Four and not three: the common row on this site holds four, and a 3-cap
+   leaves the fourth tile alone on a second line with two thirds of the row
+   empty. At the band, four tiles are 256px each — comfortably past the
+   floor, and 63px of slack around the widest value on the site. */
+
+.bp-paper-surface.bp-paper-surface .bp-stats {
+  --tile-gap: var(--space-4);
+  gap: var(--tile-gap);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(12.5rem, (100% - 3 * var(--tile-gap)) / 4), 1fr)
+  );
+}
+
+.bp-paper-surface.bp-paper-surface .bp-stat__v {
+  /* the number is one word, whatever the thousands separator says */
+  white-space: nowrap;
+  /* dataviz: tabular figures are for columns that align vertically. A
+     standalone tile value wears the font's proportional figures. */
+  font-variant-numeric: proportional-nums;
+}
+
+.bp-paper-surface.bp-paper-surface .bp-stat__l {
+  font-size: var(--text-xs);
+}
+
+/* the caption is prose and gets prose treatment — 11.5px in a 145px column
+   was ~18 characters a line, the least readable text on the site */
+.bp-paper-surface.bp-paper-surface .bp-stat__body {
+  font-size: var(--text-sm);
+}
+
+/* -- lineage ------------------------------------------------------------
+   Four per row at most, 240px at least, one column on a phone. The same
+   component used to render at 525px for two items and 200px for five —
+   one figure, four different reading experiences. */
+
+.bp-paper-surface.bp-paper-surface .bp-lineage__nodes {
+  --node-gap: var(--space-4);
+  gap: var(--node-gap);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(15rem, (100% - 3 * var(--node-gap)) / 4), 1fr)
+  );
+}
+
+.bp-paper-surface.bp-paper-surface .bp-lineage__body {
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 40rem) {
+  .bp-paper-surface.bp-paper-surface .bp-lineage__nodes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 30rem) {
+  .bp-paper-surface.bp-paper-surface .bp-stats {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  }
+
+  .bp-paper-surface.bp-paper-surface .bp-stat__v {
+    font-size: 1.4rem;
+  }
+}
+
+/* -- duel: the dumbbell --------------------------------------------------
+   The markup for the track comes from src/lib/figures/duel.ts, which is
+   where the scale is computed; everything here is what that scale looks
+   like. Two dots on a shared linear axis rooted at zero, joined by a thin
+   rule, delta printed at the far end of the connector. The dots carry the
+   two series — the numbers go back to ink, because text never wears the
+   data colour. */
+
+/* Fixed layout, not auto. An auto table sizes its columns from content, so
+   the figure's geometry would depend on how long a row label happens to be —
+   and with `overflow-wrap: anywhere` inherited from the surface, min-content
+   for a label is ONE CHARACTER, which collapses the label column into a
+   vertical stack of letters. Fixed percentages make the scale the same length
+   on every duel on the site. */
+.bp-paper-surface .jarl-duel .bp-duel__table {
+  table-layout: fixed;
+}
+
+/* Under `table-layout: fixed` the FIRST row declares the columns, so the
+   geometry is stated once, on the head. 20 / 56 / 12 / 12: the label needs
+   room for a compound name, the two value columns need room for five digits
+   and a unit, and everything else belongs to the scale. */
+.bp-paper-surface .jarl-duel thead th:nth-child(1) {
+  width: 20%;
+}
+
+.bp-paper-surface .jarl-duel thead th:nth-child(2) {
+  width: 56%;
+}
+
+.bp-paper-surface .jarl-duel thead th:nth-child(3),
+.bp-paper-surface .jarl-duel thead th:nth-child(4) {
+  width: 12%;
+}
+
+.bp-paper-surface .jarl-duel .bp-duel__label {
+  /* a row label is a name: break it between words, never mid-word */
+  overflow-wrap: break-word;
+}
+
+.bp-paper-surface .jarl-duel .jarl-duel__track {
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-4);
+  border-top: 1px solid var(--color-line);
+  vertical-align: middle;
+}
+
+.jarl-duel__plot {
+  position: relative;
+  display: block;
+  height: 1rem;
+  /* the scale stops short of the cell so a delta label at 100% has a gutter
+     to sit in rather than colliding with the value column */
+  margin-right: 4.5rem;
+}
+
+.jarl-duel__rule {
+  /* check-hover-allow: a mark, not a surface — the connector holds no text. */
+  position: absolute;
+  top: 50%;
+  left: var(--lo);
+  width: calc(var(--hi) - var(--lo));
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--color-line);
+}
+
+.jarl-duel__dot {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  /* the surface ring, not a border: it keeps two dots legible where they
+     land on top of each other (see the −1,7 % row) */
+  box-shadow: 0 0 0 2px var(--color-bg);
+}
+
+.jarl-duel__dot--a {
+  /* check-hover-allow: a data mark — an empty 9px dot carrying series
+     identity, never a surface any text stands on. */
+  background: var(--color-accent);
+}
+
+.jarl-duel__dot--b {
+  /* check-hover-allow: the same data mark, second series. */
+  background: var(--color-ink);
+}
+
+.jarl-duel__delta {
+  position: absolute;
+  top: 50%;
+  left: var(--hi);
+  transform: translateY(-50%);
+  margin-left: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.jarl-duel__axis {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 4.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* the legend: the column heads name the two series, a dot beside each one
+   carries its identity, and both stay in the muted text token */
+.bp-paper-surface .jarl-duel .bp-duel__th--a,
+.bp-paper-surface .jarl-duel thead th:last-child {
+  color: var(--color-muted);
+  /* a series name is a name — the surface's `anywhere` would otherwise set
+     it as "MED / KATAL / OGEN" in a narrow head cell */
+  overflow-wrap: normal;
+}
+
+.bp-paper-surface .jarl-duel .bp-duel__th--a::before,
+.bp-paper-surface .jarl-duel thead th:last-child::before {
+  /* check-hover-allow: the legend swatch is an empty 8px dot beside the
+     label; the label itself keeps the muted text token set above. */
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.45em;
+  border-radius: 50%;
+  vertical-align: baseline;
+  background: var(--color-ink);
+}
+
+.bp-paper-surface .jarl-duel .bp-duel__th--a::before {
+  /* check-hover-allow: same empty legend swatch, first series. */
+  background: var(--color-accent);
+}
+
+.bp-paper-surface .jarl-duel .bp-duel__val.bp-duel__val--a {
+  color: var(--color-ink);
+}
+
+/* On a phone the four columns cannot coexist, so the row becomes a block:
+   label and both numbers on one line, the scale on the line under it. The
+   column heads stay on as the legend. */
+@media (max-width: 40rem) {
+  .bp-paper-surface .jarl-duel .bp-duel__table,
+  .bp-paper-surface .jarl-duel .bp-duel__table tbody,
+  .bp-paper-surface .jarl-duel .bp-duel__table thead {
+    display: block;
+  }
+
+  .bp-paper-surface .jarl-duel thead tr {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .bp-paper-surface .jarl-duel thead th {
+    padding: 0 0 var(--space-3);
+    text-align: left;
+  }
+
+  .bp-paper-surface .jarl-duel thead th:first-child,
+  .jarl-duel .jarl-duel__th--track {
+    display: none;
+  }
+
+  .bp-paper-surface .jarl-duel .bp-duel__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "label a b"
+      "track track track";
+    align-items: baseline;
+    column-gap: var(--space-4);
+    border-top: 1px solid var(--color-line);
+    padding-top: var(--space-3);
+  }
+
+  .bp-paper-surface .jarl-duel .bp-duel__label {
+    grid-area: label;
+    border-top: 0;
+    padding: 0;
+  }
+
+  .bp-paper-surface .jarl-duel .bp-duel__val--a {
+    grid-area: a;
+  }
+
+  .bp-paper-surface .jarl-duel .bp-duel__val:not(.bp-duel__val--a) {
+    grid-area: b;
+    padding-right: 0;
+  }
+
+  .bp-paper-surface .jarl-duel .bp-duel__val {
+    border-top: 0;
+    padding-block: 0;
+  }
+
+  .bp-paper-surface .jarl-duel .jarl-duel__track {
+    grid-area: track;
+    width: auto;
+    border-top: 0;
+    padding: var(--space-3) 0 var(--space-4);
+  }
+
+  .jarl-duel__plot,
+  .jarl-duel__axis {
+    margin-right: 4.5rem;
+  }
 }

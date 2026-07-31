@@ -1,7 +1,12 @@
+/* The site has ONE reading size, and it is this one — the paper surface
+   carries the same 19px/1.65 at the same --measure, so a story rendered by
+   the engine and a body rendered here are the same column of type. */
+
 .prose {
   display: grid;
   gap: var(--space-4);
   max-width: var(--measure);
+  font-size: var(--text-md);
 }
 
 .prose p {
