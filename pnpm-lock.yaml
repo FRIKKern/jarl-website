@@ -134,7 +134,7 @@ packages:
     engines: {node: '>=20'}
 
   '@barkpark/react@file:vendor/barkpark-react.tgz':
-    resolution: {integrity: sha512-+NOdcBoaCRPoJXi2ORD0jjWSFDihhDWXGCgeNa45nroh5x3tUD6z7z7++E9HGV3K/2fPmTKihHfjb8kiz4bnhg==, tarball: file:vendor/barkpark-react.tgz}
+    resolution: {integrity: sha512-0rEhtaa7l3lRnpj9MjOzoHdprODekkK28gjbguwOv0SYAkOcdobkCceCwLkatDVvhkpS2Et9DYiZ574z4n+pkQ==, tarball: file:vendor/barkpark-react.tgz}
     version: 1.0.0-preview.1
     engines: {node: '>=20'}
     peerDependencies:
