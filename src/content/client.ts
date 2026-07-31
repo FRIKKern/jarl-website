@@ -5,45 +5,64 @@
  *   GET {BARKPARK_URL}/v1/data/query/production/<type>?field=value  → list
  *   GET {BARKPARK_URL}/v1/data/doc/production/<type>/<id>           → single doc
  *
- * Auth: `Authorization: Bearer <read-only workspace-bound token>`.
- * Without a token the client degrades to empty results with a loud warning,
- * so CI can build before the BARKPARK_READ_TOKEN secret exists.
+ * Auth: published reads are PUBLIC on the instance, so the client always
+ * fetches — `Authorization: Bearer <BARKPARK_READ_TOKEN>` is attached only
+ * when the token is set (it gates nothing on the read side today, but a
+ * future private instance may need it).
+ *
+ * BUILD HONESTY (charter D11): a production build must NEVER go green while
+ * prerendering an empty site. Any API failure — unreachable instance,
+ * rejected token, unexpected status — THROWS in production, failing the
+ * build/prerender with a clear error. Dev keeps the tolerant path with a
+ * loud console warning so local work never blocks on the instance.
+ * A 404 stays `null`: a genuinely missing document is content truth, not an
+ * infrastructure failure, and the route turns it into a real 404 page.
  */
 
 const BARKPARK_URL = (
   process.env.BARKPARK_URL ?? "https://jarl.barkpark.cloud"
 ).replace(/\/$/, "");
 const READ_TOKEN = process.env.BARKPARK_READ_TOKEN;
+const PRODUCTION = process.env.NODE_ENV === "production";
 
 export const REVALIDATE_SECONDS = 60;
 
-let warned = false;
-function warnMissingToken(): void {
-  if (warned) return;
-  warned = true;
-  console.warn(
-    "\n" +
-      "╔══════════════════════════════════════════════════════════════════╗\n" +
-      "║  BARKPARK_READ_TOKEN is not set — building with EMPTY content.   ║\n" +
-      "║  Every list will be empty and every page will render bare.       ║\n" +
-      "║  Set BARKPARK_READ_TOKEN in .env.local (or the CI secret).       ║\n" +
-      "╚══════════════════════════════════════════════════════════════════╝\n",
-  );
+/** Fail loud in production; degrade loudly-but-tolerantly in dev. */
+function fail(detail: string): null {
+  const message =
+    `Barkpark content API failure: ${detail}\n` +
+    `  instance: ${BARKPARK_URL}\n` +
+    `  token:    BARKPARK_READ_TOKEN ${READ_TOKEN ? "set" : "NOT set"}`;
+  if (PRODUCTION) {
+    throw new Error(
+      `${message}\n` +
+        "Refusing to prerender an empty site — fix BARKPARK_URL / " +
+        "BARKPARK_READ_TOKEN or the instance, then rebuild.",
+    );
+  }
+  console.warn(`[barkpark] ${message}\n  dev renders EMPTY content here.`);
+  return null;
 }
 
 async function apiGet(path: string): Promise<unknown | null> {
-  if (!READ_TOKEN) {
-    warnMissingToken();
-    return null;
+  const headers: HeadersInit = READ_TOKEN
+    ? { Authorization: `Bearer ${READ_TOKEN}` }
+    : {};
+  let res: Response;
+  try {
+    res = await fetch(`${BARKPARK_URL}${path}`, {
+      headers,
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+  } catch (err) {
+    return fail(`unreachable — ${String(err)} on ${path}`);
   }
-  const res = await fetch(`${BARKPARK_URL}${path}`, {
-    headers: { Authorization: `Bearer ${READ_TOKEN}` },
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
   if (res.status === 404) return null;
+  if (res.status === 401 || res.status === 403) {
+    return fail(`HTTP ${res.status} on ${path} — the read token was rejected`);
+  }
   if (!res.ok) {
-    console.error(`Barkpark API ${res.status} on ${path}`);
-    return null;
+    return fail(`HTTP ${res.status} on ${path}`);
   }
   return res.json();
 }

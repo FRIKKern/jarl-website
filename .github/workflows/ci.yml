@@ -38,10 +38,14 @@ jobs:
       - name: Design gate — a painted surface pins its ink
         run: pnpm check:hover
 
-      # Build fetches content from the Barkpark instance. The read-only
-      # token comes from the BARKPARK_READ_TOKEN repo secret; before the
-      # secret is set the build still passes, with empty content and a
-      # loud warning from src/content/client.ts.
+      - name: Vendored canonical renderer smoke
+        run: node --test test/vendored-renderer.test.mjs
+
+      # Build fetches content from the Barkpark instance. Published reads
+      # are public, so the build works without the token; the token secret
+      # is attached when present for a future private instance. BUILD
+      # HONESTY (src/content/client.ts): any API failure FAILS the build —
+      # a green build can never prerender an empty site.
       - name: Build
         env:
           BARKPARK_URL: https://jarl.barkpark.cloud
