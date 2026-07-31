@@ -9,3 +9,22 @@
   object-fit: cover;
   object-position: center;
 }
+
+/* A captured frame needs an edge in dark mode.
+   The client-site captures are bright plates and sit forward on a dark
+   card by themselves. The terminal frames are near-black: against the
+   dark card surface they lose their boundary and read as dim panels
+   rather than as the tool running — the one place where the generative
+   drawing looked better than the real thing. A hairline gives every
+   capture the same edge it has in light, where the paper ground supplies
+   it for free. Border only: the site paints no shadows anywhere, and a
+   token-less one would have been the first. */
+@media (prefers-color-scheme: dark) {
+  .photo {
+    border: 1px solid var(--color-line);
+  }
+}
+
+:root[data-theme="dark"] .photo {
+  border: 1px solid var(--color-line);
+}
