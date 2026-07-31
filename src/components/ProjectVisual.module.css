@@ -1,0 +1,11 @@
+/* A real capture fills the whole figure well, edge to edge, and is cropped to
+   the same band the generative drawing occupies (640 × 260) so a grid of cards
+   keeps one baseline whether or not a project has a photograph yet. */
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 640 / 260;
+  object-fit: cover;
+  object-position: center;
+}

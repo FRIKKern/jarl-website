@@ -33,6 +33,12 @@
   padding: var(--space-4) var(--space-4) 0;
 }
 
+/* The generative drawing is inset so its ruled lines read as a plate on the
+   card ground. A photograph is the ground — it goes edge to edge. */
+.figurePhoto {
+  padding: 0;
+}
+
 .body {
   display: grid;
   align-content: start;

@@ -138,6 +138,18 @@ export interface Project extends BarkparkDoc {
   url?: string;
   order?: number;
   featured?: boolean;
+  /** A real, captured image of the thing itself — the card and hero visual.
+      `src` is served by the Barkpark media library, root-relative through the
+      same-origin `/media` proxy. Absent means no capture exists yet, and the
+      generative `Artwork` drawing stands in (see `ProjectVisual`). */
+  image?: ProjectImage;
+}
+
+export interface ProjectImage {
+  src: string;
+  alt?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface Note extends BarkparkDoc {

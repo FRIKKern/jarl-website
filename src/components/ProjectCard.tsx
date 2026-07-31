@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content/types";
-import { Artwork } from "./Artwork";
+import { ProjectVisual, hasProjectPhoto } from "./ProjectVisual";
 import styles from "./ProjectCard.module.css";
 
 /**
@@ -19,8 +19,14 @@ export function ProjectCard({
 
   return (
     <article className={styles.card}>
-      <div className={styles.figure}>
-        <Artwork seed={slug} />
+      <div
+        className={
+          hasProjectPhoto(project)
+            ? `${styles.figure} ${styles.figurePhoto}`
+            : styles.figure
+        }
+      >
+        <ProjectVisual project={project} />
       </div>
       <div className={styles.body}>
         {project.overline ? (

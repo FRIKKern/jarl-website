@@ -1,0 +1,65 @@
+/* ============================================================
+   The jarl drakt for MEDIA blocks inside a Bulldocs paper.
+
+   The rest of the reader skin lives in globals.css and works by rebinding the
+   engine's --paper-* tokens. That mechanism cannot reach these three things,
+   because the canonical engine writes them as INLINE style attributes with
+   literal colors baked in — the asciicast mount's `border` and the asciicast
+   figcaption's `color` (figures.ex: asciicast_html/3 and asciicastFigcaption/1,
+   where the divergence from the token-bound captions is deliberate and
+   documented upstream).
+
+   An inline declaration outranks every selector, so the only honest lever is
+   `!important` on a scoped selector. That is what it is for. The baked
+   hairline is a pale grey and the baked caption ink is a mid grey: on jarl's
+   dark ground the hairline glows and the caption sinks to roughly 2:1 against
+   the page. Both are rebound onto the live --color-* family here, so media
+   flips with the theme exactly like the prose around it.
+
+   Loaded by the two routes that mount a paper, right after the engine skin.
+   ============================================================ */
+
+/* -- the asciicast mount ------------------------------------------------- */
+
+/* A terminal recording is dark in both themes — that is what a terminal is,
+   and asciinema-player brings its own ground. jarl owns only the frame it
+   sits in: the same hairline and corner the stat tiles and images wear, so a
+   recording reads as one more plate in the figure family. */
+.bp-paper-surface .bp-asciicast {
+  border-color: var(--color-line) !important;
+  border-radius: var(--radius) !important;
+  /* check-hover-allow: the player paints its own ground over this the moment
+     it mounts; the color pins the pre-hydration ground it is read against. */
+  background-color: var(--color-surface);
+  color: var(--color-muted);
+  /* Before hydration the mount is an empty div — without a floor it renders
+     as a 2px sliver and the whole column jumps when the player arrives. */
+  min-height: 18rem;
+}
+
+/* -- figure captions ----------------------------------------------------- */
+
+/* One caption voice for every figure the engine can emit. The engine's own
+   choice is 0.9rem italic system-ui; jarl reads captions as the quiet
+   annotation under a plate, so: the site's small step, its muted ink, and no
+   italic — the kilde clause at the end of the sentence is a reference, and
+   references are not spoken in italics. */
+.bp-paper-surface figure figcaption {
+  color: var(--color-muted) !important;
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-size: var(--text-sm) !important;
+  line-height: var(--leading-snug);
+  margin-top: var(--space-3) !important;
+  max-width: var(--measure);
+}
+
+/* -- images -------------------------------------------------------------- */
+
+/* A screenshot is evidence, not decoration: it gets the plate treatment the
+   figure family already speaks — hairline, corner, no drop shadow. */
+.bp-paper-surface figure img {
+  display: block;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}

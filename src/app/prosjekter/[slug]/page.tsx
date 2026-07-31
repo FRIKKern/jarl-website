@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { Block } from "@barkpark/react";
 import "@barkpark/react/paper-surface.css";
+import "@/app/paper-media.css";
 import {
   getProjectBySlug,
   getProjects,
@@ -11,7 +12,7 @@ import {
 import { normalizeSections } from "@/content/sections";
 import { Band } from "@/components/Band";
 import { Sections } from "@/components/Sections";
-import { Artwork } from "@/components/Artwork";
+import { ProjectVisual, hasProjectPhoto } from "@/components/ProjectVisual";
 import { ArrowLink } from "@/components/ArrowLink";
 import { PortableDocSurface } from "@/components/PortableDocSurface";
 import { Prose } from "@/components/Prose";
@@ -73,7 +74,6 @@ export default async function ProsjektPage({
   const hasStory = storyBlocks.length > 0;
 
   const sections = normalizeSections(project.sections);
-  const seed = project.slug ?? project._id;
   const hasBody = !hasStory && Boolean(project.body);
 
   return (
@@ -81,7 +81,8 @@ export default async function ProsjektPage({
       <JsonLd data={projectSchema(project, settings)} />
 
       {/* The project's own hero: the words on one side, its figure on the
-          other. The figure is generated from the slug — see lib/artwork.ts. */}
+          other. The figure is a real capture of the thing when one exists,
+          and the slug-generated drawing when none does — see ProjectVisual. */}
       <Band surface="ink" space="hero">
         <div className={styles.projectHeader}>
           <header className={styles.header}>
@@ -102,8 +103,14 @@ export default async function ProsjektPage({
               </ul>
             ) : null}
           </header>
-          <div className={styles.projectFigure}>
-            <Artwork seed={seed} />
+          <div
+            className={
+              hasProjectPhoto(project)
+                ? `${styles.projectFigure} ${styles.projectFigurePhoto}`
+                : styles.projectFigure
+            }
+          >
+            <ProjectVisual project={project} />
           </div>
         </div>
       </Band>

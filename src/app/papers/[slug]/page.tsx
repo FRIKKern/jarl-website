@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { Block } from "@barkpark/react";
 import "@barkpark/react/paper-surface.css";
+import "@/app/paper-media.css";
 import { getPaperBySlug, getPapers, getSiteSettings } from "@/content/loaders";
 import { Band } from "@/components/Band";
 import { PortableDocSurface } from "@/components/PortableDocSurface";

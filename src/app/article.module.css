@@ -87,6 +87,14 @@
   min-width: 0;
 }
 
+/* A real capture in the hero gets the card's own frame: a hairline and the
+   same corner radius, so the photograph reads as a plate on the ink band
+   rather than a picture pasted onto it. */
+.projectFigurePhoto img {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+}
+
 @media (max-width: 56rem) {
   .projectHeader {
     grid-template-columns: 1fr;
