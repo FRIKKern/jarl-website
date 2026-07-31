@@ -128,6 +128,11 @@ export interface Project extends BarkparkDoc {
   overline?: string;
   summary?: string;
   body?: string;
+  /** The project's story — a reference to a Bulldocs `paper`, served as the
+      paper's document id. Papers are the ONLY Studio-editable blocks docs
+      (the blocks-doc write path is a closed whitelist), so the long-form
+      narrative lives as its own paper and this field binds it in. */
+  story?: string;
   sections?: Section[];
   tags?: string[];
   url?: string;

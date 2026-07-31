@@ -64,3 +64,15 @@ export async function getPapers(): Promise<Paper[]> {
 export async function getPaperBySlug(slug: string): Promise<Paper | null> {
   return getDocument<Paper>("paper", slug);
 }
+
+/** Resolve a project's story reference to its paper. The ruling
+    («Prosjektene er ment til å skrives med Bulldocs») makes the linked paper
+    the project's narrative; a project without one simply has no story yet.
+    A dangling reference resolves to null — the page then falls back exactly
+    like an absent one, never a broken band. */
+export async function getProjectStory(
+  project: Project | null,
+): Promise<Paper | null> {
+  if (!project?.story) return null;
+  return getPaperBySlug(project.story);
+}

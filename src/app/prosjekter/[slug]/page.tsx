@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { Block } from "@barkpark/react";
+import "@barkpark/react/paper-surface.css";
 import {
   getProjectBySlug,
   getProjects,
+  getProjectStory,
   getSiteSettings,
 } from "@/content/loaders";
 import { normalizeSections } from "@/content/sections";
@@ -10,6 +13,7 @@ import { Band } from "@/components/Band";
 import { Sections } from "@/components/Sections";
 import { Artwork } from "@/components/Artwork";
 import { ArrowLink } from "@/components/ArrowLink";
+import { PortableDocSurface } from "@/components/PortableDocSurface";
 import { Prose } from "@/components/Prose";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
@@ -59,9 +63,18 @@ export default async function ProsjektPage({
   ]);
   if (!project) notFound();
 
+  /* The ruling: «Prosjektene er ment til å skrives med Bulldocs». The
+     narrative is the linked story paper (project.story → type "paper" — the
+     only Studio-editable blocks doc), rendered by the canonical engine. The
+     plain-text `body` is the legacy narrative and renders ONLY when no story
+     exists — a project mid-migration never narrates twice. */
+  const story = await getProjectStory(project);
+  const storyBlocks = (story?.blocks ?? story?.body?.blocks ?? []) as Block[];
+  const hasStory = storyBlocks.length > 0;
+
   const sections = normalizeSections(project.sections);
   const seed = project.slug ?? project._id;
-  const hasBody = Boolean(project.body);
+  const hasBody = !hasStory && Boolean(project.body);
 
   return (
     <article>
@@ -95,13 +108,28 @@ export default async function ProsjektPage({
         </div>
       </Band>
 
+      {hasStory ? (
+        <Band surface="paper">
+          {/* The canonical engine owns the markup and the Reader-Owned
+              spacing law inside .bp-paper-surface; the jarl drakt is the
+              token overrides scoped to it in globals.css. The band only
+              decides where the story column starts. */}
+          <div className={styles.storyShell}>
+            <PortableDocSurface blocks={storyBlocks} />
+          </div>
+        </Band>
+      ) : null}
+
       {hasBody ? (
         <Band surface="paper">
           <Prose text={project.body} />
         </Band>
       ) : null}
 
-      <Sections sections={sections} after={hasBody ? "paper" : "ink"} />
+      <Sections
+        sections={sections}
+        after={hasStory || hasBody ? "paper" : "ink"}
+      />
 
       {project.url ? (
         <Band surface="paper" rule space="tight">

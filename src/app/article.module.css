@@ -94,6 +94,14 @@
   }
 }
 
+/* -- project story: the Bulldocs paper column ----------------------------- */
+
+/* Width only. The canonical engine owns everything inside .bp-paper-surface
+   (its spacing law included) — mirrors papers/[slug]/page.module.css. */
+.storyShell {
+  max-width: var(--site-width);
+}
+
 /* -- trimmings ----------------------------------------------------------- */
 
 .external {
