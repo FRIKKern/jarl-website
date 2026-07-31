@@ -20,26 +20,26 @@
 
 :root {
   /* -- paper · light (warm paper, deep ink, fjord accent) ------ */
-  --paper-bg: oklch(0.972 0.007 85);
-  --paper-surface: oklch(0.941 0.009 85);
-  --paper-fg: oklch(0.235 0.02 265);
-  --paper-muted: oklch(0.45 0.02 265);
-  --paper-accent: oklch(0.44 0.09 185);
-  --paper-line: oklch(0.868 0.012 85);
-  --paper-accent-soft: oklch(0.9 0.03 185);
-  --paper-solid-bg: oklch(0.44 0.09 185);
-  --paper-solid-fg: oklch(0.98 0.006 85);
+  --paper-bg: oklch(0.972 0.012 85);
+  --paper-surface: oklch(0.945 0.016 85);
+  --paper-fg: oklch(0.235 0.014 70);
+  --paper-muted: oklch(0.45 0.013 70);
+  --paper-accent: oklch(0.44 0.095 180);
+  --paper-line: oklch(0.868 0.02 85);
+  --paper-accent-soft: oklch(0.9 0.032 180);
+  --paper-solid-bg: oklch(0.44 0.095 180);
+  --paper-solid-fg: oklch(0.98 0.01 85);
 
   /* -- ink · light (the paper foreground becomes the ground) --- */
-  --ink-bg: oklch(0.235 0.02 265);
-  --ink-surface: oklch(0.285 0.022 265);
-  --ink-fg: oklch(0.958 0.008 85);
-  --ink-muted: oklch(0.775 0.016 265);
-  --ink-accent: oklch(0.82 0.1 175);
-  --ink-line: oklch(0.365 0.02 265);
-  --ink-accent-soft: oklch(0.34 0.045 185);
-  --ink-solid-bg: oklch(0.82 0.1 175);
-  --ink-solid-fg: oklch(0.2 0.02 265);
+  --ink-bg: oklch(0.235 0.014 70);
+  --ink-surface: oklch(0.285 0.017 70);
+  --ink-fg: oklch(0.958 0.01 85);
+  --ink-muted: oklch(0.775 0.013 70);
+  --ink-accent: oklch(0.82 0.105 180);
+  --ink-line: oklch(0.365 0.016 70);
+  --ink-accent-soft: oklch(0.34 0.045 180);
+  --ink-solid-bg: oklch(0.82 0.105 180);
+  --ink-solid-fg: oklch(0.2 0.014 70);
 
   /* -- the active ground · paper unless a band says otherwise -- */
   --color-bg: var(--paper-bg);
@@ -117,27 +117,27 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* -- paper · dark (deep ink ground, warm white, mint) ------ */
-    --paper-bg: oklch(0.208 0.014 265);
-    --paper-surface: oklch(0.252 0.016 265);
-    --paper-fg: oklch(0.93 0.008 85);
-    --paper-muted: oklch(0.735 0.015 265);
-    --paper-accent: oklch(0.8 0.1 175);
-    --paper-line: oklch(0.33 0.018 265);
-    --paper-accent-soft: oklch(0.32 0.04 185);
-    --paper-solid-bg: oklch(0.8 0.1 175);
-    --paper-solid-fg: oklch(0.19 0.02 265);
+    --paper-bg: oklch(0.208 0.012 70);
+    --paper-surface: oklch(0.252 0.015 70);
+    --paper-fg: oklch(0.93 0.01 85);
+    --paper-muted: oklch(0.735 0.013 70);
+    --paper-accent: oklch(0.8 0.105 180);
+    --paper-line: oklch(0.33 0.015 70);
+    --paper-accent-soft: oklch(0.32 0.04 180);
+    --paper-solid-bg: oklch(0.8 0.105 180);
+    --paper-solid-fg: oklch(0.19 0.014 70);
 
     /* -- ink · dark (the inverted band goes DEEPER, not lighter;
           in a dark scheme the mirror of "quiet" is "quieter") --- */
-    --ink-bg: oklch(0.148 0.016 265);
-    --ink-surface: oklch(0.19 0.016 265);
-    --ink-fg: oklch(0.945 0.008 85);
-    --ink-muted: oklch(0.72 0.015 265);
-    --ink-accent: oklch(0.82 0.1 175);
-    --ink-line: oklch(0.272 0.018 265);
-    --ink-accent-soft: oklch(0.27 0.04 185);
-    --ink-solid-bg: oklch(0.82 0.1 175);
-    --ink-solid-fg: oklch(0.16 0.02 265);
+    --ink-bg: oklch(0.148 0.013 70);
+    --ink-surface: oklch(0.19 0.014 70);
+    --ink-fg: oklch(0.945 0.01 85);
+    --ink-muted: oklch(0.72 0.013 70);
+    --ink-accent: oklch(0.82 0.105 180);
+    --ink-line: oklch(0.272 0.015 70);
+    --ink-accent-soft: oklch(0.27 0.04 180);
+    --ink-solid-bg: oklch(0.82 0.105 180);
+    --ink-solid-fg: oklch(0.16 0.014 70);
   }
 }
 
