@@ -23,7 +23,6 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { NavItem, SocialLink } from "@/content/types";
 import styles from "./MenuDrawer.module.css";
 
@@ -44,17 +43,16 @@ export function MenuDrawer({
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
-  const pathname = usePathname();
 
   const close = useCallback((refocus = false) => {
     setOpen(false);
     if (refocus) triggerRef.current?.focus();
   }, []);
 
-  /* navigating away closes the drawer — the new page opens on its ground */
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  /* choosing a destination closes the drawer — the new page opens on its
+     own ground. On the links themselves (not a pathname effect): it also
+     covers clicking the page one already stands on. */
+  const closeOnNavigate = useCallback(() => close(false), [close]);
 
   /* Esc closes from anywhere; Tab cycles within trigger + panel */
   useEffect(() => {
@@ -128,7 +126,11 @@ export function MenuDrawer({
             <ul className={styles.primary}>
               {items.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className={styles.primaryLink}>
+                  <Link
+                    href={item.href}
+                    className={styles.primaryLink}
+                    onClick={closeOnNavigate}
+                  >
                     {item.label}
                   </Link>
                 </li>
