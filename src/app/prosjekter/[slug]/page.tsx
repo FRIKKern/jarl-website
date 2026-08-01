@@ -80,22 +80,29 @@ export default async function ProsjektPage({
     <article>
       <JsonLd data={projectSchema(project, settings)} />
 
-      {/* The project's own hero: the words on one side, its figure on the
-          other — on the same greige sheet as everything else. The figure is
-          a real capture of the thing when one exists, and the slug-generated
-          drawing when none does — see ProjectVisual. */}
+      {/* The project's own hero, in the centered ceremony: kicker over serif
+          h1 over the narrow lede, the figure arriving as a plate below the
+          words — tinholt's om-oss order. The figure is a real capture of the
+          thing when one exists, and the slug-generated drawing when none
+          does — see ProjectVisual. */}
       <Band surface="paper" rule space="hero">
         <div className={styles.projectHeader}>
           <header className={styles.header}>
             {project.overline ? (
-              <p className={styles.overline}>{project.overline}</p>
+              <p className={`${styles.overline} jarl-reveal-1`}>
+                {project.overline}
+              </p>
             ) : null}
-            <h1 className={styles.displayTitle}>{project.title}</h1>
+            <h1 className={`${styles.displayTitle} jarl-reveal-2`}>
+              {project.title}
+            </h1>
             {project.summary ? (
-              <p className={styles.intro}>{project.summary}</p>
+              <p className={`${styles.intro} jarl-reveal-3`}>
+                {project.summary}
+              </p>
             ) : null}
             {project.tags?.length ? (
-              <ul className={styles.tags}>
+              <ul className={`${styles.tags} jarl-reveal-3`}>
                 {project.tags.map((tag) => (
                   <li key={tag} className={styles.tag}>
                     {tag}

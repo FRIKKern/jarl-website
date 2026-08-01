@@ -28,7 +28,9 @@ export default async function NotaterPage() {
     <>
       <Band surface="paper" rule space="tight">
         <header className={styles.header}>
-          <h1 className={styles.displayTitle}>{nav?.label}</h1>
+          <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
+            {nav?.label}
+          </h1>
         </header>
       </Band>
       <Band surface="paper" rule>

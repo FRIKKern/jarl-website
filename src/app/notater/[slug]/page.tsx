@@ -62,9 +62,11 @@ export default async function NotatPage({
       <JsonLd data={notePostingSchema(note, settings)} />
       <Band surface="paper" rule space="tight">
         <header className={styles.header}>
-          <h1 className={styles.displayTitle}>{note.title}</h1>
+          <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
+            {note.title}
+          </h1>
           {note.publishedAt ? (
-            <p className={styles.meta}>
+            <p className={`${styles.meta} jarl-reveal-2`}>
               <time dateTime={note.publishedAt}>
                 {formatDate(note.publishedAt)}
               </time>
@@ -73,7 +75,9 @@ export default async function NotatPage({
         </header>
       </Band>
       <Band surface="paper" rule>
-        <Prose text={note.body} />
+        <div className={styles.centerCol}>
+          <Prose text={note.body} />
+        </div>
       </Band>
     </article>
   );

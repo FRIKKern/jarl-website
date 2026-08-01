@@ -110,8 +110,14 @@ export interface Section {
 
 export interface Page extends BarkparkDoc {
   _type: "page";
+  /** May carry the *emphasis* convention: `*ord*` spans become <em> in the
+      hero (components/Emphasis — tolerant, unpaired asterisks stay literal;
+      metadata strips the markers via stripEmphasis). */
   title?: string;
   slug?: string;
+  /** Same *emphasis* convention as `title`. On the home page the intro joins
+      the title as ONE centered hero declaration; the italic inflection is
+      authored here, never hardcoded. */
   intro?: string;
   /** The home hero's single arrow link. */
   ctaLabel?: string;

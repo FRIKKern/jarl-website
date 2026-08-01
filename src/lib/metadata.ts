@@ -6,6 +6,7 @@
 
 import type { Metadata } from "next";
 import { OG_LOCALE, absoluteUrl } from "./site";
+import { stripEmphasis } from "./text";
 
 export interface RouteMeta {
   /** CMS title of the page. */
@@ -22,14 +23,19 @@ export interface RouteMeta {
 }
 
 export function routeMetadata({
-  title,
-  description,
+  title: rawTitle,
+  description: rawDescription,
   path,
   siteName,
   type = "website",
   publishedTime,
   modifiedTime,
 }: RouteMeta): Metadata {
+  /* CMS strings may carry the *emphasis* convention (components/Emphasis);
+     metadata is plain text, so the markers come off here — a no-op for
+     strings that never used them. */
+  const title = stripEmphasis(rawTitle);
+  const description = stripEmphasis(rawDescription);
   const url = absoluteUrl(path);
   const socialTitle =
     title && siteName && title !== siteName ? `${title} · ${siteName}` : (title ?? siteName);

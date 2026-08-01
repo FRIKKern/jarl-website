@@ -4,9 +4,14 @@
    route is a stack of bands. What is left is what a page header and its
    trimmings look like once something else has decided where they sit. */
 
+/* Every subpage hero is a CENTERED stack on the page's axis: kicker over
+   serif h1 over a narrow lede — tinholt's ceremony, one grammar for all. */
 .header {
   display: grid;
   gap: var(--space-4);
+  justify-items: center;
+  text-align: center;
+  margin-inline: auto;
   max-width: var(--site-width);
 }
 
@@ -27,7 +32,7 @@
    that is not the home page. */
 .displayTitle {
   font-size: var(--text-display);
-  max-width: 16ch;
+  max-width: 18ch;
 }
 
 /* the ingress speaks tinholt's sub-head size — 32/40 on desktop */
@@ -37,14 +42,23 @@
   font-size: var(--text-lg);
   line-height: var(--leading-snug);
   color: var(--color-muted);
-  max-width: 44ch;
+  max-width: 40ch;
   text-wrap: balance;
+  hanging-punctuation: first;
 }
 
 .meta {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
+}
+
+/* The reading column under a centered hero rides the same central axis —
+   the text itself stays left-aligned, it is the COLUMN that centers. */
+.centerCol {
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
 .grid {
@@ -60,12 +74,14 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   row-gap: var(--space-1);
 }
 
 .tag {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
 }
 
@@ -75,17 +91,21 @@
   padding-left: var(--space-3);
 }
 
-/* -- project header: the words on one side, the figure on the other ------ */
+/* -- project header: centered declaration, the figure as a plate below ---
+   tinholt's om-oss order — the words claim the axis first, then the image
+   arrives full-width under them. */
 
 .projectHeader {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: var(--space-8);
-  align-items: center;
+  gap: var(--space-7);
+  justify-items: center;
 }
 
 .projectFigure {
   min-width: 0;
+  width: 100%;
+  max-width: 52rem;
+  text-align: center;
 }
 
 /* A real capture in the hero gets the card's own frame: a hairline and the
@@ -94,13 +114,6 @@
 .projectFigurePhoto img {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
-}
-
-@media (max-width: 56rem) {
-  .projectHeader {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-  }
 }
 
 /* -- trimmings ----------------------------------------------------------- */
@@ -125,6 +138,7 @@
   padding: 0;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-5);
   font-size: var(--text-xs);
   font-weight: 500;

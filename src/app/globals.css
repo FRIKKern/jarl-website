@@ -233,10 +233,19 @@ h4 {
   line-height: var(--leading-tight);
   margin: 0;
   text-wrap: balance;
+  /* the serif keeps its drawn ligatures — the broadsheet's small courtesy */
+  font-feature-settings: "liga" 1;
 }
 
 p {
   margin: 0;
+  /* progressive: engines that know `pretty` avoid orphans, others ignore it */
+  text-wrap: pretty;
+}
+
+/* a quotation opens on its optical margin where the engine supports it */
+blockquote {
+  hanging-punctuation: first;
 }
 
 a {
@@ -264,6 +273,38 @@ a:hover {
    Everything that moves uses --ease and --dur, and stops
    entirely for anyone who has asked for less motion.
    ============================================================ */
+
+/* ONE orchestrated load. The hero stack — and only the hero stack — rises
+   into place on first paint: fade + 12px lift, staggered by slot, ~700ms
+   from first movement to rest. Sections below the fold never animate; there
+   is no scroll-triggered zoo on this site. The classes are global on purpose:
+   every route's hero speaks the same three beats. */
+
+@keyframes jarl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.jarl-reveal-1,
+.jarl-reveal-2,
+.jarl-reveal-3 {
+  animation: jarl-rise 480ms var(--ease) both;
+}
+
+.jarl-reveal-2 {
+  animation-delay: 110ms;
+}
+
+.jarl-reveal-3 {
+  animation-delay: 220ms;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {

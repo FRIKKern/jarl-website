@@ -1,57 +1,68 @@
 /* The home page's own shapes. Everything else is a <Band> or a section. */
 
-/* -- hero ---------------------------------------------------------------- */
+/* -- hero: the centered declaration -------------------------------------- */
 
 .hero {
   display: grid;
   gap: var(--space-6);
-  justify-items: start;
+  justify-items: center;
+  text-align: center;
 }
 
-.eyebrow {
+/* One multi-line serif statement on the central axis. The measure is tight
+   enough to force the broadsheet's three-to-four lines; `balance` (base rule)
+   keeps the rag even on both sides. The italic inflection is authored in the
+   CMS — <em> here just hands it to the serif's italic cut. */
+.heroTitle {
+  font-size: var(--text-display);
+  line-height: 1.05;
+  max-width: 24ch;
+  margin-inline: auto;
+}
+
+.heroTitle em {
+  font-style: italic;
+}
+
+/* the piped small-caps meta row — the kicker, said as a colophon line */
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: var(--space-1);
   font-size: var(--text-sm);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
+  font-variant-numeric: tabular-nums;
   color: var(--color-accent);
 }
 
-/* The type IS the anchor: display scale, tight tracking, nothing under it
-   but a single arrow. No subhead — a second line here would halve the first. */
-.heroTitle {
-  font-size: var(--text-hero);
-  line-height: 1;
-  max-width: 15ch;
-  margin-block: var(--space-2) var(--space-4);
+.heroMetaSegment + .heroMetaSegment {
+  border-left: 1px solid var(--color-line);
+  margin-left: var(--space-3);
+  padding-left: var(--space-3);
 }
 
 .heroCta {
   font-size: var(--text-md);
+  margin-top: var(--space-2);
 }
 
-/* -- ingress: the intro and the body, side by side ----------------------- */
+/* -- ingress: the body on the central axis ------------------------------- */
 
 .ingress {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: var(--space-8);
-  align-items: start;
-}
-
-.ingressLead {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
-  text-wrap: balance;
+  max-width: var(--measure);
+  margin-inline: auto;
 }
 
 /* -- listing bands ------------------------------------------------------- */
 
+/* the listing head takes the axis like every other head on the site */
 .sectionHead {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: var(--space-5);
   flex-wrap: wrap;
   padding-bottom: var(--space-5);
@@ -69,11 +80,4 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: var(--space-5);
-}
-
-@media (max-width: 56rem) {
-  .ingress {
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
-  }
 }

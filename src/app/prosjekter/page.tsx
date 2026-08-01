@@ -34,9 +34,11 @@ export default async function ProsjekterPage() {
     <>
       <Band surface="paper" rule space="tight">
         <header className={styles.header}>
-          <h1 className={styles.displayTitle}>{nav?.label}</h1>
+          <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
+            {nav?.label}
+          </h1>
           {settings?.tagline ? (
-            <p className={styles.intro}>{settings.tagline}</p>
+            <p className={`${styles.intro} jarl-reveal-2`}>{settings.tagline}</p>
           ) : null}
         </header>
       </Band>
