@@ -20,11 +20,10 @@
   font-family: var(--font-display);
   transition: color var(--dur) var(--ease);
   font-style: italic;
-  font-weight: 620;
+  font-weight: 400;
   font-size: var(--text-lg);
   color: var(--color-ink);
   text-decoration: none;
-  letter-spacing: -0.01em;
   /* the wordmark is a link home; it gets the same 44px floor as the nav */
   display: inline-flex;
   align-items: center;
@@ -42,12 +41,11 @@
 }
 
 .navLink {
-  font-size: var(--text-xs);
+  /* tinholt's nav: plain 16px sentence-case links in the page ink */
+  font-size: var(--text-base);
   transition: color var(--dur) var(--ease);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-muted);
+  font-weight: 400;
+  color: var(--color-ink);
   text-decoration: none;
   /* the hit box, not the type: a 28px-tall nav link is a 28px-tall target
      on a phone, and 44px is the floor a thumb needs. Nothing about how the
@@ -94,8 +92,7 @@
   }
 
   .navLink {
-    /* the tracking is what overflows, not the words */
-    letter-spacing: 0.06em;
+    font-size: var(--text-sm);
     white-space: nowrap;
   }
 }

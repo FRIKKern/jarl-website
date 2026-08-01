@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { getNavigation, getSiteSettings } from "@/content/loaders";
 import { getChrome } from "@/content/chrome";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -8,10 +8,14 @@ import { HTML_LANG, OG_LOCALE, SITE_URL } from "@/lib/site";
 import styles from "./layout.module.css";
 import "./globals.css";
 
-const display = Fraunces({
+/* Instrument Serif ships ONE weight (400) and its italic — that is the
+   point. Headings get no bolder than the cut itself; hierarchy on this
+   site is size and the serif/sans split, never weight. */
+const display = Instrument_Serif({
   subsets: ["latin", "latin-ext"],
+  weight: "400",
+  style: ["normal", "italic"],
   variable: "--next-font-display",
-  axes: ["opsz", "SOFT", "WONK"],
   display: "swap",
 });
 

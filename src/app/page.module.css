@@ -9,8 +9,8 @@
 }
 
 .eyebrow {
-  font-size: var(--text-xs);
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
   color: var(--color-accent);
@@ -20,10 +20,8 @@
    but a single arrow. No subhead — a second line here would halve the first. */
 .heroTitle {
   font-size: var(--text-hero);
-  font-weight: 420;
-  letter-spacing: -0.028em;
-  line-height: 0.98;
-  max-width: 13ch;
+  line-height: 1;
+  max-width: 15ch;
   margin-block: var(--space-2) var(--space-4);
 }
 
@@ -45,7 +43,6 @@
   font-style: italic;
   font-size: var(--text-lg);
   line-height: var(--leading-snug);
-  letter-spacing: -0.008em;
   text-wrap: balance;
 }
 

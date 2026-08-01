@@ -31,17 +31,17 @@ async function loadFonts(): Promise<FontSpec[]> {
   fontCache ??= (async () => {
     const dir = join(process.cwd(), "assets", "fonts");
     const [display, body] = await Promise.all([
-      readFile(join(dir, "Fraunces.ttf")),
+      readFile(join(dir, "InstrumentSerif.ttf")),
       readFile(join(dir, "InstrumentSans.ttf")),
     ]);
     return [
       {
-        name: "Fraunces",
+        name: "Instrument Serif",
         data: display.buffer.slice(
           display.byteOffset,
           display.byteOffset + display.byteLength,
         ) as ArrayBuffer,
-        weight: 500,
+        weight: 400,
         style: "normal",
       },
       {
@@ -123,7 +123,7 @@ export async function renderOgImage({
               style={{
                 display: "flex",
                 fontSize: 26,
-                letterSpacing: "0.14em",
+                letterSpacing: "0.04em",
                 textTransform: "uppercase",
                 color: token("--paper-accent"),
               }}
@@ -136,10 +136,9 @@ export async function renderOgImage({
         <div
           style={{
             display: "flex",
-            fontFamily: "Fraunces",
+            fontFamily: "Instrument Serif",
             fontSize: Math.round(size * scale),
-            lineHeight: 1.08,
-            letterSpacing: "-0.02em",
+            lineHeight: 1.02,
             maxWidth: wide ? 960 : 560,
           }}
         >
