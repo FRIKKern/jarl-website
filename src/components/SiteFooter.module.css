@@ -85,6 +85,16 @@
   text-underline-offset: 0.4em;
 }
 
+/* The desktop gap is a broadsheet's — half a column of air between the
+   address and its neighbours. On a phone that same gap forced a wrap and
+   orphaned the last link onto its own line; the gap steps down so the
+   whole row holds one centered line between its hairlines. */
+@media (max-width: 40rem) {
+  .metaRow {
+    gap: var(--space-2) var(--space-5);
+  }
+}
+
 /* -- movement three: the mark, said large -------------------------------- */
 
 .mark {
