@@ -26,14 +26,14 @@ export default async function NotaterPage() {
 
   return (
     <>
-      <Band surface="paper" rule space="tight">
+      <Band rule space="tight">
         <header className={styles.header}>
           <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
             {nav?.label}
           </h1>
         </header>
       </Band>
-      <Band surface="paper" rule>
+      <Band rule>
         <NoteList notes={notes} />
       </Band>
     </>

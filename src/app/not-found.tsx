@@ -25,7 +25,7 @@ export default async function NotFound() {
   const chrome = getChrome(settings);
 
   return (
-    <Band surface="paper" rule space="hero">
+    <Band rule space="hero">
       <header className={styles.header}>
         <p className={styles.overline}>404</p>
         <h1 className={styles.displayTitle}>

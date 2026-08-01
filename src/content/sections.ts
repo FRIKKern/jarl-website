@@ -14,19 +14,22 @@
  */
 
 import { SECTION_KINDS } from "./types";
-import type {
-  Section,
-  SectionItem,
-  SectionKind,
-  Surface,
-} from "./types";
+import type { Page, Section, SectionItem, SectionKind } from "./types";
 import { resolveSourceRef } from "./sources";
 
-/** A section that survived normalisation: kind and surface are settled. */
+/** A section that survived normalisation: the kind is settled. There is no
+    `surface` any more — the PAGE owns the ground (see `pageTheme`), and a
+    section stands on whatever sheet the page laid down. */
 export interface KnownSection extends Section {
   kind: SectionKind;
-  surface: Surface;
   items: SectionItem[];
+}
+
+/** The page-level ground, tinholt's grammar: `"mork"` when the document
+    says so, otherwise undefined — the attribute the shells stamp is absent
+    on the default ground, so the greige page carries no marker at all. */
+export function pageTheme(page: Page | null): "mork" | undefined {
+  return page?.theme === "mork" ? "mork" : undefined;
 }
 
 const KNOWN = new Set<string>(SECTION_KINDS);
@@ -72,6 +75,9 @@ function isRenderable(section: KnownSection): boolean {
     case "statBand":
     case "lineage":
       return section.items.length > 0;
+    /* a media band is its capture, or the drawing plus the line over it */
+    case "mediaBand":
+      return Boolean(section.image?.src) || head;
     /* a duel's columns are meaningless without their names */
     case "duel":
       return (
@@ -96,11 +102,11 @@ export function normalizeSections(sections?: Section[]): KnownSection[] {
     .map<KnownSection>((s) => ({
       ...s,
       kind: s.kind as SectionKind,
-      /* The band architecture is dismantled (tinholt grammar): the page is
-         ONE continuous greige sheet and sections separate with full-width
-         hairlines. A CMS-authored `surface: "ink"` is coerced back to paper
-         here — the only navy band left on the site is the footer. */
-      surface: "paper",
+      /* No surface coercion and no surface field: the tinholt grammar is
+         PAGE-LEVEL theming (page.theme, → pageTheme above). A section that
+         authors `surface` is simply not read — the page owns the ground,
+         and the only other grounds on a page are the footer's constant navy
+         and the media/form instruments, which the renderer owns. */
       items: (s.items ?? [])
         .filter(itemHasContent)
         .filter(

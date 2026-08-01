@@ -60,7 +60,7 @@ export default async function NotatPage({
   return (
     <article>
       <JsonLd data={notePostingSchema(note, settings)} />
-      <Band surface="paper" rule space="tight">
+      <Band rule space="tight">
         <header className={styles.header}>
           <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
             {note.title}
@@ -74,7 +74,7 @@ export default async function NotatPage({
           ) : null}
         </header>
       </Band>
-      <Band surface="paper" rule>
+      <Band rule>
         <div className={styles.centerCol}>
           <Prose text={note.body} />
         </div>

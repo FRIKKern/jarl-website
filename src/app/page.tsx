@@ -6,7 +6,7 @@ import {
   getPageBySlug,
   getSiteSettings,
 } from "@/content/loaders";
-import { normalizeSections } from "@/content/sections";
+import { normalizeSections, pageTheme } from "@/content/sections";
 import { Band } from "@/components/Band";
 import { Sections } from "@/components/Sections";
 import { Prose } from "@/components/Prose";
@@ -48,6 +48,18 @@ export default async function HomePage() {
   const projectsNav = navItems.find((i) => i.href === "/prosjekter");
   const notesNav = navItems.find((i) => i.href === "/notater");
 
+  /* The home strip is tinholt's dramaturgy: declaration → CTA cards → the
+     art band → the boards → the CAPTURE board → colophon. The listing
+     boards (projects, notes) are data-driven and render below, so the
+     authored sections split around them: everything up to the first capture
+     media band plays before the boards, the capture room (and anything the
+     author placed after it) closes the strip. */
+  const captureAt = sections.findIndex(
+    (s) => s.kind === "mediaBand" && s.image?.src,
+  );
+  const overture = captureAt === -1 ? sections : sections.slice(0, captureAt);
+  const finale = captureAt === -1 ? [] : sections.slice(captureAt);
+
   /* The hero declaration is COMPOSED from the CMS, never authored here:
      the page title flows straight into its intro as one centered serif
      statement. The only glue this code adds is a full stop when the title
@@ -63,7 +75,7 @@ export default async function HomePage() {
   const meta = metaSegments(settings?.tagline);
 
   return (
-    <>
+    <div data-page-theme={pageTheme(page)}>
       <JsonLd data={personSchema(settings)} />
 
       {/* The centered declaration — tinholt's ceremony. One multi-line serif
@@ -71,7 +83,7 @@ export default async function HomePage() {
           the CMS (*emphasis* convention), the kicker folded into a piped
           small-caps meta row beneath it, the button centered under that.
           One continuous greige sheet from here to the footer. */}
-      <Band surface="paper" rule space="hero">
+      <Band rule space="hero">
         <div className={styles.hero}>
           {declaration ? (
             <h1 className={`${styles.heroTitle} jarl-reveal-1`}>
@@ -96,17 +108,17 @@ export default async function HomePage() {
       </Band>
 
       {page?.body ? (
-        <Band surface="paper" rule>
+        <Band rule>
           <div className={styles.ingress}>
             <Prose text={page.body} />
           </div>
         </Band>
       ) : null}
 
-      <Sections sections={sections} after="paper" />
+      <Sections sections={overture} />
 
       {projects.length > 0 ? (
-        <Band surface="paper" rule labelledBy="utvalgte-prosjekter">
+        <Band rule labelledBy="utvalgte-prosjekter">
           {projectsNav ? (
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionHeading} id="utvalgte-prosjekter">
@@ -125,7 +137,7 @@ export default async function HomePage() {
       ) : null}
 
       {notes.length > 0 ? (
-        <Band surface="paper" rule labelledBy="siste-notater">
+        <Band rule labelledBy="siste-notater">
           {notesNav ? (
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionHeading} id="siste-notater">
@@ -138,6 +150,8 @@ export default async function HomePage() {
           <NoteList notes={notes.slice(0, 3)} />
         </Band>
       ) : null}
-    </>
+
+      <Sections sections={finale} />
+    </div>
   );
 }

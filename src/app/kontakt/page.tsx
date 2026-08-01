@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPageBySlug, getSiteSettings } from "@/content/loaders";
-import { normalizeSections } from "@/content/sections";
+import { normalizeSections, pageTheme } from "@/content/sections";
 import { Band } from "@/components/Band";
 import { Sections } from "@/components/Sections";
 import { Prose } from "@/components/Prose";
@@ -34,8 +34,11 @@ export default async function KontaktPage() {
   const sections = normalizeSections(page.sections);
 
   return (
-    <article>
-      <Band surface="paper" rule space="tight">
+    /* Kontakt is jarl's relationship page — the CMS says `theme: "mork"`
+       and the whole page (masthead included) stands on the navy ground,
+       tinholt's kontakt move. The attribute is CMS-driven, never assumed. */
+    <article data-page-theme={pageTheme(page)}>
+      <Band rule space="tight">
         <header className={styles.header}>
           <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
             <Emphasis text={page.title} />
@@ -47,7 +50,7 @@ export default async function KontaktPage() {
           ) : null}
         </header>
       </Band>
-      <Band surface="paper" rule>
+      <Band rule>
         <div className={styles.centerCol}>
           <Prose text={page.body} />
           {settings?.email ? (
@@ -57,7 +60,7 @@ export default async function KontaktPage() {
           ) : null}
         </div>
       </Band>
-      <Sections sections={sections} after="paper" />
+      <Sections sections={sections} />
     </article>
   );
 }

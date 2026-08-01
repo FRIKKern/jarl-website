@@ -58,7 +58,7 @@ export default async function PaperPage({
   return (
     <article>
       <JsonLd data={paperSchema(paper, settings)} />
-      <Band surface="paper" rule>
+      <Band rule>
         {/* The canonical engine owns the markup and the Reader-Owned spacing
             law; the jarl drakt is token overrides scoped to .bp-paper-surface
             in globals.css. The band decides where the column starts; the

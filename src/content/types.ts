@@ -30,6 +30,8 @@ export interface SiteSettings extends BarkparkDoc {
   errorTitle?: string;
   errorIntro?: string;
   retryLabel?: string;
+  menuLabel?: string;
+  menuCloseLabel?: string;
 }
 
 export interface NavItem {
@@ -66,6 +68,7 @@ export const SECTION_KINDS = [
   "statBand",
   "duel",
   "lineage",
+  "mediaBand",
 ] as const;
 
 export type SectionKind = (typeof SECTION_KINDS)[number];
@@ -86,6 +89,11 @@ export interface SectionItem {
   /** Provenance ref for this datum — see src/content/sources.ts. A figure
       datum whose source does not resolve is dropped by the normaliser. */
   source?: string;
+  /** An item-level call to action — the split's CTA-card variant renders a
+      bordered button when both are present; every other archetype ignores
+      them, exactly like any field it does not read. */
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
 export interface Section {
@@ -106,10 +114,21 @@ export interface Section {
   /** Fallback source ref for every figure item without one of its own. */
   sourceDefault?: string;
   items?: SectionItem[];
+  /** mediaBand only — a real capture makes the band a photo room with a
+      text-card overlay; absent, the band draws the generative artwork. */
+  image?: ProjectImage;
+  /** mediaBand only — seed for the generative drawing (defaults to title). */
+  seed?: string;
 }
 
 export interface Page extends BarkparkDoc {
   _type: "page";
+  /** Page-level ground — the tinholt grammar. `"lys"` (default) is the
+      greige sheet; `"mork"` flips the WHOLE page (masthead included) onto
+      the ink family. Sections never carry a surface of their own; the page
+      theme owns the ground. Widened to `string` like `Section.kind`: an
+      unknown value must degrade to the default, never break a build. */
+  theme?: string;
   /** May carry the *emphasis* convention: `*ord*` spans become <em> in the
       hero (components/Emphasis — tolerant, unpaired asterisks stay literal;
       metadata strips the markers via stripEmphasis). */

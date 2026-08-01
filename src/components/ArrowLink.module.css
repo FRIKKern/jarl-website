@@ -25,14 +25,19 @@
 
 /* -- the button ---------------------------------------------------------- */
 
+/* The border rides --btn-border (globals.css): the hairline on the greige
+   ground, the greige itself on the navy ground — tinholt's rule 7. Buttons
+   move at the button step (0.4s), tinholt's measured pace. */
 .link[data-variant="text"],
 .link[data-variant="solid"] {
-  border: 1px solid var(--color-line);
+  border: 1px solid var(--btn-border, var(--color-line));
   border-radius: 0;
   padding: 18px 32px;
   gap: var(--space-4);
   line-height: 1.1;
-  transition: border-color var(--dur) var(--ease);
+  transition:
+    border-color var(--dur-button) var(--ease),
+    opacity var(--dur-button) var(--ease);
 }
 
 /* the internal divider is drawn by the arrow's own left edge, so label,
@@ -40,10 +45,10 @@
 .link[data-variant="text"] .arrow,
 .link[data-variant="solid"] .arrow {
   box-sizing: content-box;
-  border-left: 1px solid var(--color-line);
+  border-left: 1px solid var(--btn-border, var(--color-line));
   padding-left: var(--space-4);
   transform: none;
-  transition: transform var(--dur) var(--ease);
+  transition: transform var(--dur-button) var(--ease);
 }
 
 .link[data-variant="text"]:hover,
@@ -58,11 +63,25 @@
   transform: translateX(4px);
 }
 
-/* The ONE solid fill outside the footer. Its own ground, its own ink. */
+/* The ONE solid fill outside the footer. Its own ground, its own ink. The
+   divider steps back to the hairline token — a greige edge inside a navy
+   fill (or the inverse) would shout. */
 .link[data-variant="solid"] {
   background-color: var(--color-solid-bg);
   color: var(--color-solid-fg);
   border-color: var(--color-solid-bg);
+}
+
+.link[data-variant="solid"] .arrow {
+  border-left-color: var(--color-line);
+}
+
+/* rule 7's hover: the fill goes one step toward the ground it stands on —
+   stated as opacity so ONE rule serves navy-on-greige, eggshell-on-navy
+   and both dark-scheme mirrors. */
+.link[data-variant="solid"]:hover,
+.link[data-variant="solid"]:focus-visible {
+  opacity: 0.9;
 }
 
 /* -- the heading --------------------------------------------------------- */

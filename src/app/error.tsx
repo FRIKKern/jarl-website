@@ -22,7 +22,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <Band surface="paper" rule space="hero">
+    <Band rule space="hero">
       <header className={styles.header}>
         <h1 className={styles.displayTitle}>{CHROME_FALLBACK.errorTitle}</h1>
         <p className={styles.intro}>{CHROME_FALLBACK.errorIntro}</p>

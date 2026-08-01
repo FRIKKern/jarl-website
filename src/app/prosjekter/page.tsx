@@ -32,7 +32,7 @@ export default async function ProsjekterPage() {
 
   return (
     <>
-      <Band surface="paper" rule space="tight">
+      <Band rule space="tight">
         <header className={styles.header}>
           <h1 className={`${styles.displayTitle} jarl-reveal-1`}>
             {nav?.label}
@@ -42,7 +42,7 @@ export default async function ProsjekterPage() {
           ) : null}
         </header>
       </Band>
-      <Band surface="paper" rule>
+      <Band rule>
         <div className={styles.grid}>
           {projects.map((project) => (
             <ProjectCard key={project._id} project={project} headingLevel={2} />

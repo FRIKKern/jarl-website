@@ -116,11 +116,26 @@
   /* period rail of the timeline archetype */
   --rail-width: 11rem;
 
-  /* -- motion · ONE easing and ONE duration for the whole site -- */
+  /* -- motion · ONE easing and a THREE-STEP duration scale --------------
+     150ms is the micro step (link color, arrow nudge presence), 400ms is
+     the button step (tinholt's measured 0.4s on borders and fills), 900ms
+     is the drawer step — tinholt's menu, measured: max-height .9s
+     cubic-bezier(.4,0,.2,1). The drawer keeps tinholt's own curve because
+     a 900ms ride on the site's sharp-out easing sags; everything else
+     stays on --ease. */
   --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-drawer: cubic-bezier(0.4, 0, 0.2, 1);
   --dur: 150ms;
+  --dur-button: 400ms;
+  --dur-drawer: 900ms;
   --arrow-gap: 0.5rem;
   --arrow-gap-open: 0.75rem;
+
+  /* -- the bordered button's edge -------------------------------------
+     tinholt's rule 7: on the greige ground a bordered button wears the
+     hairline; on the navy ground it wears the greige itself. A binding,
+     not a color — both sides point at tokens that already exist. */
+  --btn-border: var(--paper-line);
 
   color-scheme: light dark;
 }
@@ -171,6 +186,7 @@
   --color-accent-soft: var(--paper-accent-soft);
   --color-solid-bg: var(--paper-solid-bg);
   --color-solid-fg: var(--paper-solid-fg);
+  --btn-border: var(--paper-line);
 }
 
 [data-surface="ink"] {
@@ -183,6 +199,37 @@
   --color-accent-soft: var(--ink-accent-soft);
   --color-solid-bg: var(--ink-solid-bg);
   --color-solid-fg: var(--ink-solid-fg);
+  --btn-border: var(--ink-fg);
+}
+
+/* ============================================================
+   Page-level theme — the tinholt grammar.
+
+   tinholt.no never alternates section colors: the THEME IS THE PAGE.
+   Two grounds exist (greige default, navy for the relationship pages),
+   sections never carry a surface of their own, and every page closes on
+   the navy footer — hard cut on a light page, seamless on a dark one.
+
+   A page document says `theme: "mork"` and its shell stamps
+   `data-page-theme="mork"` on its root; :has() lifts that onto <body>
+   before first paint, so the masthead, every band and the menu drawer
+   inherit the ink ground with no flash and no client script. In the dark
+   color scheme the ink family is the deeper navy — the mirror of quiet
+   is quieter. Explicit [data-surface] islands (the footer, the form
+   band's card) still win: they rebind below <body> in the cascade.
+   ============================================================ */
+
+body:has([data-page-theme="mork"]) {
+  --color-bg: var(--ink-bg);
+  --color-surface: var(--ink-surface);
+  --color-ink: var(--ink-fg);
+  --color-muted: var(--ink-muted);
+  --color-accent: var(--ink-accent);
+  --color-line: var(--ink-line);
+  --color-accent-soft: var(--ink-accent-soft);
+  --color-solid-bg: var(--ink-solid-bg);
+  --color-solid-fg: var(--ink-solid-fg);
+  --btn-border: var(--ink-fg);
 }
 
 /* ============================================================
@@ -197,6 +244,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* anchor rides, not jumps — the reduced-motion block below turns it off */
+  scroll-behavior: smooth;
 }
 
 /* The page always fills the viewport and always closes on the footer.

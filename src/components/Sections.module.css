@@ -1,9 +1,12 @@
-/* The six section archetypes.
+/* The section archetypes.
 
    Rules of the system:
-   - no archetype paints a surface; the band under it already did,
+   - a section never paints the PAGE's ground; the page theme laid it down,
    - the only decoration is a hairline,
-   - the only solid fill is the callout's button (see ArrowLink). */
+   - the two tone changes a page may contain are the INSTRUMENTS, and they
+     live here: the media band (the second dark / the bright room) and the
+     form band (the eggshell surface that always means "contact"),
+   - the only solid fill outside those is the form band's button. */
 
 /* The section head is a centered stack on the page's axis — the broadsheet's
    ceremony, same grammar as every hero. */
@@ -23,6 +26,14 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
   color: var(--color-accent);
+}
+
+/* the piped kicker — the hero-meta idiom, available to any item overline
+   the author writes with pipes */
+.overlineSegment + .overlineSegment {
+  border-left: 1px solid var(--color-line);
+  margin-left: var(--space-3);
+  padding-left: var(--space-3);
 }
 
 .title {
@@ -70,6 +81,12 @@
 
 .splitCol .itemBody {
   max-width: 38ch;
+}
+
+/* the CTA card's button holds the floor of its rail — a beat of air above,
+   so two cards' buttons land on one line when the bodies differ */
+.splitCta {
+  margin-top: var(--space-3);
 }
 
 /* -- timeline ------------------------------------------------------------ */
@@ -167,17 +184,27 @@
   }
 }
 
-/* -- callout ------------------------------------------------------------- */
+/* -- the form band (callout archetype) ------------------------------------
+   The form surface means "contact" and nothing else. A full-bleed band one
+   step up from the ground — [data-surface="paper"] + --color-surface, so on
+   greige it is tinholt's lighter band exactly, and on a navy page it is the
+   bright eggshell room. The tone change is the seam: NO hairline. */
 
-/* the closing declaration takes the axis too — kicker, serif line, button,
-   all centered, exactly like the heroes it echoes */
-.callout {
+.formBand {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+}
+
+/* the closing declaration takes the axis — kicker, serif line, button, all
+   centered, exactly like the heroes it echoes */
+.formBandInner {
   display: grid;
   justify-items: center;
   text-align: center;
   gap: var(--space-5);
   max-width: 52rem;
   margin-inline: auto;
+  padding: var(--space-8) var(--space-5);
 }
 
 .calloutTitle {
@@ -187,6 +214,106 @@
 
 .calloutCta {
   margin-top: var(--space-2);
+}
+
+/* -- the media band --------------------------------------------------------
+   The second dark. The room is full-bleed but INSET by the page gutter on
+   every side (rule 5): the ground stays visible as a continuous frame, and
+   only the footer ever touches the viewport edges. */
+
+.mediaBand {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  padding: var(--space-8) var(--space-5);
+}
+
+/* the room itself — its own ground via data-surface, so everything inside
+   (strokes, serif line, card) rebinds in one move */
+.mediaFrame {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: clamp(26rem, 48vw, 43.75rem);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* the mural bleeds to the frame like a photograph */
+.mediaArt {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* one short serif line over the field — tinholt's greige-over-media voice */
+.mediaLine {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  text-align: center;
+  text-wrap: balance;
+  max-width: 26ch;
+  padding: var(--space-6) var(--space-5);
+}
+
+/* -- the capture room: photograph + text-card overlay -------------------- */
+
+.mediaCapture {
+  justify-items: start;
+  padding: clamp(var(--space-5), 5vw, var(--space-9));
+  min-height: clamp(24rem, 52vw, 50.5rem);
+}
+
+.mediaImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* the card is the page's own greige riding the photograph — tinholt's
+   fullfoto-board move. It pins its family, so it stays greige even when
+   the page around the room is navy. */
+.mediaCard {
+  position: relative;
+  margin: 0;
+  display: grid;
+  justify-items: start;
+  text-align: left;
+  gap: var(--space-4);
+  max-width: 26rem;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  padding: var(--space-6);
+}
+
+.mediaCardTitle {
+  font-size: var(--text-xl);
+}
+
+.mediaCardBody {
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.mediaCardCta {
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 45rem) {
+  .mediaBand {
+    padding-block: var(--space-7);
+  }
+
+  .mediaCard {
+    padding: var(--space-5);
+  }
 }
 
 /* -- steps --------------------------------------------------------------- */

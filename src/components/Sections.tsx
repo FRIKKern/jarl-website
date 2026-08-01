@@ -3,6 +3,8 @@ import type { SectionItem } from "@/content/types";
 import { resolveSourceRef } from "@/content/sources";
 import type { SourceRef } from "@/content/sources";
 import { lineageFigure } from "@/lib/figures/lineage";
+import { artwork } from "@/lib/artwork";
+import { metaSegments } from "@/lib/text";
 import { Band } from "./Band";
 import { Prose } from "./Prose";
 import { ArrowLink } from "./ArrowLink";
@@ -14,34 +16,32 @@ import styles from "./Sections.module.css";
  * Sections are ordered and typed; each one becomes exactly one full-bleed
  * band. Unknown kinds never reach here — see src/content/sections.ts.
  *
- * The seam rule: a band draws a hairline at its top only when the band above
- * it shares its ground. Where the ground changes, the tone change IS the seam.
+ * The seam rule, under page-level theming: every section stands on the page's
+ * one ground, so like meets like at every seam and every band draws its top
+ * hairline. The two instruments that CHANGE tone mid-page — the media band's
+ * panel and the form band's surface — get clean cuts instead: a surface
+ * change is its own seam, and drawing a hairline over it would double it.
  */
-export function Sections({
-  sections,
-  /** Ground of whatever is directly above the first section. */
-  after = "paper",
-}: {
-  sections: KnownSection[];
-  after?: string;
-}) {
-  /* Seams are decided up front, so rendering stays a pure map. */
-  const needsRule = sections.map(
-    (section, i) => section.surface === (i === 0 ? after : sections[i - 1].surface),
-  );
-
+export function Sections({ sections }: { sections: KnownSection[] }) {
   return (
     <>
-      {sections.map((section, i) => (
-        <Band
-          key={i}
-          surface={section.surface}
-          rule={needsRule[i]}
-          space={section.kind === "quote" ? "tight" : "normal"}
-        >
-          <SectionBody section={section} />
-        </Band>
-      ))}
+      {sections.map((section, i) => {
+        if (section.kind === "mediaBand") {
+          return <MediaBand key={i} section={section} />;
+        }
+        if (section.kind === "callout") {
+          return <FormBand key={i} section={section} />;
+        }
+        return (
+          <Band
+            key={i}
+            rule
+            space={section.kind === "quote" ? "tight" : "normal"}
+          >
+            <SectionBody section={section} />
+          </Band>
+        );
+      })}
     </>
   );
 }
@@ -68,6 +68,10 @@ function ItemBody({ text }: { text?: string }) {
   return <p className={styles.itemBody}>{text}</p>;
 }
 
+function hasText(...values: (string | undefined)[]): boolean {
+  return values.some((v) => (v ?? "").trim() !== "");
+}
+
 /* ---- archetypes -------------------------------------------------------- */
 
 function SectionBody({ section }: { section: KnownSection }) {
@@ -78,8 +82,6 @@ function SectionBody({ section }: { section: KnownSection }) {
       return <Timeline section={section} />;
     case "featureGrid":
       return <FeatureGrid section={section} />;
-    case "callout":
-      return <Callout section={section} />;
     case "steps":
       return <Steps section={section} />;
     case "quote":
@@ -94,7 +96,11 @@ function SectionBody({ section }: { section: KnownSection }) {
 }
 
 /** Two columns divided by a vertical hairline. Exactly two — a third column
-    is a grid, and the grid archetype already exists. */
+    is a grid, and the grid archetype already exists.
+
+    An item that carries its own CTA becomes tinholt's CTA card: kicker (as a
+    piped meta row when the author pipes it), serif title, body, bordered
+    button — flat, no box, the rail is the whole architecture. */
 function Split({ section }: { section: KnownSection }) {
   return (
     <>
@@ -102,15 +108,36 @@ function Split({ section }: { section: KnownSection }) {
       <div className={styles.split}>
         {section.items.slice(0, 2).map((item, i) => (
           <div key={i} className={styles.splitCol}>
-            {item.overline ? (
-              <p className={styles.overline}>{item.overline}</p>
-            ) : null}
+            <ItemOverline text={item.overline} />
             {item.title ? <h3 className={styles.splitTitle}>{item.title}</h3> : null}
             <ItemBody text={item.body} />
+            {item.ctaLabel && item.ctaHref ? (
+              <p className={styles.splitCta}>
+                <ArrowLink href={item.ctaHref}>{item.ctaLabel}</ArrowLink>
+              </p>
+            ) : null}
           </div>
         ))}
       </div>
     </>
+  );
+}
+
+/** A kicker that splits on the copy's own pipes into the site's piped
+    small-caps meta row — the same idiom as the hero meta and the card
+    tags. One segment renders exactly like the plain overline. */
+function ItemOverline({ text }: { text?: string }) {
+  if (!text) return null;
+  const segments = metaSegments(text);
+  if (segments.length <= 1) return <p className={styles.overline}>{text}</p>;
+  return (
+    <p className={styles.overline}>
+      {segments.map((segment) => (
+        <span key={segment} className={styles.overlineSegment}>
+          {segment}
+        </span>
+      ))}
+    </p>
   );
 }
 
@@ -161,25 +188,147 @@ function FeatureGrid({ section }: { section: KnownSection }) {
   );
 }
 
-/** A banded statement carrying the one solid fill on the site. */
-function Callout({ section }: { section: KnownSection }) {
+/** The FORM SURFACE (tinholt rule 4): the callout archetype renders as the
+    lighter band — one step up from the ground, in the eggshell family —
+    and it exists only to carry a call to contact; it is never decorative.
+
+    The band pins `data-surface="paper"` and paints `--color-surface`, so on
+    a light page it is tinholt's lighter-band move exactly, and on a navy page it
+    is the deliberately bright eggshell room (rule 3's photography, said in
+    jarl's duotone) with the navy-filled button on it. In the dark scheme the
+    same bindings resolve one quiet step above the page — the mirror holds.
+
+    A surface change is its own seam: no hairline (rule 6). */
+function FormBand({ section }: { section: KnownSection }) {
   return (
-    <div className={styles.callout}>
-      {section.overline ? (
-        <p className={styles.overline}>{section.overline}</p>
-      ) : null}
-      {section.title ? (
-        <h2 className={styles.calloutTitle}>{section.title}</h2>
-      ) : null}
-      {section.body ? <Prose text={section.body} /> : null}
-      {section.ctaLabel && section.ctaHref ? (
-        <p className={styles.calloutCta}>
-          <ArrowLink href={section.ctaHref} variant="solid">
-            {section.ctaLabel}
-          </ArrowLink>
-        </p>
-      ) : null}
-    </div>
+    <section className={styles.formBand} data-surface="paper">
+      <div className={styles.formBandInner}>
+        {section.overline ? (
+          <p className={styles.overline}>{section.overline}</p>
+        ) : null}
+        {section.title ? (
+          <h2 className={styles.calloutTitle}>{section.title}</h2>
+        ) : null}
+        {section.body ? <Prose text={section.body} /> : null}
+        {section.ctaLabel && section.ctaHref ? (
+          <p className={styles.calloutCta}>
+            <ArrowLink href={section.ctaHref} variant="solid">
+              {section.ctaLabel}
+            </ArrowLink>
+          </p>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+/* ---- the media band ------------------------------------------------------
+   The SECOND DARK (tinholt rules 3 + 5). A full-bleed room of media, inset
+   from the viewport by the page's own gutter so the ground reads as a
+   continuous frame — only the footer touches the edges.
+
+   Two voices, one instrument:
+   - no capture → the generative duotone at mural scale: an ink panel
+     (deeper still in the dark scheme), jarl's plotted contours in greige,
+     one short serif line overlaid — own artwork, never stock;
+   - a capture → the photograph fills the room and a greige text-card
+     rides it, tinholt's fullfoto-board move, linking onward. */
+
+/** Drawing box for the mural: panel proportions, not card proportions. */
+const MURAL_W = 1440;
+const MURAL_H = 700;
+
+function MediaBand({ section }: { section: KnownSection }) {
+  const image = section.image;
+  const card =
+    hasText(section.overline, section.title, section.body) ||
+    (section.ctaLabel && section.ctaHref);
+
+  if (image?.src) {
+    return (
+      <section className={styles.mediaBand}>
+        <figure className={`${styles.mediaFrame} ${styles.mediaCapture}`}>
+          {/* Same-origin /media proxy, immutable-cached — the plain <img>
+              rationale from ProjectVisual applies unchanged. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={styles.mediaImg}
+            src={image.src}
+            alt={image.alt ?? ""}
+            loading="lazy"
+            decoding="async"
+          />
+          {card ? (
+            <figcaption className={styles.mediaCard} data-surface="paper">
+              <ItemOverline text={section.overline} />
+              {section.title ? (
+                <h2 className={styles.mediaCardTitle}>{section.title}</h2>
+              ) : null}
+              {section.body ? (
+                <p className={styles.mediaCardBody}>{section.body}</p>
+              ) : null}
+              {section.ctaLabel && section.ctaHref ? (
+                <p className={styles.mediaCardCta}>
+                  <ArrowLink href={section.ctaHref} variant="solid">
+                    {section.ctaLabel}
+                  </ArrowLink>
+                </p>
+              ) : null}
+            </figcaption>
+          ) : null}
+        </figure>
+      </section>
+    );
+  }
+
+  const art = artwork(section.seed ?? section.title ?? "jarl", MURAL_W, MURAL_H);
+  return (
+    <section className={styles.mediaBand}>
+      <div className={styles.mediaFrame} data-surface="ink">
+        {/* The mural: the same deterministic geometry as every project card,
+            drawn at panel scale. `slice` lets the field bleed to the frame
+            like a photograph would; strokes ride the ink family's tokens. */}
+        <svg
+          className={styles.mediaArt}
+          viewBox={`0 0 ${MURAL_W} ${MURAL_H}`}
+          preserveAspectRatio="xMidYMid slice"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g stroke="var(--color-line)" strokeWidth="1">
+            {art.grid.map((l, i) => (
+              <path key={i} d={`M${l.x1} ${l.y1}L${l.x2} ${l.y2}`} />
+            ))}
+            <path
+              d={`M${art.baseline.x1} ${art.baseline.y1}L${art.baseline.x2} ${art.baseline.y2}`}
+            />
+          </g>
+          <g fill="none" strokeLinecap="round">
+            {art.contours.map((c, i) => (
+              <path
+                key={i}
+                d={c.d}
+                stroke={c.accent ? "var(--color-accent)" : "var(--color-muted)"}
+                strokeWidth={c.accent ? 2 : 1}
+                opacity={c.accent ? 1 : 0.72}
+              />
+            ))}
+          </g>
+          <circle
+            cx={art.tick.cx}
+            cy={art.tick.cy}
+            r={art.tick.r}
+            fill="var(--color-accent)"
+          />
+        </svg>
+        {hasText(section.body, section.title) ? (
+          <p className={styles.mediaLine}>
+            {hasText(section.body) ? section.body : section.title}
+          </p>
+        ) : null}
+      </div>
+    </section>
   );
 }
 
