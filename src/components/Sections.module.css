@@ -48,7 +48,12 @@
 
 .splitCol {
   display: grid;
-  align-content: center;
+  /* start, not center: the two stacks are rarely the same height, and
+     vertical centering set their kickers a dozen pixels apart across the
+     shared rail — two small-caps labels almost on one line reads as a
+     mistake. Top-aligned, the kickers share a line and the rail hangs
+     below the shorter column like a broadsheet's. */
+  align-content: start;
   gap: var(--space-4);
   justify-items: center;
   text-align: center;
