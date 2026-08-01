@@ -35,6 +35,14 @@
   max-width: 18ch;
 }
 
+/* A PROJECT'S name gets the hero cut — 96px on desktop. The portfolio is
+   the site's weight, and tinholt sets its property pages a full step over
+   its utility pages; the ordinary page h1 stays at the display step. */
+.projectTitle {
+  font-size: var(--text-hero);
+  max-width: 16ch;
+}
+
 /* the ingress speaks tinholt's sub-head size — 32/40 on desktop */
 .intro {
   font-family: var(--font-display);

@@ -93,7 +93,7 @@ export default async function ProsjektPage({
                 {project.overline}
               </p>
             ) : null}
-            <h1 className={`${styles.displayTitle} jarl-reveal-2`}>
+            <h1 className={`${styles.projectTitle} jarl-reveal-2`}>
               {project.title}
             </h1>
             {project.summary ? (

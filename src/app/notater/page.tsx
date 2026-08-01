@@ -33,7 +33,9 @@ export default async function NotaterPage() {
           </h1>
         </header>
       </Band>
-      <Band rule>
+      {/* the board gets the display band's air: the list is the whole page
+          here, and it must hold more of it than the footer does */}
+      <Band rule space="hero">
         <NoteList notes={notes} />
       </Band>
     </>
