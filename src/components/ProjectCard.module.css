@@ -25,6 +25,13 @@
   background-color: var(--color-surface);
   color: var(--color-ink);
   padding: var(--space-4) var(--space-4) 0;
+  transition: border-color var(--dur) var(--ease);
+}
+
+/* the quiet surprise: on hover the plate's hairline sharpens to the ink */
+.card:hover .figure,
+.card:focus-within .figure {
+  border-color: currentColor;
 }
 
 .figurePhoto {
@@ -62,11 +69,12 @@
   inset: 0;
 }
 
+/* …and the headline leans — the serif takes its italic cut, a broadsheet
+   move. No underline here: the italic IS the affordance, and nothing else
+   on the card moves. */
 .card:hover .titleLink,
 .card:focus-within .titleLink {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  font-style: italic;
 }
 
 .summary {
@@ -88,6 +96,7 @@
 .tag {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
 }
 
