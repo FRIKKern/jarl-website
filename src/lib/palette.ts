@@ -41,24 +41,24 @@ export const LIGHT: Record<string, Lch> = {
 
 /** Dark scheme — mirrors the prefers-color-scheme override of globals.css. */
 export const DARK: Record<string, Lch> = {
-  "--paper-bg": [0.208, 0.012, 70],
-  "--paper-surface": [0.252, 0.015, 70],
-  "--paper-fg": [0.93, 0.01, 85],
-  "--paper-muted": [0.735, 0.013, 70],
+  "--paper-bg": [0.208, 0.014, 265],
+  "--paper-surface": [0.252, 0.016, 265],
+  "--paper-fg": [0.93, 0.008, 85],
+  "--paper-muted": [0.735, 0.015, 265],
   "--paper-accent": [0.8, 0.105, 180],
-  "--paper-line": [0.33, 0.015, 70],
+  "--paper-line": [0.33, 0.018, 265],
   "--paper-accent-soft": [0.32, 0.04, 180],
   "--paper-solid-bg": [0.8, 0.105, 180],
-  "--paper-solid-fg": [0.19, 0.014, 70],
-  "--ink-bg": [0.148, 0.013, 70],
-  "--ink-surface": [0.19, 0.014, 70],
-  "--ink-fg": [0.945, 0.01, 85],
-  "--ink-muted": [0.72, 0.013, 70],
+  "--paper-solid-fg": [0.19, 0.02, 265],
+  "--ink-bg": [0.148, 0.016, 265],
+  "--ink-surface": [0.19, 0.016, 265],
+  "--ink-fg": [0.945, 0.008, 85],
+  "--ink-muted": [0.72, 0.015, 265],
   "--ink-accent": [0.82, 0.105, 180],
-  "--ink-line": [0.272, 0.015, 70],
+  "--ink-line": [0.272, 0.018, 265],
   "--ink-accent-soft": [0.27, 0.04, 180],
   "--ink-solid-bg": [0.82, 0.105, 180],
-  "--ink-solid-fg": [0.16, 0.014, 70],
+  "--ink-solid-fg": [0.16, 0.02, 265],
 };
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));

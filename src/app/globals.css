@@ -116,28 +116,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* -- paper · dark (deep ink ground, warm white, mint) ------ */
-    --paper-bg: oklch(0.208 0.012 70);
-    --paper-surface: oklch(0.252 0.015 70);
-    --paper-fg: oklch(0.93 0.01 85);
-    --paper-muted: oklch(0.735 0.013 70);
+    /* -- paper · dark (deep ink ground, warm white, mint) ------
+       Dark keeps the COOL slate axis (265) on purpose. The light
+       scheme's temperature clash lived between its two bands; dark
+       never had it — both dark families already shared one axis.
+       Warming these neutrals was tried (2026-08-01) and the whole
+       scheme went muddy brown. Night is blue; the warmth in dark
+       mode comes from the cream text, not the ground. */
+    --paper-bg: oklch(0.208 0.014 265);
+    --paper-surface: oklch(0.252 0.016 265);
+    --paper-fg: oklch(0.93 0.008 85);
+    --paper-muted: oklch(0.735 0.015 265);
     --paper-accent: oklch(0.8 0.105 180);
-    --paper-line: oklch(0.33 0.015 70);
+    --paper-line: oklch(0.33 0.018 265);
     --paper-accent-soft: oklch(0.32 0.04 180);
     --paper-solid-bg: oklch(0.8 0.105 180);
-    --paper-solid-fg: oklch(0.19 0.014 70);
+    --paper-solid-fg: oklch(0.19 0.02 265);
 
     /* -- ink · dark (the inverted band goes DEEPER, not lighter;
           in a dark scheme the mirror of "quiet" is "quieter") --- */
-    --ink-bg: oklch(0.148 0.013 70);
-    --ink-surface: oklch(0.19 0.014 70);
-    --ink-fg: oklch(0.945 0.01 85);
-    --ink-muted: oklch(0.72 0.013 70);
+    --ink-bg: oklch(0.148 0.016 265);
+    --ink-surface: oklch(0.19 0.016 265);
+    --ink-fg: oklch(0.945 0.008 85);
+    --ink-muted: oklch(0.72 0.015 265);
     --ink-accent: oklch(0.82 0.105 180);
-    --ink-line: oklch(0.272 0.015 70);
+    --ink-line: oklch(0.272 0.018 265);
     --ink-accent-soft: oklch(0.27 0.04 180);
     --ink-solid-bg: oklch(0.82 0.105 180);
-    --ink-solid-fg: oklch(0.16 0.014 70);
+    --ink-solid-fg: oklch(0.16 0.02 265);
   }
 }
 
