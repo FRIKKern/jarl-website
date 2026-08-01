@@ -92,7 +92,7 @@ export default async function RootLayout({
         <a href="#innhold" className={styles.skipLink}>
           {chrome.skipToContent}
         </a>
-        <SiteHeader siteTitle={settings?.title} items={navItems} />
+        <SiteHeader settings={settings} items={navItems} chrome={chrome} />
         <main id="innhold" tabIndex={-1} className={styles.main}>
           {children}
         </main>

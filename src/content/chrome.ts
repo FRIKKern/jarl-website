@@ -20,6 +20,8 @@ export interface Chrome {
   errorTitle: string;
   errorIntro: string;
   retry: string;
+  menu: string;
+  menuClose: string;
 }
 
 export const CHROME_FALLBACK: Chrome = {
@@ -29,6 +31,8 @@ export const CHROME_FALLBACK: Chrome = {
   errorTitle: "Noe gikk galt",
   errorIntro: "Siden kunne ikke lastes. Prøv igjen, eller kom tilbake senere.",
   retry: "Prøv igjen",
+  menu: "Meny",
+  menuClose: "Lukk",
 };
 
 export function getChrome(settings: SiteSettings | null): Chrome {
@@ -39,5 +43,7 @@ export function getChrome(settings: SiteSettings | null): Chrome {
     errorTitle: settings?.errorTitle ?? CHROME_FALLBACK.errorTitle,
     errorIntro: settings?.errorIntro ?? CHROME_FALLBACK.errorIntro,
     retry: settings?.retryLabel ?? CHROME_FALLBACK.retry,
+    menu: settings?.menuLabel ?? CHROME_FALLBACK.menu,
+    menuClose: settings?.menuCloseLabel ?? CHROME_FALLBACK.menuClose,
   };
 }

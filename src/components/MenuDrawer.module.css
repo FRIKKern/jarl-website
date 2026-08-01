@@ -1,0 +1,182 @@
+/* The drawer under the masthead. The panel and the veil are positioned
+   against the HEADER (the nearest positioned ancestor — SiteHeader sets
+   position: relative), so the drawer opens exactly under the nameplate and
+   pushes nothing. */
+
+.root {
+  display: contents;
+}
+
+/* the trigger speaks the nav-link idiom exactly — same type, same target */
+.trigger {
+  font: inherit;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-ink);
+  background: none;
+  border: 0;
+  padding: 0;
+  padding-block: var(--space-1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color var(--dur) var(--ease);
+}
+
+.trigger:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+
+/* -- the obfuscator ------------------------------------------------------ */
+.veil {
+  /* check-hover-allow: a veil, not a surface — no text ever stands on it;
+     it dims the page at half opacity while the drawer is open. */
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  background-color: var(--color-ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-drawer);
+}
+
+.veil[data-open] {
+  opacity: 0.5;
+  pointer-events: auto;
+}
+
+/* -- the panel ------------------------------------------------------------
+   tinholt's measured ride: max-height, .9s, cubic-bezier(.4,0,.2,1). The
+   panel paints the PAGE's ground — greige on a light page, navy on a mork
+   page — because it reads the same --color-* the page laid down. */
+.drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  overflow: hidden;
+  max-height: 0;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  transition: max-height var(--dur-drawer) var(--ease-drawer);
+}
+
+.drawer[data-open] {
+  max-height: min(44rem, calc(100dvh - 5rem));
+  overflow-y: auto;
+}
+
+.inner {
+  padding: var(--space-7) var(--space-6) var(--space-8);
+  display: grid;
+  gap: 0;
+}
+
+/* -- movement one: the serif primary nav — tinholt's 32px stack ---------- */
+
+.primary {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--space-6);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.primaryLink {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-4);
+  transition: color var(--dur) var(--ease);
+}
+
+.primaryLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+/* -- movement two: the small two-column secondary ------------------------ */
+
+.secondary {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-4) 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.secondaryCell {
+  display: flex;
+  justify-content: flex-end;
+  padding-inline: var(--space-6);
+}
+
+/* the center pipe is the second column's left edge — one rule, no seams */
+.secondaryCell:nth-child(2n) {
+  justify-content: flex-start;
+  border-left: 1px solid var(--color-line);
+}
+
+.secondaryLink {
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color var(--dur) var(--ease);
+}
+
+.secondaryLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+}
+
+/* -- movement three: the contact row ------------------------------------- */
+
+.contact {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-4);
+}
+
+.contactLink {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-md);
+  color: var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* the trigger keeps step with the phone masthead's smaller links */
+@media (max-width: 40rem) {
+  .trigger {
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  .inner {
+    padding-inline: var(--space-4);
+  }
+
+  .secondaryCell {
+    padding-inline: var(--space-4);
+  }
+}

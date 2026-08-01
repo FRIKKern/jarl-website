@@ -3,8 +3,11 @@
    first band's seam, so the header never draws a second rule of its own. */
 
 .header {
-  /* No bottom rule. Every route opens with a band that owns its own seam:
-     a paper band draws one, an ink band lets the tone change do the work. */
+  /* No bottom rule. Every route opens with a band that owns its own seam —
+     that seam is the masthead's underline (rule 8). Positioned: the menu
+     drawer and its veil anchor to the header's bottom edge. */
+  position: relative;
+  z-index: 10;
   background-color: var(--color-bg);
   color: var(--color-ink);
 }
@@ -51,9 +54,13 @@
   justify-self: start;
 }
 
-.group[data-side="right"] {
+/* the right cell holds the links AND the drawer trigger */
+.right {
   grid-area: right;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
 }
 
 .navLink {
@@ -114,8 +121,9 @@
     justify-self: end;
   }
 
-  .group[data-side="right"] {
+  .right {
     justify-self: start;
+    gap: var(--space-4);
   }
 
   .navLink {
