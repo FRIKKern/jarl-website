@@ -225,6 +225,11 @@
   background-color: var(--color-bg);
   color: var(--color-ink);
   padding: var(--space-8) var(--space-5);
+  /* the seam above the room: the BAND stands on the page's ground, so like
+     meets like at its top edge and the hairline articulates it (tinholt's
+     home strip draws one over every board). The tone change happens at the
+     frame's edge below, which stays a clean cut. */
+  border-top: 1px solid var(--color-line);
 }
 
 /* the room itself — its own ground via data-surface, so everything inside

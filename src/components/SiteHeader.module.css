@@ -49,6 +49,14 @@
   flex-wrap: wrap;
 }
 
+/* While the drawer is open the masthead empties to nameplate + «Lukk» —
+   tinholt's move: the drawer carries the nav now, and two copies of the
+   same links one hairline apart read as an echo. Visibility, not display:
+   the grid must not reflow under the wordmark mid-ride. */
+.header:has(button[aria-expanded="true"]) .group {
+  visibility: hidden;
+}
+
 .group[data-side="left"] {
   grid-area: left;
   justify-self: start;

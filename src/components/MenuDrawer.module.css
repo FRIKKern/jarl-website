@@ -30,12 +30,19 @@
   text-underline-offset: 0.4em;
 }
 
-/* -- the obfuscator ------------------------------------------------------ */
+/* -- the obfuscator ------------------------------------------------------
+   Anchored under the header, not over it: the nameplate stays clean while
+   the PAGE dims — tinholt's exact composition. Absolute against the header
+   (its positioned ancestor), a viewport tall; the page cannot scroll while
+   the drawer is open, so the veil always covers what shows. */
 .veil {
   /* check-hover-allow: a veil, not a surface — no text ever stands on it;
      it dims the page at half opacity while the drawer is open. */
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100vh;
   z-index: 8;
   background-color: var(--color-ink);
   opacity: 0;
