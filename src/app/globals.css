@@ -347,6 +347,27 @@ a:hover {
   animation: jarl-rise 480ms var(--ease) both;
 }
 
+/* The route transition (src/app/template.tsx): the whole page surface
+   arrives once per navigation — a smaller, quicker sibling of jarl-rise
+   (8px, 220ms) so the hero's staggered reveal reads as part of ONE
+   arrival, not a second animation on top. transform ends at `none`, so
+   the wrapper stops being a containing block the moment it lands. */
+@keyframes jarl-route-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.jarl-route {
+  animation: jarl-route-enter 220ms var(--ease) both;
+}
+
 .jarl-reveal-2 {
   animation-delay: 110ms;
 }
