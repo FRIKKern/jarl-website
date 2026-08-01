@@ -8,9 +8,9 @@ import {
 } from "@/content/loaders";
 import { normalizeSections, pageTheme } from "@/content/sections";
 import { Band } from "@/components/Band";
+import { MuralHero } from "@/components/MuralHero";
 import { Sections } from "@/components/Sections";
 import { Prose } from "@/components/Prose";
-import { Emphasis } from "@/components/Emphasis";
 import { ArrowLink } from "@/components/ArrowLink";
 import { metaSegments } from "@/lib/text";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -48,15 +48,22 @@ export default async function HomePage() {
   const projectsNav = navItems.find((i) => i.href === "/prosjekter");
   const notesNav = navItems.find((i) => i.href === "/notater");
 
-  /* The home strip is tinholt's dramaturgy: declaration → CTA cards → the
-     art band → the boards → the CAPTURE board → colophon. The listing
-     boards (projects, notes) are data-driven and render below, so the
-     authored sections split around them: everything up to the first capture
-     media band plays before the boards, the capture room (and anything the
-     author placed after it) closes the strip. */
-  const captureAt = sections.findIndex(
-    (s) => s.kind === "mediaBand" && s.image?.src,
-  );
+  /* The home strip is tinholt's dramaturgy: the hero room → CTA cards →
+     the mid-page capture board → the boards → the CLOSING capture →
+     colophon. The listing boards (projects, notes) are data-driven and
+     render below, so the authored sections split around them: everything
+     up to the LAST capture media band plays before the boards, and that
+     closing room (plus anything the author placed after it) ends the
+     strip. Last, not first — the strip may now carry a capture board
+     mid-overture, the way tinholt's home does. */
+  let captureAt = -1;
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const s = sections[i];
+    if (s.kind === "mediaBand" && s.image?.src) {
+      captureAt = i;
+      break;
+    }
+  }
   const overture = captureAt === -1 ? sections : sections.slice(0, captureAt);
   const finale = captureAt === -1 ? [] : sections.slice(captureAt);
 
@@ -78,34 +85,39 @@ export default async function HomePage() {
     <div data-page-theme={pageTheme(page)}>
       <JsonLd data={personSchema(settings)} />
 
-      {/* The centered declaration — tinholt's ceremony. One multi-line serif
-          statement on the page's central axis, italic inflection authored in
-          the CMS (*emphasis* convention), the kicker folded into a piped
-          small-caps meta row beneath it, the button centered under that.
-          One continuous greige sheet from here to the footer. */}
-      <Band rule space="hero">
-        <div className={styles.hero}>
-          {declaration ? (
-            <h1 className={`${styles.heroTitle} jarl-reveal-1`}>
-              <Emphasis text={declaration} />
-            </h1>
-          ) : null}
-          {meta.length > 0 ? (
-            <p className={`${styles.heroMeta} jarl-reveal-2`}>
-              {meta.map((segment) => (
-                <span key={segment} className={styles.heroMetaSegment}>
-                  {segment}
-                </span>
-              ))}
-            </p>
-          ) : null}
-          {page?.ctaLabel && page?.ctaHref ? (
-            <p className={`${styles.heroCta} jarl-reveal-3`}>
-              <ArrowLink href={page.ctaHref}>{page.ctaLabel}</ArrowLink>
-            </p>
-          ) : null}
-        </div>
-      </Band>
+      {/* The hero room — tinholt's opening, in jarl's own media: the inset
+          mural band directly under the masthead, the CMS declaration ON it
+          in the eggshell serif at the mega cut, the *emphasis* italic
+          intact. The seed is the site's own figure — the identity drawing
+          that used to hang mid-page, promoted to the door. */}
+      {declaration ? (
+        <MuralHero seed="jarl" title={declaration} scale="mega" />
+      ) : null}
+
+      {/* tinholt puts content right below its video: the piped small-caps
+          meta row and the one hero button land here, on the ground, in a
+          tight band under the room. No hairline — the frame edge above is
+          the seam. */}
+      {meta.length > 0 || (page?.ctaLabel && page?.ctaHref) ? (
+        <Band space="tight">
+          <div className={styles.hero}>
+            {meta.length > 0 ? (
+              <p className={`${styles.heroMeta} jarl-reveal-2`}>
+                {meta.map((segment) => (
+                  <span key={segment} className={styles.heroMetaSegment}>
+                    {segment}
+                  </span>
+                ))}
+              </p>
+            ) : null}
+            {page?.ctaLabel && page?.ctaHref ? (
+              <p className={`${styles.heroCta} jarl-reveal-3`}>
+                <ArrowLink href={page.ctaHref}>{page.ctaLabel}</ArrowLink>
+              </p>
+            ) : null}
+          </div>
+        </Band>
+      ) : null}
 
       {page?.body ? (
         <Band rule>

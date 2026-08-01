@@ -1,27 +1,15 @@
 /* The home page's own shapes. Everything else is a <Band> or a section. */
 
-/* -- hero: the centered declaration -------------------------------------- */
+/* -- hero trimmings ------------------------------------------------------
+   The declaration itself lives ON the hero room now (MuralHero); what is
+   left down here is tinholt's under-the-video beat: the piped meta row and
+   the one button, centered on the axis. */
 
 .hero {
   display: grid;
   gap: var(--space-6);
   justify-items: center;
   text-align: center;
-}
-
-/* One multi-line serif statement on the central axis. The measure is tight
-   enough to force the broadsheet's three-to-four lines; `balance` (base rule)
-   keeps the rag even on both sides. The italic inflection is authored in the
-   CMS — <em> here just hands it to the serif's italic cut. */
-.heroTitle {
-  font-size: var(--text-display);
-  line-height: 1.05;
-  max-width: 24ch;
-  margin-inline: auto;
-}
-
-.heroTitle em {
-  font-style: italic;
 }
 
 /* the piped small-caps meta row — the kicker, said as a colophon line */

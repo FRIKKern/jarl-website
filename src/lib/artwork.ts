@@ -23,7 +23,8 @@ import { token } from "./palette";
 
 /* ---- seeded randomness ------------------------------------------------- */
 
-function hashSeed(input: string): number {
+/** Exported for the card grid's ground parity — see ProjectCard. */
+export function hashSeed(input: string): number {
   let h = 2166136261;
   for (let i = 0; i < input.length; i++) {
     h ^= input.charCodeAt(i);
@@ -70,13 +71,44 @@ export interface Artwork {
 
 const round = (n: number) => Math.round(n * 100) / 100;
 
+export interface ArtworkOptions {
+  /** Calm the central horizontal band so serif type can stand ON the field.
+      The contours keep their frequencies and phases — the same terrain —
+      but their amplitude is damped toward flat through the middle, and the
+      accent line and the filled tick are re-parked outside it. The quiet is
+      composed into the drawing, not painted over it: no scrim, no veil. */
+  textSafe?: boolean;
+}
+
+/** How far out from the vertical center the calm band reaches (of half-height),
+    and where full amplitude is restored. Between the two, a linear ramp. */
+const CALM_INNER = 0.26;
+const CALM_OUTER = 0.56;
+/** Amplitude left inside the calm band — near-flat rules, not erased lines. */
+const CALM_FLOOR = 0.14;
+
+/** 1 at the edges, CALM_FLOOR through the middle, ramped between. */
+function calmEnvelope(y: number, height: number): number {
+  const cd = Math.abs(y - height / 2) / (height / 2);
+  const t = Math.min(1, Math.max(0, (cd - CALM_INNER) / (CALM_OUTER - CALM_INNER)));
+  return CALM_FLOOR + (1 - CALM_FLOOR) * t;
+}
+
 /**
  * Build the figure for a seed at a given pixel size.
  *
  * Everything scales off the box, so the same seed reads as the same drawing
- * at 640×260 on a card and at 460×630 on a social image.
+ * at 640×260 on a card and at 460×630 on a social image. `textSafe` damps
+ * the middle of the field (see ArtworkOptions) WITHOUT re-rolling anything:
+ * the random stream is consumed in the same order, so a seed keeps the same
+ * terrain whether or not text will stand on it.
  */
-export function artwork(seed: string, width: number, height: number): Artwork {
+export function artwork(
+  seed: string,
+  width: number,
+  height: number,
+  opts: ArtworkOptions = {},
+): Artwork {
   const random = makeRandom(hashSeed(seed || "jarl"));
 
   const padX = width * 0.08;
@@ -109,13 +141,31 @@ export function artwork(seed: string, width: number, height: number): Artwork {
   const phase = random() * Math.PI * 2;
   const drift = 0.35 + random() * 0.5;
 
+  /* textSafe: the accent must not shout inside the calm band. The draw above
+     already happened (stream order!), so the pick is REMAPPED, not re-rolled:
+     walk outward from the drawn index to the nearest contour whose baseline
+     clears the band. Deterministic, and a no-op without textSafe. */
+  const contourY = (i: number) => padY + spacing * (i + 1);
+  let accent = accentAt;
+  if (opts.textSafe) {
+    const clear = (i: number) =>
+      Math.abs(contourY(i) - height / 2) / (height / 2) > CALM_OUTER * 0.8;
+    for (let step = 0; step < count && !clear(accent); step++) {
+      const up = accentAt - step - 1;
+      const down = accentAt + step + 1;
+      if (down < count && clear(down)) accent = down;
+      else if (up >= 0 && clear(up)) accent = up;
+    }
+  }
+
   const samples = 72;
   const contours: Contour[] = [];
   for (let i = 0; i < count; i++) {
-    const baseY = padY + spacing * (i + 1);
+    const baseY = contourY(i);
     /* a bell across the stack: the middle lines carry the ridge */
     const bell = Math.sin((Math.PI * (i + 1)) / (count + 1)) ** 1.4;
-    const amp = spacing * 1.18 * bell * (0.6 + random() * 0.45);
+    let amp = spacing * 1.18 * bell * (0.6 + random() * 0.45);
+    if (opts.textSafe) amp *= calmEnvelope(baseY, height);
     const lineShift = i * drift;
 
     let d = "";
@@ -131,15 +181,34 @@ export function artwork(seed: string, width: number, height: number): Artwork {
       d += `${s === 0 ? "M" : "L"}${round(x)} ${round(y)}`;
       if (s < samples) d += " ";
     }
-    contours.push({ d, accent: i === accentAt });
+    contours.push({ d, accent: i === accent });
   }
 
   /* -- the one filled mark, parked on a grid intersection -- */
   const tickCol = 1 + Math.floor(random() * (cols - 1));
   const tickRow = 1 + Math.floor(random() * (rows - 1));
+  let tickY = padY + (innerH * tickRow) / rows;
+  if (opts.textSafe) {
+    /* the filled mark leaves the calm band too. Few grids have an interior
+       row outside it (3–5 rows cluster around the middle), so the search
+       is honest about failing: the best clearing row wins, and when none
+       clears, the mark parks on the BASELINE — the plotter's own axis,
+       always below the calm. */
+    const rowY = (r: number) => padY + (innerH * r) / rows;
+    const cd = (y: number) => Math.abs(y - height / 2) / (height / 2);
+    if (cd(tickY) < CALM_OUTER) {
+      let best = -1;
+      for (let r = 1; r < rows; r++) {
+        if (cd(rowY(r)) >= CALM_OUTER && (best === -1 || cd(rowY(r)) > cd(rowY(best)))) {
+          best = r;
+        }
+      }
+      tickY = best === -1 ? height - padY * 0.45 : rowY(best);
+    }
+  }
   const tick = {
     cx: round(padX + (innerW * tickCol) / cols),
-    cy: round(padY + (innerH * tickRow) / rows),
+    cy: round(tickY),
     r: round(Math.min(width, height) * 0.026 + 2),
   };
 

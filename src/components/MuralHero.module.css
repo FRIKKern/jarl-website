@@ -1,0 +1,88 @@
+/* The hero room. tinholt's measured opening: masthead, then an inset
+   media frame filling most of the first viewport, the serif OVER it.
+   The inset is the page gutter (24px), the corner is square, and nothing
+   casts a shadow — the frame edge IS the tone change, so no hairline. */
+
+.band {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  padding: var(--space-5);
+}
+
+/* the room: its own ground via data-surface, like the media band's frame */
+.frame {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  /* ~749px at 1440 — tinholt's 761px inset video, within a hair */
+  min-height: clamp(30rem, 52vw, 47.5rem);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* the field draws itself in once — same dash mechanics as the old home
+   mural (pathLength=1 in the markup, one dasharray here), reduced motion
+   killed by the global animation kill in globals.css */
+@keyframes jarl-hero-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.contour {
+  stroke-dasharray: 1;
+  animation: jarl-hero-draw 1500ms var(--ease) both;
+  animation-delay: var(--draw-delay, 0ms);
+}
+
+/* the declaration stands ON the field, centered in the calm band the
+   drawing composed for it */
+.stack {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  text-align: center;
+  padding: var(--space-7) var(--space-5);
+  max-width: var(--site-width);
+}
+
+.title {
+  font-size: var(--text-display);
+  max-width: 20ch;
+}
+
+/* the home declaration — the site's one mega cut, on-media only */
+.title[data-scale="mega"] {
+  font-size: var(--text-mega);
+  max-width: 24ch;
+}
+
+.title em {
+  font-style: italic;
+}
+
+.lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  /* the muted step keeps AA on the ink ground (same pair as every
+     ink-band body line); the field behind is calm by composition */
+  color: var(--color-muted);
+  max-width: 40ch;
+  text-wrap: balance;
+  hanging-punctuation: first;
+}

@@ -72,6 +72,10 @@
   --text-xl: clamp(1.75rem, 1.2rem + 2.6vw, 3rem);
   --text-display: clamp(2rem, 1rem + 4.7vw, 4.5rem);
   --text-hero: clamp(3rem, 1.6rem + 6.5vw, 6rem);
+  /* the on-media declaration — tinholt's hero scale (their serif rides the
+     photograph at ~96-120px). Reserved for type standing ON the mural band;
+     no column of prose ever wears it. ~45px on a phone, 112px from ~1350px. */
+  --text-mega: clamp(2.875rem, 1.1rem + 7vw, 7rem);
 
   /* headings set SOLID: leading 1.0, no negative tracking — the serif's
      own drawing does the tightening */
