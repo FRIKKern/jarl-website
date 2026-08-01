@@ -44,6 +44,23 @@
   padding-left: var(--space-3);
 }
 
+/* A pipe separates neighbours on ONE line; a wrapped line has no left
+   neighbour, so on a phone — where the row always breaks — the pipes come
+   off and the segments stack clean on the axis. Without this every wrapped
+   segment opened on a dangling pipe and sat half a pipe off-center. */
+@media (max-width: 40rem) {
+  .heroMeta {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .heroMetaSegment + .heroMetaSegment {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
 .heroCta {
   font-size: var(--text-md);
   margin-top: var(--space-2);
