@@ -1,3 +1,7 @@
+/* The notes board — hairline rows carrying a serif headline and a tabular
+   date, tinholt's listing grammar. The rows are the architecture: no boxes,
+   no chips, just rules and two type voices. */
+
 .list {
   list-style: none;
   margin: 0;
@@ -18,20 +22,25 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-5);
-  padding: var(--space-4) var(--space-2);
+  padding: var(--space-5) var(--space-2);
   text-decoration: none;
   flex-wrap: wrap;
 }
 
-.link:hover .title {
-  color: var(--color-accent);
+/* the affordance is the serif's italic cut — the same move as the project
+   card's headline; in the duotone a color shift would be invisible */
+.link:hover .title,
+.link:focus-visible .title {
+  font-style: italic;
 }
 
+/* the headline at the card-title step: a note row is a board entry, not a
+   footnote, and three of them must carry a whole band */
 .title {
   font-family: var(--font-display);
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
   color: var(--color-ink);
-  transition: color 140ms ease;
 }
 
 .date {
@@ -40,4 +49,16 @@
   font-variant-numeric: tabular-nums;
   color: var(--color-muted);
   white-space: nowrap;
+}
+
+/* On a phone a long headline wraps and pushes its date to the next line
+   anyway — half the rows two-line, half one-line reads as a mistake. So
+   below the phone breakpoint every row stacks the same way: headline,
+   then date, flush left. */
+@media (max-width: 40rem) {
+  .link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
 }

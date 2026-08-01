@@ -4,6 +4,7 @@ import { resolveSourceRef } from "@/content/sources";
 import type { SourceRef } from "@/content/sources";
 import { lineageFigure } from "@/lib/figures/lineage";
 import { artwork } from "@/lib/artwork";
+import { focusPosition } from "@/lib/focus";
 import { metaSegments } from "@/lib/text";
 import { Band } from "./Band";
 import { Prose } from "./Prose";
@@ -245,6 +246,7 @@ function MediaBand({ section }: { section: KnownSection }) {
     (section.ctaLabel && section.ctaHref);
 
   if (image?.src) {
+    const focus = focusPosition(image.focus);
     return (
       <section className={styles.mediaBand}>
         <figure className={`${styles.mediaFrame} ${styles.mediaCapture}`}>
@@ -252,13 +254,16 @@ function MediaBand({ section }: { section: KnownSection }) {
               rationale from ProjectVisual applies unchanged. EAGER on
               purpose: this image IS the band (a blank room is a broken
               composition, observed as exactly that under lazy decode),
-              and there is at most one capture room on a page. */}
+              and there is at most one capture room on a page. The authored
+              `focus` (ProjectImage.focus → src/lib/focus.ts) art-directs
+              which part of the capture the room's cover-crop keeps. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className={styles.mediaImg}
             src={image.src}
             alt={image.alt ?? ""}
             decoding="async"
+            style={focus ? { objectPosition: focus } : undefined}
           />
           {card ? (
             <figcaption className={styles.mediaCard} data-surface="paper">
@@ -307,10 +312,20 @@ function MediaBand({ section }: { section: KnownSection }) {
             />
           </g>
           <g fill="none" strokeLinecap="round">
+            {/* THE MURAL BREATHES — the one kinetic moment outside the hero
+                reveal, and it lives here only (the mural instrument renders
+                on the home strip alone). Each contour draws itself in once
+                on first paint: pathLength=1 normalises every path so ONE
+                dasharray in CSS covers all of them, the stagger rides a
+                custom property, and prefers-reduced-motion kills it via the
+                global animation kill in globals.css. */}
             {art.contours.map((c, i) => (
               <path
                 key={i}
                 d={c.d}
+                pathLength={1}
+                className={styles.muralContour}
+                style={{ "--draw-delay": `${i * 90}ms` } as React.CSSProperties}
                 stroke={c.accent ? "var(--color-accent)" : "var(--color-muted)"}
                 strokeWidth={c.accent ? 2 : 1}
                 opacity={c.accent ? 1 : 0.72}

@@ -1,11 +1,25 @@
-/* A real capture fills the whole figure well, edge to edge, and is cropped to
-   the same band the generative drawing occupies (640 × 260) so a grid of cards
-   keeps one baseline whether or not a project has a photograph yet. */
+/* The full variant — the project hero's evidence view. The capture keeps its
+   own intrinsic ratio; nothing is cropped away, because the hero is where the
+   whole shot is the point. */
 .photo {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 640 / 260;
+}
+
+/* The card variant — the image-led plate, tinholt's eiendommer grammar: the
+   photograph stands TALL over the text, one uniform 4:3 ratio across every
+   card so the grid keeps a single baseline whether a project carries a
+   1440×586 capture or the generative drawing. `cover` + the authored
+   object-position (ProjectImage.focus → src/lib/focus.ts) decide which part
+   of a wide capture survives the crop; without a focus the center holds. */
+.photoCard {
+  display: block;
+  width: 100%;
+  /* the plate (ProjectCard .figure) owns the 4:3 box; the photo fills it
+     exactly — the aspect-ratio is restated for any future sizeless host */
+  height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center;
 }

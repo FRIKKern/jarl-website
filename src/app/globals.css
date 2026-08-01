@@ -364,6 +364,10 @@ a:hover {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* delay dies too: a staggered animation (the hero reveal, the mural's
+       contour draw — SVG included, the universal selector reaches every
+       path) must not hold its `both`-fill hidden state through the delay */
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;

@@ -253,6 +253,29 @@
   height: 100%;
 }
 
+/* THE MURAL BREATHES — first paint, once, and nowhere else. Every contour
+   is normalised to pathLength 1 in the markup, so one dash covers all of
+   them; the draw is 1.5s on the site easing, staggered ~90ms per line from
+   the markup's --draw-delay, the whole field at rest inside 2.5s. `both`
+   keeps a line invisible until its turn. prefers-reduced-motion flattens
+   duration AND delay to nothing via the global kill in globals.css, so the
+   finished field is simply there. */
+@keyframes jarl-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.muralContour {
+  stroke-dasharray: 1;
+  animation: jarl-draw 1500ms var(--ease) both;
+  animation-delay: var(--draw-delay, 0ms);
+}
+
 /* one short serif line over the field — tinholt's greige-over-media voice */
 .mediaLine {
   position: relative;

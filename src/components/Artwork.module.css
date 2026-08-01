@@ -4,7 +4,10 @@
 .artwork {
   display: block;
   width: 100%;
-  height: auto;
+  /* In the card plate (a sized 4:3 grid cell) this fills the padded box and
+     `meet` letterboxes the drawing by a hair; in the hero's auto-height
+     figure the percentage resolves to auto and the viewBox ratio rules. */
+  height: 100%;
 }
 
 .grid {

@@ -18,13 +18,19 @@
 }
 
 /* The evidence plate: mounted flat on eggshell with one hairline, square
-   corners. The generative drawing gets breathing room inside the plate; a
-   photograph IS the plate and runs to the hairline. */
+   corners — and TALL. One uniform 4:3 ratio on the plate itself (tinholt's
+   eiendommer card), so photograph plates and drawing plates land the same
+   height and every title in a row shares a baseline. The generative drawing
+   gets breathing room inside the plate; a photograph IS the plate and runs
+   to the hairline. */
 .figure {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--color-line);
   background-color: var(--color-surface);
   color: var(--color-ink);
-  padding: var(--space-4) var(--space-4) 0;
+  padding: var(--space-4);
   transition: border-color var(--dur) var(--ease);
 }
 

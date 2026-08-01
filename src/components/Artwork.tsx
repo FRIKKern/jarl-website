@@ -1,10 +1,17 @@
 import { artwork } from "@/lib/artwork";
 import styles from "./Artwork.module.css";
 
-/** The drawing box. Every card gets the same frame so a row of cards lines
-    up; the figure inside it is the part that differs. */
-const W = 640;
-const H = 260;
+/**
+ * The drawing box. Every CARD gets the same tall 4:3 frame — the image-led
+ * plate's ratio (ProjectVisual.module.css) — so the drawing FILLS the plate
+ * a capture would fill and a mixed grid keeps one baseline. The project
+ * hero opts into the wide panel box instead: a contour field at hero width
+ * reads as a plotted panorama, not a tall empty room.
+ */
+const BOX = {
+  card: { w: 640, h: 480 },
+  panel: { w: 640, h: 260 },
+} as const;
 
 /**
  * A project's generative figure, as real SVG in the document.
@@ -14,7 +21,14 @@ const H = 260;
  * scheme with no second asset. The geometry is shared with the social-image
  * renderer; see src/lib/artwork.ts.
  */
-export function Artwork({ seed }: { seed: string }) {
+export function Artwork({
+  seed,
+  box = "card",
+}: {
+  seed: string;
+  box?: keyof typeof BOX;
+}) {
+  const { w: W, h: H } = BOX[box];
   const art = artwork(seed, W, H);
 
   return (

@@ -180,6 +180,14 @@ export interface ProjectImage {
       hero on the project page; the card omits it, a thumbnail is not a
       place for provenance. */
   caption?: string;
+  /** ART-DIRECTED CROP — where the capture's subject lives. Applied as CSS
+      `object-position` wherever the image is shown CROPPED (the card plate,
+      the media-band room); the uncropped hero ignores it. Accepts a raw
+      object-position value ("50% 30%", "20% center") or a named anchor:
+      `topp`/`senter`/`bunn` (vertical), `venstre`/`høyre` (horizontal).
+      Tolerant on purpose: an unparseable value falls back to center-crop,
+      never to a broken style — see src/lib/focus.ts. */
+  focus?: string;
 }
 
 export interface Note extends BarkparkDoc {
