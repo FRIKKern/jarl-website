@@ -4,6 +4,10 @@
  * The ONLY client component in the app, and only because `aria-current` needs
  * the live pathname — a server component cannot know it. Everything else in
  * the header stays on the server.
+ *
+ * Renders ONE side of the symmetric masthead: a group of links flanking the
+ * centered wordmark. The two instances live inside the header's single <nav>
+ * landmark, so the landmark map stays one navigation, not three.
  */
 
 import Link from "next/link";
@@ -16,11 +20,17 @@ function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function SiteNav({ items, label }: { items: NavItem[]; label?: string }) {
+export function SiteNav({
+  items,
+  side,
+}: {
+  items: NavItem[];
+  side: "left" | "right";
+}) {
   const pathname = usePathname() ?? "/";
 
   return (
-    <nav className={styles.nav} aria-label={label}>
+    <div className={styles.group} data-side={side}>
       {items.map((item) => {
         const active = isActive(pathname, item.href);
         return (
@@ -34,6 +44,6 @@ export function SiteNav({ items, label }: { items: NavItem[]; label?: string }) 
           </Link>
         );
       })}
-    </nav>
+    </div>
   );
 }

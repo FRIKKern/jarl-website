@@ -1,3 +1,7 @@
+/* The symmetric masthead. Links left, wordmark dead-center, links right —
+   a nameplate, not a toolbar. Generous height; the hairline under it is the
+   first band's seam, so the header never draws a second rule of its own. */
+
 .header {
   /* No bottom rule. Every route opens with a band that owns its own seam:
      a paper band draws one, an ink band lets the tone change do the work. */
@@ -8,15 +12,17 @@
 .inner {
   max-width: var(--site-width);
   margin-inline: auto;
-  padding: var(--space-4) var(--space-5);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-5);
-  flex-wrap: wrap;
+  padding: var(--space-5) var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "left mark right";
+  align-items: center;
+  column-gap: var(--space-5);
 }
 
 .wordmark {
+  grid-area: mark;
+  justify-self: center;
   font-family: var(--font-display);
   transition: color var(--dur) var(--ease);
   font-style: italic;
@@ -34,10 +40,20 @@
   color: var(--color-accent);
 }
 
-.nav {
+.group {
   display: flex;
   gap: var(--space-5);
   flex-wrap: wrap;
+}
+
+.group[data-side="left"] {
+  grid-area: left;
+  justify-self: start;
+}
+
+.group[data-side="right"] {
+  grid-area: right;
+  justify-self: end;
 }
 
 .navLink {
@@ -49,7 +65,7 @@
   text-decoration: none;
   /* the hit box, not the type: a 28px-tall nav link is a 28px-tall target
      on a phone, and 44px is the floor a thumb needs. Nothing about how the
-     link LOOKS changes — the label is still 12px on the same baseline. */
+     link LOOKS changes — the label is still on the same baseline. */
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -70,25 +86,36 @@
 }
 
 /* -- phone ----------------------------------------------------------------
-   Five destinations and a wordmark cannot share one 342px line, so on a
-   phone the header stops pretending: the wordmark takes its own row and the
-   nav takes the full width beneath it as ONE row, spread edge to edge. It
-   used to wrap mid-list — "HJEM PROSJEKTER NOTATER OM" and then "KONTAKT"
-   orphaned underneath — on every page of the site, and that ragged second
-   line was the first thing a phone visitor saw. */
+   The symmetry grammar holds: the wordmark keeps the center on its own row,
+   and the two link groups pull toward the center seam beneath it, reading
+   as ONE centered row — never a ragged wrap. */
 
-@media (max-width: 30rem) {
+@media (max-width: 40rem) {
   .inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "mark mark"
+      "left right";
+    padding-block: var(--space-3) var(--space-1);
     padding-inline: var(--space-4);
+    column-gap: var(--space-4);
   }
 
-  .nav {
+  .wordmark {
+    justify-self: center;
+  }
+
+  .group {
     flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: var(--space-2);
+    gap: var(--space-4);
+  }
+
+  .group[data-side="left"] {
+    justify-self: end;
+  }
+
+  .group[data-side="right"] {
+    justify-self: start;
   }
 
   .navLink {
