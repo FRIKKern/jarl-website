@@ -249,13 +249,15 @@ function MediaBand({ section }: { section: KnownSection }) {
       <section className={styles.mediaBand}>
         <figure className={`${styles.mediaFrame} ${styles.mediaCapture}`}>
           {/* Same-origin /media proxy, immutable-cached — the plain <img>
-              rationale from ProjectVisual applies unchanged. */}
+              rationale from ProjectVisual applies unchanged. EAGER on
+              purpose: this image IS the band (a blank room is a broken
+              composition, observed as exactly that under lazy decode),
+              and there is at most one capture room on a page. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className={styles.mediaImg}
             src={image.src}
             alt={image.alt ?? ""}
-            loading="lazy"
             decoding="async"
           />
           {card ? (
