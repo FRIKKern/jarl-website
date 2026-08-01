@@ -19,27 +19,31 @@
    ============================================================ */
 
 :root {
-  /* -- paper · light (warm paper, deep ink, fjord accent) ------ */
-  --paper-bg: oklch(0.972 0.012 85);
-  --paper-surface: oklch(0.945 0.016 85);
-  --paper-fg: oklch(0.235 0.014 70);
-  --paper-muted: oklch(0.45 0.013 70);
-  --paper-accent: oklch(0.44 0.095 180);
-  --paper-line: oklch(0.868 0.02 85);
-  --paper-accent-soft: oklch(0.9 0.032 180);
-  --paper-solid-bg: oklch(0.44 0.095 180);
-  --paper-solid-fg: oklch(0.98 0.01 85);
+  /* -- paper · light (greige ground, navy ink — a strict duotone.
+        There is no chromatic accent on this site: the navy IS the
+        accent, so links, kickers and emphasis are the text color
+        said louder, never a second hue.) ----------------------- */
+  --paper-bg: oklch(0.923 0.011 63);
+  --paper-surface: oklch(0.956 0.007 81);
+  --paper-fg: oklch(0.261 0.045 262);
+  --paper-muted: oklch(0.42 0.027 266);
+  --paper-accent: oklch(0.261 0.045 262);
+  --paper-line: oklch(0.829 0.005 34);
+  --paper-accent-soft: oklch(0.885 0.012 262);
+  --paper-solid-bg: oklch(0.261 0.045 262);
+  --paper-solid-fg: oklch(0.923 0.011 63);
 
-  /* -- ink · light (the paper foreground becomes the ground) --- */
-  --ink-bg: oklch(0.235 0.014 70);
-  --ink-surface: oklch(0.285 0.017 70);
-  --ink-fg: oklch(0.958 0.01 85);
-  --ink-muted: oklch(0.775 0.013 70);
-  --ink-accent: oklch(0.82 0.105 180);
-  --ink-line: oklch(0.365 0.016 70);
-  --ink-accent-soft: oklch(0.34 0.045 180);
-  --ink-solid-bg: oklch(0.82 0.105 180);
-  --ink-solid-fg: oklch(0.2 0.014 70);
+  /* -- ink · light (the navy ground — the FOOTER's family now;
+        the page itself is one continuous greige sheet) ---------- */
+  --ink-bg: oklch(0.261 0.045 262);
+  --ink-surface: oklch(0.305 0.045 262);
+  --ink-fg: oklch(0.923 0.011 63);
+  --ink-muted: oklch(0.79 0.02 265);
+  --ink-accent: oklch(0.923 0.011 63);
+  --ink-line: oklch(0.34 0.03 262);
+  --ink-accent-soft: oklch(0.345 0.04 262);
+  --ink-solid-bg: oklch(0.923 0.011 63);
+  --ink-solid-fg: oklch(0.261 0.045 262);
 
   /* -- the active ground · paper unless a band says otherwise -- */
   --color-bg: var(--paper-bg);
@@ -116,34 +120,31 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* -- paper · dark (deep ink ground, warm white, mint) ------
-       Dark keeps the COOL slate axis (265) on purpose. The light
-       scheme's temperature clash lived between its two bands; dark
-       never had it — both dark families already shared one axis.
-       Warming these neutrals was tried (2026-08-01) and the whole
-       scheme went muddy brown. Night is blue; the warmth in dark
-       mode comes from the cream text, not the ground. */
-    --paper-bg: oklch(0.208 0.014 265);
-    --paper-surface: oklch(0.252 0.016 265);
-    --paper-fg: oklch(0.93 0.008 85);
-    --paper-muted: oklch(0.735 0.015 265);
-    --paper-accent: oklch(0.8 0.105 180);
-    --paper-line: oklch(0.33 0.018 265);
-    --paper-accent-soft: oklch(0.32 0.04 180);
-    --paper-solid-bg: oklch(0.8 0.105 180);
-    --paper-solid-fg: oklch(0.19 0.02 265);
+    /* -- paper · dark (the SAME duotone, extended down its navy
+       axis: the ground is the navy said deeper, the text is the
+       greige. No third hue exists in dark either — the accent is
+       the greige/soft-navy end of the same axis.) -------------- */
+    --paper-bg: oklch(0.22 0.04 262);
+    --paper-surface: oklch(0.26 0.04 262);
+    --paper-fg: oklch(0.93 0.008 80);
+    --paper-muted: oklch(0.78 0.02 265);
+    --paper-accent: oklch(0.85 0.03 262);
+    --paper-line: oklch(0.34 0.035 262);
+    --paper-accent-soft: oklch(0.32 0.04 262);
+    --paper-solid-bg: oklch(0.93 0.008 80);
+    --paper-solid-fg: oklch(0.22 0.04 262);
 
     /* -- ink · dark (the inverted band goes DEEPER, not lighter;
           in a dark scheme the mirror of "quiet" is "quieter") --- */
-    --ink-bg: oklch(0.148 0.016 265);
-    --ink-surface: oklch(0.19 0.016 265);
-    --ink-fg: oklch(0.945 0.008 85);
-    --ink-muted: oklch(0.72 0.015 265);
-    --ink-accent: oklch(0.82 0.105 180);
-    --ink-line: oklch(0.272 0.018 265);
-    --ink-accent-soft: oklch(0.27 0.04 180);
-    --ink-solid-bg: oklch(0.82 0.105 180);
-    --ink-solid-fg: oklch(0.16 0.02 265);
+    --ink-bg: oklch(0.17 0.035 262);
+    --ink-surface: oklch(0.21 0.035 262);
+    --ink-fg: oklch(0.94 0.008 80);
+    --ink-muted: oklch(0.77 0.02 265);
+    --ink-accent: oklch(0.85 0.03 262);
+    --ink-line: oklch(0.28 0.03 262);
+    --ink-accent-soft: oklch(0.27 0.04 262);
+    --ink-solid-bg: oklch(0.94 0.008 80);
+    --ink-solid-fg: oklch(0.17 0.035 262);
   }
 }
 
