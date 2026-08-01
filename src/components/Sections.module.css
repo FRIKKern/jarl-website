@@ -5,18 +5,16 @@
    - the only decoration is a hairline,
    - the only solid fill is the callout's button (see ArrowLink). */
 
+/* The section head is a centered stack on the page's axis — the broadsheet's
+   ceremony, same grammar as every hero. */
 .head {
   display: grid;
   gap: var(--space-4);
-  max-width: var(--measure);
-  margin-bottom: var(--space-7);
-}
-
-.head[data-center] {
   justify-items: center;
   text-align: center;
+  max-width: var(--measure);
   margin-inline: auto;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-7);
 }
 
 .overline {
@@ -38,29 +36,27 @@
   max-width: 46ch;
 }
 
-/* -- split --------------------------------------------------------------- */
+/* -- split: the broadsheet's 50/50 rails ---------------------------------
+   Each half is a CENTERED stack on a narrow measure, and the divider is a
+   full-height vertical rail — tinholt's om-oss grammar, where the hairline
+   runs above and below the text it carries. */
 
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-/* Left-aligned, like everything else here. The site's discipline is its left
-   edge; four or five lines of ragged-both-sides body copy in a 330px column
-   makes the eye hunt for every line start, and this block — the clearest
-   thing on the site — was the one abandoning the axis. */
 .splitCol {
   display: grid;
-  align-content: start;
+  align-content: center;
   gap: var(--space-4);
-  justify-items: start;
-  text-align: left;
-  padding: var(--space-2) var(--space-7) var(--space-2) 0;
+  justify-items: center;
+  text-align: center;
+  padding: var(--space-6) var(--space-7);
 }
 
 .splitCol + .splitCol {
   border-left: 1px solid var(--color-line);
-  padding-left: var(--space-7);
 }
 
 .splitTitle {
@@ -96,6 +92,7 @@
   font-size: var(--text-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
   padding-top: 0.4em;
   padding-right: var(--space-5);
@@ -121,20 +118,28 @@
   max-width: 62ch;
 }
 
-/* -- feature grid -------------------------------------------------------- */
+/* -- feature grid: centered stacks between vertical rails ----------------
+   The top-cap hairlines grew into full-height rails BETWEEN the columns,
+   and each cell centers its stack on a narrow measure — the same broadsheet
+   move as the split. Below the breakpoint the columns stack and the rails
+   turn back into horizontal seams. */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--space-6) var(--space-6);
+  grid-template-columns: 1fr;
 }
 
 .cell {
   display: grid;
   align-content: start;
   gap: var(--space-3);
+  justify-items: center;
+  text-align: center;
+  padding: var(--space-6) var(--space-6);
+}
+
+.cell + .cell {
   border-top: 1px solid var(--color-line);
-  padding-top: var(--space-4);
 }
 
 .cellTitle {
@@ -149,15 +154,25 @@
   .grid[data-cols="3"] {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .grid[data-cols="2"] .cell + .cell,
+  .grid[data-cols="3"] .cell + .cell {
+    border-top: 0;
+    border-left: 1px solid var(--color-line);
+  }
 }
 
 /* -- callout ------------------------------------------------------------- */
 
+/* the closing declaration takes the axis too — kicker, serif line, button,
+   all centered, exactly like the heroes it echoes */
 .callout {
   display: grid;
-  justify-items: start;
+  justify-items: center;
+  text-align: center;
   gap: var(--space-5);
   max-width: 52rem;
+  margin-inline: auto;
 }
 
 .calloutTitle {
@@ -247,6 +262,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
 }
 
@@ -401,6 +417,7 @@
   font-size: var(--text-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
 }
 

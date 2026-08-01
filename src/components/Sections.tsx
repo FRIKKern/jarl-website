@@ -48,16 +48,12 @@ export function Sections({
 
 /* ---- shared head ------------------------------------------------------- */
 
-function Head({
-  section,
-  center = false,
-}: {
-  section: KnownSection;
-  center?: boolean;
-}) {
+/** Every section head is a centered stack on the page's axis — the same
+    ceremony as the heroes. Kicker, serif title, narrow lede. */
+function Head({ section }: { section: KnownSection }) {
   if (!section.overline && !section.title && !section.body) return null;
   return (
-    <header className={styles.head} data-center={center ? "" : undefined}>
+    <header className={styles.head}>
       {section.overline ? (
         <p className={styles.overline}>{section.overline}</p>
       ) : null}
@@ -102,7 +98,6 @@ function SectionBody({ section }: { section: KnownSection }) {
 function Split({ section }: { section: KnownSection }) {
   return (
     <>
-      {/* Left-aligned like every head on the site — tinholt centers nothing. */}
       <Head section={section} />
       <div className={styles.split}>
         {section.items.slice(0, 2).map((item, i) => (
