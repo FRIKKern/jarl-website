@@ -96,7 +96,7 @@ export default async function RootLayout({
         <main id="innhold" tabIndex={-1} className={styles.main}>
           {children}
         </main>
-        <SiteFooter settings={settings} />
+        <SiteFooter settings={settings} items={navItems} />
       </body>
     </html>
   );

@@ -1,41 +1,71 @@
-.inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-6);
-  flex-wrap: wrap;
+/* The colophon. Three centered movements divided by hairlines in the ink
+   family's own line token: the serif nav stack, the contact meta row, and
+   the large wordmark with the small-caps colophon line under it. */
+
+.colophon {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: var(--space-7);
 }
 
-.left {
+/* -- movement one: the stacked serif nav --------------------------------- */
+
+.navStack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: var(--space-2);
+  justify-items: center;
+  gap: var(--space-1);
+}
+
+.navLink {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+  /* full-size targets for the page's closing nav */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-4);
+}
+
+.navLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+/* -- movement two: contact meta between hairlines ------------------------ */
+
+.metaRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-8);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  padding-block: var(--space-4);
 }
 
 .email {
   font-family: var(--font-display);
   font-style: italic;
   font-size: var(--text-md);
+  color: var(--color-ink);
   /* the one address on the page — a full-size target for it */
   display: inline-flex;
   align-items: center;
   min-height: 44px;
 }
 
-.text {
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-  max-width: var(--measure);
-}
-
-.links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: var(--space-5);
-}
-
-.link {
+.metaLink {
   font-size: var(--text-xs);
   font-weight: 500;
   text-transform: uppercase;
@@ -49,8 +79,38 @@
   transition: color var(--dur) var(--ease);
 }
 
-.link:hover {
+.metaLink:hover {
   color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 0.4em;
+}
+
+/* -- movement three: the mark, said large -------------------------------- */
+
+.mark {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.wordmark:hover {
+  color: var(--color-accent);
+}
+
+.colophonLine {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-muted);
+  max-width: var(--measure);
 }
