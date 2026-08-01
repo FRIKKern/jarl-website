@@ -343,11 +343,14 @@
   margin-top: var(--space-1);
 }
 
+/* In the duotone the accent IS the ink, so the two columns split on VALUE:
+   the subject's side in full ink, the reference side one step quieter. */
 .duelValue {
   font-family: var(--font-display);
   font-size: var(--text-lg);
   text-align: right;
   white-space: nowrap;
+  color: var(--color-muted);
 }
 
 .duelValue[data-accent] {

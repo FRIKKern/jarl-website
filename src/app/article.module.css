@@ -52,22 +52,26 @@
   gap: var(--space-5);
 }
 
+/* hairline-piped meta, matching the flat card: no chips anywhere */
 .tags {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  row-gap: var(--space-1);
 }
 
 .tag {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-muted);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  padding: 0 var(--space-2);
+}
+
+.tag + .tag {
+  border-left: 1px solid var(--color-line);
+  margin-left: var(--space-3);
+  padding-left: var(--space-3);
 }
 
 /* -- project header: the words on one side, the figure on the other ------ */

@@ -1,59 +1,94 @@
-/* The single arrow-gap rule for the whole site.
+/* The single arrow affordance for the whole site — now in tinholt's
+   grammar. Two shapes share one component:
 
-   The gap reads a custom property so an ancestor can open it (see
-   ProjectCard). --dur and --ease are the site's only motion values, and
-   prefers-reduced-motion in globals.css switches the transition off. */
+   - the BUTTON ("text" and "solid"): a rectangle, radius 0, label + thin
+     internal vertical divider + arrow. "text" is transparent with a
+     hairline border that sharpens to the ink on hover; "solid" is the one
+     navy fill. On hover the arrow nudges 4px right — the gap does not
+     move, the arrow does.
+   - the HEADING: an inline serif heading with the arrow riding the
+     arrow-gap contract, so an ancestor can open it (see page.tsx heads).
+
+   --dur and --ease are the site's only motion values, and
+   prefers-reduced-motion in globals.css switches the transitions off. */
 
 .link {
   display: inline-flex;
   align-items: center;
   gap: var(--arrow-gap);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--color-accent);
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--color-ink);
   text-decoration: none;
+}
+
+/* -- the button ---------------------------------------------------------- */
+
+.link[data-variant="text"],
+.link[data-variant="solid"] {
+  border: 1px solid var(--color-line);
+  border-radius: 0;
+  padding: 18px 32px;
+  gap: var(--space-4);
+  line-height: 1.1;
+  transition: border-color var(--dur) var(--ease);
+}
+
+/* the internal divider is drawn by the arrow's own left edge, so label,
+   divider and arrow can never drift apart */
+.link[data-variant="text"] .arrow,
+.link[data-variant="solid"] .arrow {
+  box-sizing: content-box;
+  border-left: 1px solid var(--color-line);
+  padding-left: var(--space-4);
+  transform: none;
+  transition: transform var(--dur) var(--ease);
+}
+
+.link[data-variant="text"]:hover,
+.link[data-variant="text"]:focus-visible {
+  border-color: currentColor;
+}
+
+.link[data-variant="text"]:hover .arrow,
+.link[data-variant="text"]:focus-visible .arrow,
+.link[data-variant="solid"]:hover .arrow,
+.link[data-variant="solid"]:focus-visible .arrow {
+  transform: translateX(4px);
+}
+
+/* The ONE solid fill outside the footer. Its own ground, its own ink. */
+.link[data-variant="solid"] {
+  background-color: var(--color-solid-bg);
+  color: var(--color-solid-fg);
+  border-color: var(--color-solid-bg);
+}
+
+/* -- the heading --------------------------------------------------------- */
+
+/* A section heading that is also its own link. Same primitive, display
+   cut — the serif at its section size, one weight, no tracking. */
+.link[data-variant="heading"] {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  gap: calc(var(--arrow-gap) + var(--space-2));
   transition: gap var(--dur) var(--ease);
 }
 
-.link:hover,
-.link:focus-visible {
+.link[data-variant="heading"]:hover,
+.link[data-variant="heading"]:focus-visible {
   --arrow-gap: var(--arrow-gap-open);
-  text-decoration: none;
+}
+
+/* the plotter arrow keeps pace with the heading's size */
+.link[data-variant="heading"] .arrow {
+  width: 0.6em;
+  height: auto;
 }
 
 .arrow {
   flex: none;
   /* the stroke sits on the x-height, not the baseline */
   transform: translateY(0.5px);
-}
-
-/* -- variants ------------------------------------------------------------ */
-
-/* The ONE solid fill on the site. Its own ground, so it declares its own ink. */
-.link[data-variant="solid"] {
-  background-color: var(--color-solid-bg);
-  color: var(--color-solid-fg);
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius);
-}
-
-/* A section heading that is also its own link. Same primitive, heading cut —
-   so the arrow behaves identically whether it is 12px or 28px. */
-.link[data-variant="heading"] {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 520;
-  letter-spacing: -0.008em;
-  color: var(--color-ink);
-  gap: calc(var(--arrow-gap) + var(--space-2));
-  transition:
-    gap var(--dur) var(--ease),
-    color var(--dur) var(--ease);
-}
-
-.link[data-variant="heading"]:hover,
-.link[data-variant="heading"]:focus-visible {
-  color: var(--color-accent);
 }

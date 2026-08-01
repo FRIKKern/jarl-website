@@ -110,7 +110,9 @@
   --measure: 42rem;
   --figure: calc(var(--site-width) - 2 * var(--space-5));
   --site-width: 70rem;
-  --radius: 3px;
+  /* tinholt cuts every corner square. The token stays so a future skin can
+     soften again in one line, but on this site it is zero. */
+  --radius: 0px;
   /* period rail of the timeline archetype */
   --rail-width: 11rem;
 
@@ -705,20 +707,24 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
   height: 9px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  /* the surface ring, not a border: it keeps two dots legible where they
-     land on top of each other (see the −1,7 % row) */
-  box-shadow: 0 0 0 2px var(--color-bg);
+  /* the ground ring keeps two dots legible where they land on top of each
+     other (see the −1,7 % row). A border, not a box-shadow — this site
+     paints no shadows anywhere, and the duotone has no soft edges. */
+  border: 2px solid var(--color-bg);
 }
 
 .jarl-duel__dot--a {
   /* check-hover-allow: a data mark — an empty 9px dot carrying series
-     identity, never a surface any text stands on. */
-  background: var(--color-accent);
+     identity, never a surface any text stands on. In the duotone the
+     accent IS the ink, so series identity is carried by VALUE: full ink
+     for A, the muted step for B. */
+  background: var(--color-ink);
 }
 
 .jarl-duel__dot--b {
-  /* check-hover-allow: the same data mark, second series. */
-  background: var(--color-ink);
+  /* check-hover-allow: the same data mark, second series, one step
+     quieter. */
+  background: var(--color-muted);
 }
 
 .jarl-duel__delta {
@@ -755,7 +761,8 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
 .bp-paper-surface .jarl-duel .bp-duel__th--a::before,
 .bp-paper-surface .jarl-duel thead th:last-child::before {
   /* check-hover-allow: the legend swatch is an empty 8px dot beside the
-     label; the label itself keeps the muted text token set above. */
+     label; the label itself keeps the muted text token set above. Series
+     B wears the muted step, matching its dot on the scale. */
   content: "";
   display: inline-block;
   width: 8px;
@@ -763,12 +770,12 @@ html[data-theme] .bp-paper-surface.bp-paper-surface {
   margin-right: 0.45em;
   border-radius: 50%;
   vertical-align: baseline;
-  background: var(--color-ink);
+  background: var(--color-muted);
 }
 
 .bp-paper-surface .jarl-duel .bp-duel__th--a::before {
-  /* check-hover-allow: same empty legend swatch, first series. */
-  background: var(--color-accent);
+  /* check-hover-allow: same empty legend swatch, first series — full ink. */
+  background: var(--color-ink);
 }
 
 .bp-paper-surface .jarl-duel .bp-duel__val.bp-duel__val--a {
