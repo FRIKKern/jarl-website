@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Project } from "@/content/types";
+import { hashSeed } from "@/lib/artwork";
 import { ProjectVisual, hasProjectPhoto } from "./ProjectVisual";
 import styles from "./ProjectCard.module.css";
 
@@ -17,6 +18,17 @@ export function ProjectCard({
   const Heading = `h${headingLevel}` as "h2" | "h3";
   const slug = project.slug ?? project._id;
 
+  /* GROUND PARITY — the drawing plates alternate tone. A capture-less card
+     used to stand on the faint eggshell plate no matter what, so a run of
+     drawings read as one pale field; tinholt's grid alternates because
+     photographs do. The drawing keeps its honest meaning («no capture
+     yet») but half the plates flip to the ink ground — greige contours on
+     navy — decided by the seed's own hash (a mixed bit of the FNV word the
+     drawing is already made from), so a card's ground is as deterministic
+     as its figure. Photographs are their own tone and never flip. */
+  const inkPlate =
+    !hasProjectPhoto(project) && ((hashSeed(slug) >> 5) & 1) === 1;
+
   return (
     <article className={styles.card}>
       <div
@@ -25,6 +37,7 @@ export function ProjectCard({
             ? `${styles.figure} ${styles.figurePhoto}`
             : styles.figure
         }
+        data-surface={inkPlate ? "ink" : undefined}
       >
         <ProjectVisual project={project} />
       </div>

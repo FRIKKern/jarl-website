@@ -40,6 +40,14 @@
   border-color: currentColor;
 }
 
+/* the flipped plate: the drawing's mural voice at card scale — the deep
+   ink ground (not the surface step; the mural grammar draws on --ink-bg),
+   greige contours riding the rebound tokens with zero extra rules */
+.figure[data-surface="ink"] {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
 .figurePhoto {
   padding: 0;
 }
