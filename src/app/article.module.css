@@ -30,10 +30,11 @@
   max-width: 16ch;
 }
 
+/* the ingress speaks tinholt's sub-head size — 32/40 on desktop */
 .intro {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
   line-height: var(--leading-snug);
   color: var(--color-muted);
   max-width: 44ch;
