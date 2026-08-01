@@ -81,9 +81,10 @@ export default async function ProsjektPage({
       <JsonLd data={projectSchema(project, settings)} />
 
       {/* The project's own hero: the words on one side, its figure on the
-          other. The figure is a real capture of the thing when one exists,
-          and the slug-generated drawing when none does — see ProjectVisual. */}
-      <Band surface="ink" space="hero">
+          other — on the same greige sheet as everything else. The figure is
+          a real capture of the thing when one exists, and the slug-generated
+          drawing when none does — see ProjectVisual. */}
+      <Band surface="paper" rule space="hero">
         <div className={styles.projectHeader}>
           <header className={styles.header}>
             {project.overline ? (
@@ -119,7 +120,7 @@ export default async function ProsjektPage({
       </Band>
 
       {hasStory ? (
-        <Band surface="paper">
+        <Band surface="paper" rule>
           {/* The canonical engine owns the markup and the Reader-Owned
               spacing law inside .bp-paper-surface; the jarl drakt is the
               token overrides scoped to it in globals.css. The band decides
@@ -133,7 +134,7 @@ export default async function ProsjektPage({
       ) : null}
 
       {hasBody ? (
-        <Band surface="paper">
+        <Band surface="paper" rule>
           <Prose text={project.body} />
         </Band>
       ) : null}
@@ -143,9 +144,7 @@ export default async function ProsjektPage({
           project with a story never also renders its legacy CMS sections —
           the same figure painted twice is worse than either alone. The
           sections stay on the doc as the fallback for a dangling story. */}
-      {hasStory ? null : (
-        <Sections sections={sections} after={hasBody ? "paper" : "ink"} />
-      )}
+      {hasStory ? null : <Sections sections={sections} after="paper" />}
 
       {project.url ? (
         <Band surface="paper" rule space="tight">

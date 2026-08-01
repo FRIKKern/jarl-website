@@ -47,18 +47,15 @@ export default async function HomePage() {
   const notesNav = navItems.find((i) => i.href === "/notater");
   const hasIngress = Boolean(page?.intro || page?.body);
 
-  /* The ground of the last band, so each following band knows whether it
-     needs a seam. See the seam rule in Sections.tsx. */
-  const beforeSections = hasIngress ? "paper" : "ink";
-  const afterSections =
-    sections.length > 0 ? sections[sections.length - 1].surface : beforeSections;
-
   return (
     <>
       <JsonLd data={personSchema(settings)} />
 
-      {/* Movement 2 — the inverted hero. One arrow, no competing subhead. */}
-      <Band surface="ink" space="hero">
+      {/* The hero is huge navy serif ON the greige — tinholt's subpage
+          grammar. One continuous sheet from here to the footer; the only
+          navy band on the page is the footer itself. Every section below
+          takes the full-width hairline seam. */}
+      <Band surface="paper" rule space="hero">
         <div className={styles.hero}>
           {settings?.tagline ? (
             <p className={styles.eyebrow}>{settings.tagline}</p>
@@ -73,7 +70,7 @@ export default async function HomePage() {
       </Band>
 
       {hasIngress ? (
-        <Band surface="paper">
+        <Band surface="paper" rule>
           <div className={styles.ingress}>
             {page?.intro ? (
               <p className={styles.ingressLead}>{page.intro}</p>
@@ -83,14 +80,10 @@ export default async function HomePage() {
         </Band>
       ) : null}
 
-      <Sections sections={sections} after={beforeSections} />
+      <Sections sections={sections} after="paper" />
 
       {projects.length > 0 ? (
-        <Band
-          surface="paper"
-          rule={afterSections === "paper"}
-          labelledBy="utvalgte-prosjekter"
-        >
+        <Band surface="paper" rule labelledBy="utvalgte-prosjekter">
           {projectsNav ? (
             <div className={styles.sectionHead}>
               <h2 className={styles.sectionHeading} id="utvalgte-prosjekter">

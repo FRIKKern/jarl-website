@@ -96,7 +96,11 @@ export function normalizeSections(sections?: Section[]): KnownSection[] {
     .map<KnownSection>((s) => ({
       ...s,
       kind: s.kind as SectionKind,
-      surface: s.surface === "ink" ? "ink" : "paper",
+      /* The band architecture is dismantled (tinholt grammar): the page is
+         ONE continuous greige sheet and sections separate with full-width
+         hairlines. A CMS-authored `surface: "ink"` is coerced back to paper
+         here — the only navy band left on the site is the footer. */
+      surface: "paper",
       items: (s.items ?? [])
         .filter(itemHasContent)
         .filter(

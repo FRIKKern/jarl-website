@@ -102,7 +102,8 @@ function SectionBody({ section }: { section: KnownSection }) {
 function Split({ section }: { section: KnownSection }) {
   return (
     <>
-      <Head section={section} center />
+      {/* Left-aligned like every head on the site — tinholt centers nothing. */}
+      <Head section={section} />
       <div className={styles.split}>
         {section.items.slice(0, 2).map((item, i) => (
           <div key={i} className={styles.splitCol}>
