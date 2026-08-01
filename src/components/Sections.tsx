@@ -189,20 +189,23 @@ function FeatureGrid({ section }: { section: KnownSection }) {
   );
 }
 
-/** The FORM SURFACE (tinholt rule 4): the callout archetype renders as the
-    lighter band — one step up from the ground, in the eggshell family —
+/** The FORM SURFACE (tinholt rule 4): the callout archetype renders one
+    step up from the PAGE'S OWN ground — `--color-surface`, no family pin —
     and it exists only to carry a call to contact; it is never decorative.
 
-    The band pins `data-surface="paper"` and paints `--color-surface`, so on
-    a light page it is tinholt's lighter-band move exactly, and on a navy page it
-    is the deliberately bright eggshell room (rule 3's photography, said in
-    jarl's duotone) with the navy-filled button on it. In the dark scheme the
-    same bindings resolve one quiet step above the page — the mirror holds.
+    On a light page that is tinholt's lighter eggshell band exactly. On a
+    navy page the band stays IN the navy — the quiet surface step — because
+    tinholt's kontakt never breaks its dark: the counter-moment there is a
+    bright capture room, not a beige strip (measured, epic 13). The solid
+    button inside binds --color-solid-*, so the same markup wears the navy
+    fill on light and the eggshell fill on dark — the third button variant
+    is a binding, not a new color. In the dark scheme everything resolves
+    one quiet step above the page — the mirror holds.
 
     A surface change is its own seam: no hairline (rule 6). */
 function FormBand({ section }: { section: KnownSection }) {
   return (
-    <section className={styles.formBand} data-surface="paper">
+    <section className={styles.formBand}>
       <div className={styles.formBandInner}>
         {section.overline ? (
           <p className={styles.overline}>{section.overline}</p>
@@ -284,6 +287,12 @@ function MediaBand({ section }: { section: KnownSection }) {
             </figcaption>
           ) : null}
         </figure>
+        {/* the kilde law covers screenshots wherever they hang: a capture
+            in a media room states its provenance exactly like the project
+            hero's capture does — small, mono, muted, under the frame */}
+        {image.caption ? (
+          <p className={styles.mediaKilde}>{image.caption}</p>
+        ) : null}
       </section>
     );
   }
