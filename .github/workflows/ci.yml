@@ -61,6 +61,27 @@ jobs:
           BARKPARK_READ_TOKEN: ${{ secrets.BARKPARK_READ_TOKEN }}
         run: pnpm check:measure
 
+      # 23 exact sentences over 14 slugs, plus one negative row. They state
+      # who led a project, who was second, and whose commits those were —
+      # the claims an agent rewriting for rhythm would round off without
+      # noticing it had lied about a colleague. Reads the CMS ANONYMOUSLY
+      # and on purpose: jarl.no serves x-nextjs-cache: STALE even against a
+      # cache-busted URL, so the rendered page cannot be the judge. The live
+      # page is polled as a second witness that can only warn.
+      - name: Fabrication fence — the immovables have not moved
+        env:
+          BARKPARK_URL: https://jarl.barkpark.cloud
+        run: pnpm check:immovables
+
+      # Every picture claims to be a capture of a real thing at a real time.
+      # The caption is the only place that claim is testable, so it must
+      # carry a Norwegian date and an origin token. Not a `^Kilde:` grep:
+      # only 12 of 45 captions open that way and the other 33 are honest.
+      - name: Kilde-loven — every wired caption dates and sources its picture
+        env:
+          BARKPARK_URL: https://jarl.barkpark.cloud
+        run: pnpm check:image-kilde
+
       - name: Vendored canonical renderer smoke
         run: node --test test/vendored-renderer.test.mjs
 

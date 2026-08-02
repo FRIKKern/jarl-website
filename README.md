@@ -82,10 +82,43 @@ pnpm typecheck        # tsc --noEmit
 pnpm lint             # eslint
 pnpm check:contrast   # design gate: AA across 2 schemes × 2 surface families
 pnpm check:tokens     # design gate: tokens only, palette mirror, band bindings
-pnpm check:hover      # design gate: a painted surface pins its own ink
-pnpm check            # typecheck + all three gates
-pnpm build            # production build against the live instance
+pnpm check:hover        # design gate: a painted surface pins its own ink
+pnpm check:sources      # evidence gate: every figure datum names its source
+pnpm check:measure      # width doctrine on rendered blocks
+pnpm check:immovables   # fabrication fence: 23 sentences that may not move
+pnpm check:image-kilde  # every wired caption dates and sources its picture
+pnpm check              # typecheck + every gate above
+pnpm build              # production build against the live instance
 ```
+
+The content gates read the CMS **anonymously** and are ISR-immune by design;
+`check:sources` and `check:measure` still want `BARKPARK_READ_TOKEN` from
+`.env.local`:
+
+```sh
+set -a && . ./.env.local && set +a && pnpm check
+```
+
+### The capture rig
+
+```sh
+pnpm exec playwright install chromium   # once
+pnpm capture:smoke   # one route, full quad, must yield 4 distinct PNGs
+pnpm capture         # /prosjekter + all 20 project routes × the quad
+pnpm shoot           # the same quad over the sitemap, against localhost
+```
+
+`scripts/capture-jarl.mjs` shoots 1440×900 and 390×844 in light and dark, warms
+the ISR cache before every route (fetch, discard, wait, fetch — the edge serves
+`STALE` even against a cache-busted URL), forces every lazy image to decode
+before the shot, and writes an `audit.json` per route into the gitignored
+`__shots__/`. Its vertical-run probe reports the longest unbroken run of prose
+in CSS px between honest visual moments — a Sections archetype, a `bp-*` block
+or an `img`/`figure`. A `Band` never counts: it is the layout primitive, and
+counting it would let a wall of text score as illustrated.
+
+`tooling/media/` holds the pipeline that produced every capture on the site,
+rescued out of a session scratchpad — see its README.
 
 ## Design system
 

@@ -83,7 +83,13 @@ mkdirSync(OUT, { recursive: true });
    figure divides the measured px by a real rendered 1ch inside the element
    itself — the element's own font, loaded and shaped — so it is the same ch
    a stylesheet would mean. (A canvas measureText shortcut lies here: next/
-   font's hashed family names defeat the canvas font shorthand parser.) */
+   font's hashed family names defeat the canvas font shorthand parser.)
+
+   `proseW`/`figureW` are measured by SHAPE and exist on every route.
+   `paperProseW`/`paperFigureW` are the original `.bp-paper-surface` readings
+   and stay null off a paper — kept because the doctrine's numbers were taken
+   against them, so a comparison across the recovery must not silently change
+   what the column means. */
 const probe = () => {
   const chOf = (el, px) => {
     const ruler = document.createElement("span");
@@ -108,8 +114,44 @@ const probe = () => {
       (el) =>
         `${el.tagName}.${String(el.className).slice(0, 40)} sw=${el.scrollWidth} cw=${el.clientWidth}`,
     );
-  const prose = widthOf(document.querySelector(".bp-paper-surface > p"));
-  const figure = widthOf(document.querySelector(".bp-paper-surface"));
+  const paperProse = widthOf(document.querySelector(".bp-paper-surface > p"));
+  const paperFigure = widthOf(document.querySelector(".bp-paper-surface"));
+
+  /* The paper selectors above answer `null` on the fourteen project pages
+     that have no story — which was most of the site. The width doctrine
+     applies to those pages too, so the widest RENDERED prose line and the
+     widest RENDERED figure are measured directly, by shape rather than by
+     component: a paragraph that owns real text is prose wherever it lives,
+     and a Sections archetype, a paper block or a figure is a figure. A
+     Band-module element is deliberately absent from the figure ladder: the
+     band is full-bleed by definition and would report the viewport width on
+     every page, drowning the number that matters. */
+  const visible = (el) => {
+    const cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden") return false;
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0;
+  };
+  let prose = { px: null, ch: null };
+  for (const el of document.querySelectorAll("p, li, blockquote")) {
+    if (!visible(el)) continue;
+    const own = [...el.childNodes]
+      .filter((n) => n.nodeType === 3)
+      .map((n) => n.textContent.trim())
+      .join(" ");
+    if (own.length < 40) continue;
+    const w = widthOf(el);
+    if (prose.px === null || w.px > prose.px) prose = w;
+  }
+  let figure = { px: null, ch: null };
+  for (const el of document.querySelectorAll(
+    '[class*="Sections-module__"], [class^="bp-"], [class*=" bp-"], figure, img, pre, table',
+  )) {
+    if (!visible(el)) continue;
+    const w = widthOf(el);
+    if (figure.px === null || w.px > figure.px) figure = w;
+  }
+
   return {
     scrollW: document.documentElement.scrollWidth,
     clientW: vw,
@@ -118,6 +160,10 @@ const probe = () => {
     proseCh: prose.ch,
     figureW: figure.px,
     figureCh: figure.ch,
+    paperProseW: paperProse.px,
+    paperProseCh: paperProse.ch,
+    paperFigureW: paperFigure.px,
+    paperFigureCh: paperFigure.ch,
   };
 };
 

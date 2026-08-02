@@ -13,7 +13,12 @@
     "check:hover": "node scripts/check-hover.mjs",
     "check:sources": "node scripts/check-sources.mjs",
     "check:measure": "node scripts/check-measure.mjs",
-    "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens && pnpm check:hover"
+    "check:immovables": "node scripts/check-immovables.mjs",
+    "check:image-kilde": "node scripts/check-image-kilde.mjs",
+    "check": "pnpm typecheck && pnpm check:contrast && pnpm check:tokens && pnpm check:hover && pnpm check:sources && pnpm check:measure && pnpm check:immovables && pnpm check:image-kilde",
+    "shoot": "node scripts/shoot.mjs",
+    "capture": "node scripts/capture-jarl.mjs",
+    "capture:smoke": "node scripts/capture-jarl.mjs --smoke prosjekter/doey"
   },
   "dependencies": {
     "@barkpark/core": "file:./vendor/barkpark-core.tgz",
@@ -35,6 +40,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.12",
+    "playwright": "^1.62.1",
     "typescript": "^6.0.3"
   },
   "engines": {
