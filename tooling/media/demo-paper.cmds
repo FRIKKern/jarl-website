@@ -1,0 +1,9 @@
+# The same document, everywhere. A Barkpark paper renders in the browser, in Studio — and here.
+
+bp paper view welcome
+
+# A real product plan, then — 159 lines, typeset live from the server (awk just slows the scroll):
+
+bp paper view deploy-with-barkpark --width 100 | awk '{print; system("sleep 0.05")}'
+
+# No browser, no export step. bp paper view <slug> is the CLI counterpart to /papers/<slug>.

@@ -1,0 +1,1218 @@
+{
+ "hjem": {
+  "w": 1440,
+  "h": 6627,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.572
+   },
+   {
+    "c": "#18243a",
+    "share": 0.164
+   },
+   {
+    "c": "#fafafa",
+    "share": 0.043
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.757,
+   "DARK": 0.204,
+   "MEDIA": 0.039
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1296
+   },
+   {
+    "label": "DARK",
+    "start": 1296,
+    "end": 1986
+   },
+   {
+    "label": "LIGHT",
+    "start": 1986,
+    "end": 5202
+   },
+   {
+    "label": "MEDIA",
+    "start": 5202,
+    "end": 5460
+   },
+   {
+    "label": "LIGHT",
+    "start": 5460,
+    "end": 5970
+   },
+   {
+    "label": "DARK",
+    "start": 5970,
+    "end": 6630
+   }
+  ],
+  "sequence": "LIGHT(1296) \u2192 DARK(690) \u2192 LIGHT(3216) \u2192 MEDIA(258) \u2192 LIGHT(510) \u2192 DARK(660)"
+ },
+ "kontakt": {
+  "w": 1440,
+  "h": 1694,
+  "grounds": [
+   {
+    "c": "#18243a",
+    "share": 0.716
+   },
+   {
+    "c": "#f3f0eb",
+    "share": 0.209
+   }
+  ],
+  "shares": {
+   "DARK": 0.777,
+   "LIGHT": 0.223
+  },
+  "bands": [
+   {
+    "label": "DARK",
+    "start": 0,
+    "end": 660
+   },
+   {
+    "label": "LIGHT",
+    "start": 660,
+    "end": 1038
+   },
+   {
+    "label": "DARK",
+    "start": 1038,
+    "end": 1698
+   }
+  ],
+  "sequence": "DARK(660) \u2192 LIGHT(378) \u2192 DARK(660)"
+ },
+ "menu-open": {
+  "w": 1440,
+  "h": 900,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.671
+   },
+   {
+    "c": "#81848c",
+    "share": 0.283
+   }
+  ],
+  "shares": {
+   "LIGHT": 1.0
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 900
+   }
+  ],
+  "sequence": "LIGHT(900)"
+ },
+ "notater": {
+  "w": 1440,
+  "h": 1355,
+  "grounds": [
+   {
+    "c": "#18243a",
+    "share": 0.453
+   },
+   {
+    "c": "#ebe4de",
+    "share": 0.483
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.518,
+   "DARK": 0.482
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 702
+   },
+   {
+    "label": "DARK",
+    "start": 702,
+    "end": 1356
+   }
+  ],
+  "sequence": "LIGHT(702) \u2192 DARK(654)"
+ },
+ "note-disk": {
+  "w": 1440,
+  "h": 1626,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.481
+   },
+   {
+    "c": "#18243a",
+    "share": 0.382
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.598,
+   "DARK": 0.402
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 972
+   },
+   {
+    "label": "DARK",
+    "start": 972,
+    "end": 1626
+   }
+  ],
+  "sequence": "LIGHT(972) \u2192 DARK(654)"
+ },
+ "note-sprak": {
+  "w": 1440,
+  "h": 1726,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.5
+   },
+   {
+    "c": "#18243a",
+    "share": 0.356
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.622,
+   "DARK": 0.378
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1074
+   },
+   {
+    "label": "DARK",
+    "start": 1074,
+    "end": 1728
+   }
+  ],
+  "sequence": "LIGHT(1074) \u2192 DARK(654)"
+ },
+ "note-velkommen": {
+  "w": 1440,
+  "h": 1371,
+  "grounds": [
+   {
+    "c": "#18243a",
+    "share": 0.448
+   },
+   {
+    "c": "#ebe4de",
+    "share": 0.457
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.52,
+   "DARK": 0.48
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 714
+   },
+   {
+    "label": "DARK",
+    "start": 714,
+    "end": 1374
+   }
+  ],
+  "sequence": "LIGHT(714) \u2192 DARK(660)"
+ },
+ "om": {
+  "w": 1440,
+  "h": 4608,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.714
+   },
+   {
+    "c": "#18243a",
+    "share": 0.129
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.858,
+   "DARK": 0.142
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 3954
+   },
+   {
+    "label": "DARK",
+    "start": 3954,
+    "end": 4608
+   }
+  ],
+  "sequence": "LIGHT(3954) \u2192 DARK(654)"
+ },
+ "paper-dossier": {
+  "w": 1440,
+  "h": 5751,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.67
+   },
+   {
+    "c": "#18243a",
+    "share": 0.103
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.885,
+   "DARK": 0.115
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 5094
+   },
+   {
+    "label": "DARK",
+    "start": 5094,
+    "end": 5754
+   }
+  ],
+  "sequence": "LIGHT(5094) \u2192 DARK(660)"
+ },
+ "paper-mediedoktrinen": {
+  "w": 1440,
+  "h": 2350,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.54
+   },
+   {
+    "c": "#18243a",
+    "share": 0.258
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.722,
+   "DARK": 0.278
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1698
+   },
+   {
+    "label": "DARK",
+    "start": 1698,
+    "end": 2352
+   }
+  ],
+  "sequence": "LIGHT(1698) \u2192 DARK(654)"
+ },
+ "paper-scaffy": {
+  "w": 1440,
+  "h": 4851,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.509
+   },
+   {
+    "c": "#121314",
+    "share": 0.151
+   },
+   {
+    "c": "#18243a",
+    "share": 0.122
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.562,
+   "DARK": 0.438
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 600
+   },
+   {
+    "label": "DARK",
+    "start": 600,
+    "end": 1356
+   },
+   {
+    "label": "LIGHT",
+    "start": 1356,
+    "end": 1920
+   },
+   {
+    "label": "DARK",
+    "start": 1920,
+    "end": 2628
+   },
+   {
+    "label": "LIGHT",
+    "start": 2628,
+    "end": 4194
+   },
+   {
+    "label": "DARK",
+    "start": 4194,
+    "end": 4854
+   }
+  ],
+  "sequence": "LIGHT(600) \u2192 DARK(756) \u2192 LIGHT(564) \u2192 DARK(708) \u2192 LIGHT(1566) \u2192 DARK(660)"
+ },
+ "project-akerbrygge": {
+  "w": 1440,
+  "h": 3525,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.666
+   },
+   {
+    "c": "#18243a",
+    "share": 0.168
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.813,
+   "DARK": 0.187
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 2868
+   },
+   {
+    "label": "DARK",
+    "start": 2868,
+    "end": 3528
+   }
+  ],
+  "sequence": "LIGHT(2868) \u2192 DARK(660)"
+ },
+ "project-aquatiq-synk": {
+  "w": 1440,
+  "h": 2545,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.521
+   },
+   {
+    "c": "#18243a",
+    "share": 0.246
+   },
+   {
+    "c": "#ffffff",
+    "share": 0.061
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.741,
+   "DARK": 0.259
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1890
+   },
+   {
+    "label": "DARK",
+    "start": 1890,
+    "end": 2550
+   }
+  ],
+  "sequence": "LIGHT(1890) \u2192 DARK(660)"
+ },
+ "project-barkpark": {
+  "w": 1440,
+  "h": 6543,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.712
+   },
+   {
+    "c": "#18243a",
+    "share": 0.091
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.805,
+   "DARK": 0.195
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 564
+   },
+   {
+    "label": "DARK",
+    "start": 564,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 5886
+   },
+   {
+    "label": "DARK",
+    "start": 5886,
+    "end": 6546
+   }
+  ],
+  "sequence": "LIGHT(564) \u2192 DARK(618) \u2192 LIGHT(4704) \u2192 DARK(660)"
+ },
+ "project-barkpark-cloud": {
+  "w": 1440,
+  "h": 5574,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.541
+   },
+   {
+    "c": "#18243a",
+    "share": 0.106
+   },
+   {
+    "c": "#fcfcfd",
+    "share": 0.067
+   },
+   {
+    "c": "#121314",
+    "share": 0.036
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.714,
+   "DARK": 0.286
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 2436
+   },
+   {
+    "label": "DARK",
+    "start": 2436,
+    "end": 3378
+   },
+   {
+    "label": "LIGHT",
+    "start": 3378,
+    "end": 4920
+   },
+   {
+    "label": "DARK",
+    "start": 4920,
+    "end": 5574
+   }
+  ],
+  "sequence": "LIGHT(2436) \u2192 DARK(942) \u2192 LIGHT(1542) \u2192 DARK(654)"
+ },
+ "project-bulldocs": {
+  "w": 1440,
+  "h": 6255,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.521
+   },
+   {
+    "c": "#18243a",
+    "share": 0.095
+   },
+   {
+    "c": "#121314",
+    "share": 0.091
+   },
+   {
+    "c": "#f6fbfd",
+    "share": 0.042
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.643,
+   "DARK": 0.357
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 594
+   },
+   {
+    "label": "DARK",
+    "start": 594,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 2604
+   },
+   {
+    "label": "DARK",
+    "start": 2604,
+    "end": 3588
+   },
+   {
+    "label": "LIGHT",
+    "start": 3588,
+    "end": 5598
+   },
+   {
+    "label": "DARK",
+    "start": 5598,
+    "end": 6258
+   }
+  ],
+  "sequence": "LIGHT(594) \u2192 DARK(588) \u2192 LIGHT(1422) \u2192 DARK(984) \u2192 LIGHT(2010) \u2192 DARK(660)"
+ },
+ "project-doey": {
+  "w": 1440,
+  "h": 2141,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.589
+   },
+   {
+    "c": "#18243a",
+    "share": 0.287
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.695,
+   "DARK": 0.305
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1488
+   },
+   {
+    "label": "DARK",
+    "start": 1488,
+    "end": 2142
+   }
+  ],
+  "sequence": "LIGHT(1488) \u2192 DARK(654)"
+ },
+ "project-frick-design-system": {
+  "w": 1440,
+  "h": 2069,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.569
+   },
+   {
+    "c": "#18243a",
+    "share": 0.297
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.684,
+   "DARK": 0.316
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1416
+   },
+   {
+    "label": "DARK",
+    "start": 1416,
+    "end": 2070
+   }
+  ],
+  "sequence": "LIGHT(1416) \u2192 DARK(654)"
+ },
+ "project-full-blast": {
+  "w": 1440,
+  "h": 4905,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.675
+   },
+   {
+    "c": "#18243a",
+    "share": 0.121
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.866,
+   "DARK": 0.134
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 4248
+   },
+   {
+    "label": "DARK",
+    "start": 4248,
+    "end": 4908
+   }
+  ],
+  "sequence": "LIGHT(4248) \u2192 DARK(660)"
+ },
+ "project-galleryspace": {
+  "w": 1440,
+  "h": 2821,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.553
+   },
+   {
+    "c": "#18243a",
+    "share": 0.214
+   },
+   {
+    "c": "#fafafa",
+    "share": 0.05
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.766,
+   "DARK": 0.234
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 2166
+   },
+   {
+    "label": "DARK",
+    "start": 2166,
+    "end": 2826
+   }
+  ],
+  "sequence": "LIGHT(2166) \u2192 DARK(660)"
+ },
+ "project-gyldendal": {
+  "w": 1440,
+  "h": 3064,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.579
+   },
+   {
+    "c": "#18243a",
+    "share": 0.193
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.701,
+   "MEDIA": 0.084,
+   "DARK": 0.215
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 630
+   },
+   {
+    "label": "MEDIA",
+    "start": 630,
+    "end": 888
+   },
+   {
+    "label": "LIGHT",
+    "start": 888,
+    "end": 2406
+   },
+   {
+    "label": "DARK",
+    "start": 2406,
+    "end": 3066
+   }
+  ],
+  "sequence": "LIGHT(630) \u2192 MEDIA(258) \u2192 LIGHT(1518) \u2192 DARK(660)"
+ },
+ "project-hundesteder": {
+  "w": 1440,
+  "h": 2447,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.601
+   },
+   {
+    "c": "#18243a",
+    "share": 0.248
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.733,
+   "DARK": 0.267
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1794
+   },
+   {
+    "label": "DARK",
+    "start": 1794,
+    "end": 2448
+   }
+  ],
+  "sequence": "LIGHT(1794) \u2192 DARK(654)"
+ },
+ "project-kronprinsparets-fond": {
+  "w": 1440,
+  "h": 3105,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.58
+   },
+   {
+    "c": "#18243a",
+    "share": 0.191
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.666,
+   "MEDIA": 0.023,
+   "DARK": 0.311
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 600
+   },
+   {
+    "label": "MEDIA",
+    "start": 600,
+    "end": 672
+   },
+   {
+    "label": "LIGHT",
+    "start": 672,
+    "end": 906
+   },
+   {
+    "label": "DARK",
+    "start": 906,
+    "end": 1212
+   },
+   {
+    "label": "LIGHT",
+    "start": 1212,
+    "end": 2448
+   },
+   {
+    "label": "DARK",
+    "start": 2448,
+    "end": 3108
+   }
+  ],
+  "sequence": "LIGHT(600) \u2192 MEDIA(72) \u2192 LIGHT(234) \u2192 DARK(306) \u2192 LIGHT(1236) \u2192 DARK(660)"
+ },
+ "project-lunnheim": {
+  "w": 1440,
+  "h": 2573,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.554
+   },
+   {
+    "c": "#18243a",
+    "share": 0.236
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.734,
+   "MEDIA": 0.012,
+   "DARK": 0.254
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1152
+   },
+   {
+    "label": "MEDIA",
+    "start": 1152,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 1920
+   },
+   {
+    "label": "DARK",
+    "start": 1920,
+    "end": 2574
+   }
+  ],
+  "sequence": "LIGHT(1152) \u2192 MEDIA(30) \u2192 LIGHT(738) \u2192 DARK(654)"
+ },
+ "project-nextgen": {
+  "w": 1440,
+  "h": 3454,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.602
+   },
+   {
+    "c": "#18243a",
+    "share": 0.172
+   },
+   {
+    "c": "#121314",
+    "share": 0.067
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.632,
+   "DARK": 0.368
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 564
+   },
+   {
+    "label": "DARK",
+    "start": 564,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 2802
+   },
+   {
+    "label": "DARK",
+    "start": 2802,
+    "end": 3456
+   }
+  ],
+  "sequence": "LIGHT(564) \u2192 DARK(618) \u2192 LIGHT(1620) \u2192 DARK(654)"
+ },
+ "project-oslobukta": {
+  "w": 1440,
+  "h": 3014,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.584
+   },
+   {
+    "c": "#18243a",
+    "share": 0.197
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.575,
+   "MEDIA": 0.207,
+   "DARK": 0.219
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 558
+   },
+   {
+    "label": "MEDIA",
+    "start": 558,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 2358
+   },
+   {
+    "label": "DARK",
+    "start": 2358,
+    "end": 3018
+   }
+  ],
+  "sequence": "LIGHT(558) \u2192 MEDIA(624) \u2192 LIGHT(1176) \u2192 DARK(660)"
+ },
+ "project-polyflor-ordre": {
+  "w": 1440,
+  "h": 2085,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.593
+   },
+   {
+    "c": "#18243a",
+    "share": 0.295
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.684,
+   "DARK": 0.316
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 1428
+   },
+   {
+    "label": "DARK",
+    "start": 1428,
+    "end": 2088
+   }
+  ],
+  "sequence": "LIGHT(1428) \u2192 DARK(660)"
+ },
+ "project-scaffy": {
+  "w": 1440,
+  "h": 6127,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.542
+   },
+   {
+    "c": "#121314",
+    "share": 0.167
+   },
+   {
+    "c": "#18243a",
+    "share": 0.101
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.554,
+   "DARK": 0.446
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 564
+   },
+   {
+    "label": "DARK",
+    "start": 564,
+    "end": 1182
+   },
+   {
+    "label": "LIGHT",
+    "start": 1182,
+    "end": 1878
+   },
+   {
+    "label": "DARK",
+    "start": 1878,
+    "end": 2628
+   },
+   {
+    "label": "LIGHT",
+    "start": 2628,
+    "end": 3192
+   },
+   {
+    "label": "DARK",
+    "start": 3192,
+    "end": 3900
+   },
+   {
+    "label": "LIGHT",
+    "start": 3900,
+    "end": 5472
+   },
+   {
+    "label": "DARK",
+    "start": 5472,
+    "end": 6132
+   }
+  ],
+  "sequence": "LIGHT(564) \u2192 DARK(618) \u2192 LIGHT(696) \u2192 DARK(750) \u2192 LIGHT(564) \u2192 DARK(708) \u2192 LIGHT(1572) \u2192 DARK(660)"
+ },
+ "project-spreadsheet-wizard": {
+  "w": 1440,
+  "h": 4352,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.693
+   },
+   {
+    "c": "#18243a",
+    "share": 0.136
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.848,
+   "DARK": 0.152
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 3696
+   },
+   {
+    "label": "DARK",
+    "start": 3696,
+    "end": 4356
+   }
+  ],
+  "sequence": "LIGHT(3696) \u2192 DARK(660)"
+ },
+ "project-svgloop": {
+  "w": 1440,
+  "h": 3383,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.665
+   },
+   {
+    "c": "#18243a",
+    "share": 0.176
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.807,
+   "DARK": 0.193
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 2730
+   },
+   {
+    "label": "DARK",
+    "start": 2730,
+    "end": 3384
+   }
+  ],
+  "sequence": "LIGHT(2730) \u2192 DARK(654)"
+ },
+ "project-ticket-realtime": {
+  "w": 1440,
+  "h": 2675,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.624
+   },
+   {
+    "c": "#18243a",
+    "share": 0.231
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.756,
+   "DARK": 0.244
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 2022
+   },
+   {
+    "label": "DARK",
+    "start": 2022,
+    "end": 2676
+   }
+  ],
+  "sequence": "LIGHT(2022) \u2192 DARK(654)"
+ },
+ "prosjekter": {
+  "w": 1440,
+  "h": 4262,
+  "grounds": [
+   {
+    "c": "#ebe4de",
+    "share": 0.594
+   },
+   {
+    "c": "#18243a",
+    "share": 0.139
+   }
+  ],
+  "shares": {
+   "LIGHT": 0.806,
+   "DARK": 0.194
+  },
+  "bands": [
+   {
+    "label": "LIGHT",
+    "start": 0,
+    "end": 960
+   },
+   {
+    "label": "DARK",
+    "start": 960,
+    "end": 1128
+   },
+   {
+    "label": "LIGHT",
+    "start": 1128,
+    "end": 3606
+   },
+   {
+    "label": "DARK",
+    "start": 3606,
+    "end": 4266
+   }
+  ],
+  "sequence": "LIGHT(960) \u2192 DARK(168) \u2192 LIGHT(2478) \u2192 DARK(660)"
+ }
+}

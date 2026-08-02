@@ -1,0 +1,119 @@
+[
+  {
+    "file": "scaffy-run-remove.cast",
+    "subject": "Scaffy (barkpark chore catalog)",
+    "what_it_shows": "A real Scaffy round-trip in a throwaway barkpark worktree: list the served command catalog, run add-docs-card with three variables (3 files created/injected, closing asserts green, receipt written), then retract it with the same vars back to a byte-clean tree.",
+    "recorded_at": "2026-07-31T15:35:27+02:00",
+    "version_or_sha": "barkpark commit c8856720573630a97fe5927f8b41cc04e01cc943, bp cli_version dev",
+    "how_produced": "asciinema record --headless --window-size 100x30 -i 2 -c 'bash driver.sh demo-scaffy.cmds <detached worktree of barkpark@c885672>' scaffy-run-remove.cast — every command in the cast executed live; driver.sh only types them at readable speed",
+    "kilde_ref": "commit:c8856720573630a97fe5927f8b41cc04e01cc943"
+  },
+  {
+    "file": "bp-paper-view.cast",
+    "subject": "bp CLI — bp paper view",
+    "what_it_shows": "The same Bulldocs document rendered in the terminal: bp paper view welcome (fits one screen), then the 159-line deploy-with-barkpark product plan typeset live from the server with ANSI typography.",
+    "recorded_at": "2026-07-31T15:36:51+02:00",
+    "version_or_sha": "bp cli_version dev against guerrilla.barkpark.cloud (api 2026-04-01..2026-04-17)",
+    "how_produced": "asciinema record --headless --window-size 100x40 -i 2 -c 'bash driver.sh demo-paper.cmds' bp-paper-view.cast — the long paper is piped through awk sleep 0.05/line purely to slow the scroll; content is the live render",
+    "kilde_ref": "https://guerrilla.barkpark.cloud/papers/deploy-with-barkpark"
+  },
+  {
+    "file": "bp-tasks-board.cast",
+    "subject": "bp tasks — the live portrait task board",
+    "what_it_shows": "The live task board connected to a real ledger (4382 tasks): epics with active work pinned on top, j/k navigation, Enter descending into a task's full detail with acceptance criteria and evidence in the reader pane, esc back up, q to quit.",
+    "recorded_at": "2026-07-31T15:37:43+02:00",
+    "version_or_sha": "bp cli_version dev against guerrilla.barkpark.cloud",
+    "how_produced": "tmux new-session -x 110 -y 42 running 'asciinema record --window-size 110x42 -i 2 -c \"bp tasks\"'; keys driven via tmux send-keys (j,j,j,Enter,Esc,G,g,q) against the live board",
+    "kilde_ref": "https://guerrilla.barkpark.cloud"
+  },
+  {
+    "file": "doey-doctor-list.cast",
+    "subject": "Doey CLI",
+    "what_it_shows": "Doey's own health check (tmux, claude CLI, auth, agents, TUI all green) and the registered-projects list — each repo one `doey` command away from a Boss/Manager/Workers tmux grid.",
+    "recorded_at": "2026-07-31T15:38:22+02:00",
+    "version_or_sha": "installed doey 2dd08a0 (doctor output); repo HEAD 4ba30a20f584bc3c797dd06570330e5860550496",
+    "how_produced": "asciinema record --headless --window-size 100x32 -i 2 -c 'bash driver.sh demo-doey.cmds' doey-doctor-list.cast",
+    "kilde_ref": "commit:4ba30a20f584bc3c797dd06570330e5860550496"
+  },
+  {
+    "file": "studio-login-barkpark-jarl-no.png",
+    "subject": "Barkpark Studio — sign-in surface",
+    "what_it_shows": "The Studio login at barkpark.jarl.no: Barkpark Cloud SSO button, email+password, magic-link, API-token and enterprise-OIDC options on one card — the honest first thing a visitor hits at /studio.",
+    "recorded_at": "2026-07-31T15:40:01+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040 (instance footer)",
+    "how_produced": "Playwright 1.62.1 chromium headless, viewport 1440x900, goto https://barkpark.jarl.no/studio (302 -> /login), full-page screenshot",
+    "kilde_ref": "https://barkpark.jarl.no/studio"
+  },
+  {
+    "file": "studio-login-token-flow.png",
+    "subject": "Barkpark Studio — API-token sign-in",
+    "what_it_shows": "The documented 'Sign in with an API token instead' flow expanded with a token pasted (fully masked by the password field) — how an agent or operator authenticates without a password.",
+    "recorded_at": "2026-07-31T15:40:26+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040",
+    "how_produced": "Playwright: click 'Sign in with an API token', fill input[name=token] from /tmp/jarl_admin_token, screenshot before submit; token appears only as masked dots",
+    "kilde_ref": "https://barkpark.jarl.no/login"
+  },
+  {
+    "file": "studio-home-authenticated.png",
+    "subject": "Barkpark Studio — authenticated home",
+    "what_it_shows": "Studio just after token sign-in on the jarl.no production instance: Structure nav (Post, Page, Project, Papers, Sheets, Tasks, Projects, Fleet) with the empty editor pane prompting to pick a document.",
+    "recorded_at": "2026-07-31T15:40:30+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040",
+    "how_produced": "Playwright: token sign-in via the login form's API-token flow, wait, screenshot of /w/default/p/default/d/production/studio",
+    "kilde_ref": "https://barkpark.jarl.no/w/default/p/default/d/production/studio"
+  },
+  {
+    "file": "studio-papers-list.png",
+    "subject": "Barkpark Studio — Papers pane",
+    "what_it_shows": "The Papers pane of the live jarl.no instance listing the seven flagship papers (barkpark-cloud-historien, scaffy-historien, bulldocs-historien, spreadsheet-wizard-historien, svgloop-historien, frikk-tiaret-dossier, velkommen-til-jarl-no) with their Norwegian standfirsts.",
+    "recorded_at": "2026-07-31T15:41:51+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040",
+    "how_produced": "Playwright: authenticated session, click Papers in the Structure nav, screenshot",
+    "kilde_ref": "https://barkpark.jarl.no/w/default/p/default/d/production/studio"
+  },
+  {
+    "file": "studio-paper-editing.png",
+    "subject": "Barkpark Studio — editing a real paper",
+    "what_it_shows": "scaffy-historien open in the Studio editor: typeset paper body in the middle, Papers list on the left, and the document rail on the right with Publish status, slug check, dataset/workspace context, labels and a linked mention of the Scaffy project story.",
+    "recorded_at": "2026-07-31T15:44:12+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040",
+    "how_produced": "Playwright: authenticated session, open Papers, click the scaffy-historien row (button.bp-doc-row-body), wait for the editor, screenshot of /studio/paper/scaffy-historien",
+    "kilde_ref": "https://barkpark.jarl.no/w/default/p/default/d/production/studio/paper/scaffy-historien"
+  },
+  {
+    "file": "studio-login-jarl-barkpark-cloud.png",
+    "subject": "Barkpark Studio — cloud-domain equivalent",
+    "what_it_shows": "The identical Studio sign-in at jarl.barkpark.cloud, proving barkpark.jarl.no is a custom domain onto the same cloud instance (both 302 to the same /login and the card itself says 'Studio on jarl.barkpark.cloud').",
+    "recorded_at": "2026-07-31T16:11:27+02:00",
+    "version_or_sha": "Barkpark v0.2.25.2040",
+    "how_produced": "Playwright: goto https://jarl.barkpark.cloud/studio, screenshot of the login redirect",
+    "kilde_ref": "https://jarl.barkpark.cloud/studio"
+  },
+  {
+    "file": "fullblast-menu.png",
+    "subject": "Full Blast (frickin-real-time) — character dashboard",
+    "what_it_shows": "The game's dashboard between runs: character LUCY, combat highlights, damage breakdown, floor select, and the built-in performance panel reporting a live WebGL 2.0 context on Apple ANGLE Metal.",
+    "recorded_at": "2026-07-31T16:10:39+02:00",
+    "version_or_sha": "commit b233b2b08ef8d9e6eaa98222554b1b39789f9669",
+    "how_produced": "npm ci && vite dev on port 5199 (local-only game, no backend); Playwright with full Chrome for Testing (real GPU) screenshot of localhost:5199",
+    "kilde_ref": "commit:b233b2b08ef8d9e6eaa98222554b1b39789f9669"
+  },
+  {
+    "file": "fullblast-ingame.png",
+    "subject": "Full Blast (frickin-real-time) — live gameplay",
+    "what_it_shows": "An actual run one click after START GAME: Floor 1 wave 1/10 with 16 enemies left, the player character lit in the 3D arena, stamina/XP HUD, keybind cluster, and the perf panel counting 8 live enemies and 8 TechnoBots.",
+    "recorded_at": "2026-07-31T16:22:00+02:00",
+    "version_or_sha": "commit b233b2b08ef8d9e6eaa98222554b1b39789f9669",
+    "how_produced": "Playwright clicks START GAME on the running vite dev server and screenshots the WebGL frame 9s into the wave",
+    "kilde_ref": "commit:b233b2b08ef8d9e6eaa98222554b1b39789f9669"
+  },
+  {
+    "file": "galleryspace-home.png",
+    "subject": "Galleryspace — public gallery front page",
+    "what_it_shows": "The Galleryspace front page served by the local Next 16 dev server against its live Convex backend: real paintings (Oda Nerdrøm works) with titles, dimensions and artist attribution in the scattered-frame layout; one card honestly shows a not-yet-loaded image.",
+    "recorded_at": "2026-07-31T17:16:50+02:00",
+    "version_or_sha": "commit 5d91d4e623cc279ff3e8d64b9ac27a8e2617332b",
+    "how_produced": "npm ci && next dev --port 5302 using the repo's existing .env.local (no new credentials added); Playwright screenshot after polling image load state",
+    "kilde_ref": "commit:5d91d4e623cc279ff3e8d64b9ac27a8e2617332b"
+  }
+]

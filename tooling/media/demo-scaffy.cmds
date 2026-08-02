@@ -1,0 +1,17 @@
+# Scaffy: the repo's chore catalog. Ask for a chore by name — it lands the same way, every time.
+
+bp scaffy ls --remote | jq -r '.documents[] | "\(.concept)/\(.variant)  \(.title)"' | sort | head -12
+
+# Run one. Three vars in, three files touched, closing asserts run — a receipt proves all of it.
+
+bp scaffy run scaffy/commands/add-docs-card.scaffy --var CardName=Wavecheck --var Group=Ops --var 'TaskPattern=wavecheck scratch demo' | jq '{ok, duration_ms, ops: [.ops[] | {kind, path, status}], asserts: [.asserts[] | {kind, path, status}]}'
+
+git status --short
+
+# Same command, same vars — retract it from the receipt, drift-checked per op:
+
+bp scaffy remove scaffy/commands/add-docs-card.scaffy --var CardName=Wavecheck --var Group=Ops --var 'TaskPattern=wavecheck scratch demo' | jq '{ok, ops: [.ops[] | {kind, path, status}]}'
+
+git status --short
+
+# Byte-clean. The catalog did the chore, proved it, and took it back.

@@ -1,0 +1,50 @@
+{
+"akerbrygge": {
+ "doc":"project-akerbrygge",
+ "asset":"7751150b-7763-4128-a8b8-fbd562c62cfb",
+ "alt":"Utsnitt av forsiden til akerbrygge.no: en hånd som holder en kaffekopp fra Mendel's Paris foran hortensiaer og en teglvegg, ved siden av overskriften «Et lite stykke Paris har åpnet på brygga» og knappen «Les mer her».",
+ "cap":"Skjermbilde av https://www.akerbrygge.no, fanget 31. juli 2026 — hovedsaken på forsiden."
+},
+"gyldendal": {
+ "doc":"project-gyldendal",
+ "asset":"924a619a-f564-4813-bc05-9bccd4804fbb",
+ "alt":"Utsnitt av forsiden til gyldendal.no: tre redaksjonelle kort ved siden av hverandre — «Les et utdrag» om Pascal Engmans «Krigen», «Fotballfeber» og «Pocketbøker til feriekofferten».",
+ "cap":"Skjermbilde av https://www.gyldendal.no, fanget 31. juli 2026 — kortraden på forsiden."
+},
+"hundesteder": {
+ "doc":"project-hundesteder",
+ "asset":"5ada5265-0bb5-4b3f-b7bc-8bb64b17b6eb",
+ "alt":"Utsnitt av forsiden til hundesteder.no: overskriften «Hundevennlige steder», søkefelt og filtre til venstre, og treffkortene for Mocca Oslo og Crow Bar & Brewery med merkelapper, åpningstider og adresse.",
+ "cap":"Skjermbilde av https://hundesteder.no, fanget 31. juli 2026 — søket og de første treffene."
+},
+"lunnheim": {
+ "doc":"project-lunnheim",
+ "asset":"906f6ab1-c024-49e9-a78b-0593e599b224",
+ "alt":"Utsnitt av forsiden til lunnheim.com: menylinjen med LUNNHEIM-navnet øverst, og under den en mann som sitter tilbakelent i en lenestol med oransje sete og leser et blad.",
+ "cap":"Skjermbilde av https://lunnheim.com, fanget 31. juli 2026 — toppen av forsiden."
+},
+"aquatiq": {
+ "doc":"project-aquatiq",
+ "asset":"ba850d7e-859f-487a-9b8c-7905d9ea3263",
+ "alt":"Utsnitt av forsiden til aquatiq.com: overskriften «Hvordan kan vi hjelpe deg?» over en rad bildekort for kjemi, kurs og revisjon, analyse, rengjøringssystemer og hygieniske prosessystemer.",
+ "cap":"Skjermbilde av https://www.aquatiq.com, fanget 31. juli 2026 — kategoriraden på forsiden."
+},
+"kronprinsparetsfond": {
+ "doc":"project-kronprinsparets-fond",
+ "asset":"88297b83-5ae8-4c44-a92f-f08124ad89cd",
+ "alt":"Utsnitt av forsiden til kronprinsparetsfond.no: fem personer på en scene foran en skjerm med fondets hjertelogo, og over bildet sitatet «Kronprinsparets Fond skal styrke fellesskapet for unge mennesker, slik at alle føler tilhørighet og kan delta».",
+ "cap":"Skjermbilde av https://kronprinsparetsfond.no, fanget 31. juli 2026 — helsidesbildet på forsiden."
+},
+"oslobukta": {
+ "doc":"project-oslobukta",
+ "asset":"50f1ea33-0227-45f7-b5bc-b13eeca62211",
+ "alt":"Utsnitt av forsiden til oslobukta.no: et matbilde med blåskjell og tartar på et solbelyst restaurantbord til venstre, og saken «De beste lunsjstedene i Oslo akkurat nå» til høyre.",
+ "cap":"Skjermbilde av https://www.oslobukta.no, fanget 31. juli 2026 — toppsaken på forsiden."
+},
+"galleryspace": {
+ "doc":"project-galleryspace",
+ "asset":"9373d16a-adee-49bb-b8f6-29ea49fe85d8",
+ "alt":"Utsnitt av Galleryspace-forsiden: to malerier av Oda Nerdrøm i lyse passepartouter — «Morgen ved klippen» og «Selvportrett med stav» — med tittel, mål og galleri under.",
+ "cap":"Skjermbilde av Galleryspace kjørt lokalt mot den levende basen, fanget 31. juli 2026 — verksrutenettet på forsiden."
+}
+}

@@ -1,0 +1,281 @@
+{
+ "recovered_from": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad",
+ "recovered_at": "2026-08-02",
+ "ledger": "barkpark/tooling/grip/ledger/epic13-media-pipeline-survival-2026-08-02.json",
+ "renamed": {
+  "cast-manifest.json": "manifest.json"
+ },
+ "note": "Code and specs only. The rendered PNG/JPG/cast outputs stayed in the scratchpad: they are reproducible from these scripts and would add ~90 MB of binaries to a source tree.",
+ "files": [
+  {
+   "path": "cast-manifest.json",
+   "sha256": "8933bcb43a79f2967f361f54f957b13b61358de1bbd2eb202b42bf8061fa05f8",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/manifest.json",
+   "identical": true
+  },
+  {
+   "path": "demo-doey.cmds",
+   "sha256": "32e6ce8f242202a349c2c727b0de4eee96fcaaa89298149faf48e7892f1c976f",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/demo-doey.cmds",
+   "identical": true
+  },
+  {
+   "path": "demo-paper.cmds",
+   "sha256": "ba476d7dfc43e2e45b5cba5ed41e5389718bab2609e043b6c57ae24eccbffbf0",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/demo-paper.cmds",
+   "identical": true
+  },
+  {
+   "path": "demo-scaffy.cmds",
+   "sha256": "9eabadd278a031c4143fe474fb5642cf1caf83bac173907301567f3b5c72aa5f",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/demo-scaffy.cmds",
+   "identical": true
+  },
+  {
+   "path": "driver.sh",
+   "sha256": "c4979779c8a99b5273957998fb01090a2fd26aafb6245388f0997c82739966d9",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/driver.sh",
+   "identical": true
+  },
+  {
+   "path": "epic13/capture-jarl.mjs",
+   "sha256": "803c1741a9c1bf3e21207c8f77de043bed5e6639c5ce69b84081437d6eae8de2",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/capture-jarl.mjs",
+   "identical": true
+  },
+  {
+   "path": "epic13/composite.py",
+   "sha256": "fa27a23587fbd25bd03ad0fabb096a9b224011cba66a113bd9867d346c32a26f",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/composite.py",
+   "identical": true
+  },
+  {
+   "path": "epic13/jarl-spec.json",
+   "sha256": "3813a5f6d410c63f0e984b533ee8df01fc8b1204d6831afcbadb2ed1a1018a4c",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/jarl-spec.json",
+   "identical": true
+  },
+  {
+   "path": "epic13/jarl-tristrips.json",
+   "sha256": "bac1added8fe820a43523e9398fca4f55a422cc4beaffce88d76c4cc3fc1bd0e",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/jarl-tristrips.json",
+   "identical": true
+  },
+  {
+   "path": "epic13/sections2.mjs",
+   "sha256": "a0ec8c6abeb77a12557429cb3705063a02d6a88ea02a9871ebd1d1689b8fc986",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/sections2.mjs",
+   "identical": true
+  },
+  {
+   "path": "epic13/tinholt-spec.json",
+   "sha256": "0eae579aa62735b77d14839239e5998da46dbea8062e7f9f83e9fe26763ae819",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/tinholt-spec.json",
+   "identical": true
+  },
+  {
+   "path": "epic13/tinholt-tristrips.json",
+   "sha256": "dc2c7589114d26d2572d79a0d9a2d552f6b42215ad6223ee48317ac74365f791",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/tinholt-tristrips.json",
+   "identical": true
+  },
+  {
+   "path": "epic13/tristrips.py",
+   "sha256": "efa1116e75897265ede9053163d35f95bf4ac6715b3f538b2fb09cfb8b6d5501",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic13/tristrips.py",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/castframe.py",
+   "sha256": "eacc7ae41908765f6f371e7cc8834fee580e1ada47f158d062867e84684001c5",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/castframe.py",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/crop.py",
+   "sha256": "1f0f4ad9c87555541e17489323bca0b9920466c10079e4972fdb6df8694151e4",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/crop.py",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/patch-scaffy-historien.json",
+   "sha256": "7dd3548b437a94d95e910f169e826dd6570d606ffb64d7f920f25acf820d807c",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/patch-scaffy-historien.json",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/patch_paper.py",
+   "sha256": "7bea771985f1566b591560235242e3702c3c278f2a03bce46c8a27d6ea3f6c06",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/patch_paper.py",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/pngcrop.py",
+   "sha256": "883b7218ec640b1adc46761e1ec47ffe8385a91c473f2ac81fa91d6c12f3df73",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/pngcrop.py",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/scaffy-historien.json",
+   "sha256": "8f48572b249373c8c314118a932c0f6141b9145f26de17859088fc105dce32db",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/scaffy-historien.json",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/shot.mjs",
+   "sha256": "faae7164eb2f226f348b6c8b31302621c588276b4e6d5496e0f257c95a430fae",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/shot.mjs",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/shot2.mjs",
+   "sha256": "2dbd08aa1f3a55f98187a8f04ef3764ada4c851c7a23e61555ca2d705c18bb5d",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/shot2.mjs",
+   "identical": true
+  },
+  {
+   "path": "epic9frames/wire.py",
+   "sha256": "cd36d2f408ddb169dd4045f1e783bf43f4d2f1d76832ed9d41d293b3315da8a5",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/epic9frames/wire.py",
+   "identical": true
+  },
+  {
+   "path": "frames43/compose43.py",
+   "sha256": "ee1c6601491cec5d31bb2fb174570f77789fc2192a757ad85dde6f9c64a2c231",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/compose43.py",
+   "identical": true
+  },
+  {
+   "path": "frames43/scan.py",
+   "sha256": "080277e25e3e2fac0ee8be9dd63e84638560f439a0d8507a281bfd032094c3cd",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/scan.py",
+   "identical": true
+  },
+  {
+   "path": "frames43/wire43.py",
+   "sha256": "644dea6f4b4c4757955d5f2da7768481b304c42aea4509bf0d9059b1eb3c004b",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/wire43.py",
+   "identical": true
+  },
+  {
+   "path": "frames43/wire43b.py",
+   "sha256": "47d34b989f9edc7b5bb069660f47067b53c3fb59bc6a4d4c745717df16b3b561",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/wire43b.py",
+   "identical": true
+  },
+  {
+   "path": "frames43/wired-tett.json",
+   "sha256": "64c66cf6b430de99c980a5532babc9eaa3a915aadefebbdc4bef0f1451d08ad4",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/wired-tett.json",
+   "identical": true
+  },
+  {
+   "path": "frames43/wired.json",
+   "sha256": "49864780fa3cfb588e0729b5240d8b9a04f0be7475ea861ea8d5bdda311bb496",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/frames43/wired.json",
+   "identical": true
+  },
+  {
+   "path": "recrop/apply_docs.py",
+   "sha256": "d93bb366214686e7304c754a78d2e24567b63586fb5477f91fe6fe5d707e1820",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/apply_docs.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/apply_meta.py",
+   "sha256": "5111b10e20b11eb4abfaf65f490debd1ce2b124f23d90fc1207ae1ae2639b1dc",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/apply_meta.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/crop.py",
+   "sha256": "f73779e3040affbcad71bb910d359996ddf242d7bd24af5d87d6c2fc16f74ea8",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/crop.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/final.py",
+   "sha256": "fcce4cd7fb7c536dcfccf4c0ca92df93adbdfc6a4ff557ba389593f173c94f60",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/final.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/gen.py",
+   "sha256": "e91812031c21f1431dd00823c2fd774a070d25dfc2e7c73e17ef7741e9792304",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/gen.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/meta.json",
+   "sha256": "81f0d1feab9d621dc301c9b2ec07ca834773451b98a57bbf924712be8a271506",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/meta.json",
+   "identical": true
+  },
+  {
+   "path": "recrop/shot-detail.mjs",
+   "sha256": "b7055c8dfbb2e655972f1dffce0c63922692bb6a792e1a42836fffe34665678e",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/shot-detail.mjs",
+   "identical": true
+  },
+  {
+   "path": "recrop/shot.mjs",
+   "sha256": "dcc74eb506b902b84fb6227571b651b3c2505e4ab7a952a2dccab6a0ebf2d55e",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/shot.mjs",
+   "identical": true
+  },
+  {
+   "path": "recrop/upload.py",
+   "sha256": "bb8cab62253da6005ab7751d28c887702c052498c524873875e157ba2f789c01",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/upload.py",
+   "identical": true
+  },
+  {
+   "path": "recrop/uploaded.json",
+   "sha256": "4e27be627b3e586b5b5399c3b900261aaad57494a366e35ef9694f49f9bb9d8d",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/uploaded.json",
+   "identical": true
+  },
+  {
+   "path": "recrop/urls.json",
+   "sha256": "b764d6d1ca39c1e946009f7e3139155e91b571e42ad4780f14c4d2de2251fbc6",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/recrop/urls.json",
+   "identical": true
+  },
+  {
+   "path": "shot-cloud-login.mjs",
+   "sha256": "27c3165d55ad98a568e145bb3a6c6f4fd141e475cd4b00fce76ade20f7f9a64d",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-cloud-login.mjs",
+   "identical": true
+  },
+  {
+   "path": "shot-fullblast2.mjs",
+   "sha256": "df97ddd5560286612f68e49f671d953aa736fc154269daee88f10ddb0344e135",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-fullblast2.mjs",
+   "identical": true
+  },
+  {
+   "path": "shot-gallery3.mjs",
+   "sha256": "6399d56f7fd0c8329b0fc7c18ae8cc695e631ddb042bd5a6bb2d76841f0733ba",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-gallery3.mjs",
+   "identical": true
+  },
+  {
+   "path": "shot-login.mjs",
+   "sha256": "8446689eb8812040f760ed227832d4cd050ac9e07492877f22d89525800c947c",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-login.mjs",
+   "identical": true
+  },
+  {
+   "path": "shot-paper-final.mjs",
+   "sha256": "460425e1126dcb62fdf9d79e410316ea66dff32320242573acb8d3b7f07d6be5",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-paper-final.mjs",
+   "identical": true
+  },
+  {
+   "path": "shot-studio.mjs",
+   "sha256": "cb48e0b8e5597f478f610bd7f8401cf1c33c7bc4e13d5233f84e8e113829dfe6",
+   "origin": "/private/tmp/claude-501/-Users-frikkjarl-Documents-GitHub/2938d290-edae-40dd-bce3-1286cec080a8/scratchpad/media/shot-studio.mjs",
+   "identical": true
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+# Doey runs parallel Claude Code agents in one tmux grid: Boss relays, a Manager plans, Workers execute.
+
+doey doctor
+
+# Every registered repo is one command away from a full team:
+
+doey list
+
+# `doey` in a registered repo launches the grid; `doey add` grows it two workers at a time.
