@@ -253,7 +253,7 @@ html {
 }
 
 /* The page always fills the viewport and always closes on the footer.
-   Without this a short route (kontakt, notater) ends its dark footer band
+   Without this a short route (kontakt, om) ends its dark footer band
    part-way up the screen and leaves a bare strip of ground underneath —
    the one thing that is supposed to say "the end", with page below it. */
 body {

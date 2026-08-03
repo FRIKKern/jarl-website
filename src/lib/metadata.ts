@@ -11,9 +11,9 @@ import { stripEmphasis } from "./text";
 export interface RouteMeta {
   /** CMS title of the page. */
   title?: string;
-  /** CMS summary / seo description / derived excerpt. */
+  /** CMS summary / seo description. */
   description?: string;
-  /** App-relative path, e.g. `/notater/velkommen`. */
+  /** App-relative path, e.g. `/prosjekter/barkpark`. */
   path: string;
   /** CMS site title, used as the Open Graph site name. */
   siteName?: string;

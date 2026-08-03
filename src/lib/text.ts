@@ -1,15 +1,5 @@
 /** Derivations over CMS text — never a source of new copy. */
 
-/** First paragraph of a plain-text body, clipped on a word boundary. */
-export function excerpt(text?: string, max = 165): string | undefined {
-  const first = (text ?? "").split(/\n{2,}/)[0]?.replace(/\s+/g, " ").trim();
-  if (!first) return undefined;
-  if (first.length <= max) return first;
-  const cut = first.slice(0, max);
-  const stop = cut.lastIndexOf(" ");
-  return `${(stop > max * 0.6 ? cut.slice(0, stop) : cut).trimEnd()}…`;
-}
-
 /** Plain-text mirror of the *emphasis* convention (see components/Emphasis):
     strips paired markers, leaves unpaired asterisks alone. Metadata runs
     every title and description through this so the markers never reach a

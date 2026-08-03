@@ -5,9 +5,8 @@
  * from the graph.
  */
 
-import type { Note, Paper, Project, SiteSettings } from "@/content/types";
+import type { Paper, Project, SiteSettings } from "@/content/types";
 import { SITE_URL, absoluteUrl } from "./site";
-import { excerpt } from "./text";
 
 const CONTEXT = "https://schema.org";
 const LANGUAGE = "nb-NO";
@@ -37,27 +36,6 @@ function person(settings: SiteSettings | null): Node {
 /** Person node for the home page. */
 export function personSchema(settings: SiteSettings | null): Node {
   return { "@context": CONTEXT, ...person(settings) };
-}
-
-/** BlogPosting node for a note. */
-export function notePostingSchema(
-  note: Note,
-  settings: SiteSettings | null,
-): Node {
-  const url = absoluteUrl(`/notater/${note.slug ?? note._id}`);
-  return compact({
-    "@context": CONTEXT,
-    "@type": "BlogPosting",
-    headline: note.title,
-    description: excerpt(note.body),
-    datePublished: note.publishedAt ?? note._createdAt,
-    dateModified: note._updatedAt,
-    inLanguage: LANGUAGE,
-    url,
-    mainEntityOfPage: url,
-    author: person(settings),
-    publisher: person(settings),
-  });
 }
 
 /** CreativeWork node for a project. */

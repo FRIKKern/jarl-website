@@ -4,7 +4,6 @@ import { getDocument, queryDocuments } from "./client";
 import type {
   Navigation,
   NavItem,
-  Note,
   Page,
   Paper,
   Project,
@@ -39,21 +38,27 @@ export async function getFeaturedProjects(): Promise<Project[]> {
   return (await getProjects()).filter((p) => p.featured === true);
 }
 
+/** The two shelves a project can stand on — see `Project.kategori`. */
+export type Kategori = "kunde" | "egen";
+
+/** Tolerant read of `kategori`. ONLY the exact word «kunde» claims the
+    client shelf; absent, misspelt or unknown values all fall to «egen», so
+    a bad value hides a post from neither index — it just files it under the
+    one that means «mine». */
+export function projectKategori(project: Project): Kategori {
+  return project.kategori?.trim().toLowerCase() === "kunde" ? "kunde" : "egen";
+}
+
+/** One shelf, in the shared project order. */
+export async function getProjectsByKategori(
+  kategori: Kategori,
+): Promise<Project[]> {
+  return (await getProjects()).filter((p) => projectKategori(p) === kategori);
+}
+
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const projects = await queryDocuments<Project>("project");
   return projects.find((p) => p.slug === slug) ?? null;
-}
-
-export async function getNotes(): Promise<Note[]> {
-  const notes = await queryDocuments<Note>("note");
-  return notes
-    .slice()
-    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
-}
-
-export async function getNoteBySlug(slug: string): Promise<Note | null> {
-  const notes = await queryDocuments<Note>("note");
-  return notes.find((n) => n.slug === slug) ?? null;
 }
 
 export async function getPapers(): Promise<Paper[]> {

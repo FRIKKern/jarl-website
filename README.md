@@ -36,15 +36,16 @@ Epic 2 of the programme charted in the paper `/papers/jarl-website-epic-plan`
    │  src/app/       routes (below)               │
    └──────────────────┬───────────────────────────┘
                       ▼
-     /            inverted hero + section bands +
-                  featured projects + notes
-     /prosjekter  + /prosjekter/[slug]
-     /notater     + /notater/[slug]
+     /              inverted hero + section bands +
+                    the featured board
+     /prosjekter    the CLIENT shelf   (project, kategori=kunde)
+     /kuriositeter  the OWN shelf      (project, kategori=egen)
+     /prosjekter/[slug]   every post, whichever shelf it stands on
      /om          /kontakt
      /papers/[slug]   Bulldocs papers, mechanical spacing
 
      machine surfaces, all generated from the same CMS data:
-     /sitemap.xml  /robots.txt  /feed.xml (RSS, notes + papers)
+     /sitemap.xml  /robots.txt  /feed.xml (RSS over the papers)
      /icon  /apple-icon        monogram, drawn in code
      …/opengraph-image         social card per page, next/og
 ```
@@ -211,8 +212,23 @@ drawn as geometry rather than set in a typeface.
 `app/sitemap.ts`, `app/robots.ts` and `app/feed.xml/route.ts` enumerate live
 CMS documents, so a document published in Studio is in the sitemap and the feed
 within the revalidate window. JSON-LD (`src/lib/structured-data.ts`) emits a
-Person on the home page and a BlogPosting / CreativeWork on detail pages —
-again, no field that is not in Barkpark.
+Person on the home page and a CreativeWork on detail pages — again, no field
+that is not in Barkpark.
+
+## Two shelves, one document type
+
+`project` is a single type. `kategori` says who asked for the work: `kunde`
+(built for someone else) puts a post on `/prosjekter`, and anything else —
+`egen`, absent, misspelt — puts it on `/kuriositeter`. The read is tolerant on
+purpose (`projectKategori`, `src/content/loaders.ts`): a bad value files a post
+under "mine" rather than hiding it from both indexes.
+
+**Detail routes do not split.** Every post keeps its address at
+`/prosjekter/[slug]` whichever shelf it stands on, so moving a post between
+shelves is an editorial act with no redirect and no dead link behind it. Both
+indexes render one component (`src/components/ProjectIndex.tsx`) and take their
+kicker, title and lede from their own `page` document (`page-prosjekter`,
+`page-kuriositeter`).
 
 ## Accessibility
 
@@ -232,7 +248,7 @@ code change. A 404 additionally prefers a `page` document with the slug `404`.
 ## Do not add a `loading.tsx` to a list segment
 
 Unknown detail routes answer a real `404` — verified for
-`/prosjekter/<ukjent>` and `/notater/<ukjent>`. That only holds because the
+`/prosjekter/<ukjent>` and `/papers/<ukjent>`. That only holds because the
 list segments have **no** `loading.tsx`. A Suspense boundary above a route that
 combines `generateStaticParams` with `dynamicParams: true` makes Next commit
 `200` before `notFound()` throws, turning every unknown slug into a soft 404.

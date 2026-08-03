@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import {
   getFeaturedProjects,
-  getNavigation,
-  getNotes,
   getPageBySlug,
   getSiteSettings,
 } from "@/content/loaders";
@@ -14,7 +12,6 @@ import { Prose } from "@/components/Prose";
 import { ArrowLink } from "@/components/ArrowLink";
 import { metaSegments } from "@/lib/text";
 import { ProjectCard } from "@/components/ProjectCard";
-import { NoteList } from "@/components/NoteList";
 import { JsonLd } from "@/components/JsonLd";
 import { routeMetadata } from "@/lib/metadata";
 import { personSchema } from "@/lib/structured-data";
@@ -36,26 +33,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [page, settings, navItems, projects, notes] = await Promise.all([
+  const [page, settings, projects] = await Promise.all([
     getPageBySlug("hjem"),
     getSiteSettings(),
-    getNavigation(),
     getFeaturedProjects(),
-    getNotes(),
   ]);
 
   const sections = normalizeSections(page?.sections);
-  const projectsNav = navItems.find((i) => i.href === "/prosjekter");
-  const notesNav = navItems.find((i) => i.href === "/notater");
 
   /* The home strip is tinholt's dramaturgy: the hero room → CTA cards →
-     the mid-page capture board → the boards → the CLOSING capture →
-     colophon. The listing boards (projects, notes) are data-driven and
-     render below, so the authored sections split around them: everything
-     up to the LAST capture media band plays before the boards, and that
-     closing room (plus anything the author placed after it) ends the
-     strip. Last, not first — the strip may now carry a capture board
-     mid-overture, the way tinholt's home does. */
+     the mid-page capture board → the featured board → the CLOSING capture →
+     colophon. The featured board is data-driven and renders below, so the
+     authored sections split around it: everything up to the LAST capture
+     media band plays before the board, and that closing room (plus anything
+     the author placed after it) ends the strip. Last, not first — the strip
+     may now carry a capture board mid-overture, the way tinholt's home
+     does. */
   let captureAt = -1;
   for (let i = sections.length - 1; i >= 0; i--) {
     const s = sections[i];
@@ -129,14 +122,21 @@ export default async function HomePage() {
 
       <Sections sections={overture} />
 
+      {/* The featured board. It draws from `featured`, which crosses BOTH
+          shelves — a client platform and my own tools stand side by side
+          here — so its head is a statement and not a door: an arrow link
+          would have to promise one shelf while the cards below it deliver
+          two. The two doors are the CTA cards higher up the strip, and
+          every card is its own way in. */}
       {projects.length > 0 ? (
-        <Band rule labelledBy="utvalgte-prosjekter">
-          {projectsNav ? (
+        <Band
+          rule
+          labelledBy={page?.featuredTitle ? "utvalgte-prosjekter" : undefined}
+        >
+          {page?.featuredTitle ? (
             <div className={styles.sectionHead}>
-              <h2 className={styles.sectionHeading} id="utvalgte-prosjekter">
-                <ArrowLink href={projectsNav.href} variant="heading">
-                  {projectsNav.label}
-                </ArrowLink>
+              <h2 className={styles.sectionHeadingPlain} id="utvalgte-prosjekter">
+                {page.featuredTitle}
               </h2>
             </div>
           ) : null}
@@ -145,21 +145,6 @@ export default async function HomePage() {
               <ProjectCard key={project._id} project={project} />
             ))}
           </div>
-        </Band>
-      ) : null}
-
-      {notes.length > 0 ? (
-        <Band rule labelledBy="siste-notater">
-          {notesNav ? (
-            <div className={styles.sectionHead}>
-              <h2 className={styles.sectionHeading} id="siste-notater">
-                <ArrowLink href={notesNav.href} variant="heading">
-                  {notesNav.label}
-                </ArrowLink>
-              </h2>
-            </div>
-          ) : null}
-          <NoteList notes={notes.slice(0, 3)} />
         </Band>
       ) : null}
 

@@ -75,10 +75,16 @@
   border-bottom: 1px solid var(--color-line);
 }
 
-.sectionHeading {
-  /* the cut lives on the arrow-link heading variant, so the heading and its
-     arrow can never drift apart */
-  font-size: inherit;
+/* A listing head that is NOT a door. The featured board mixes both project
+   shelves, so it names itself instead of promising one of them — and a
+   heading with no arrow link inside has to state the section cut itself,
+   because the arrow-link heading variant is what normally carries it. */
+.sectionHeadingPlain {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  color: var(--color-ink);
 }
 
 .projectGrid {

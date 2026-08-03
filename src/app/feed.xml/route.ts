@@ -1,6 +1,6 @@
-import { getNotes, getPapers, getSiteSettings } from "@/content/loaders";
+import { getPapers, getSiteSettings } from "@/content/loaders";
 import { FEED_LANGUAGE, SITE_URL, absoluteUrl } from "@/lib/site";
-import { escapeXml, excerpt } from "@/lib/text";
+import { escapeXml } from "@/lib/text";
 
 export const revalidate = 60;
 
@@ -30,30 +30,20 @@ function item({ title, link, description, date }: FeedItem): string {
     .join("\n");
 }
 
-/** RSS 2.0 over notes and papers, newest first, absolute URLs throughout. */
+/** RSS 2.0 over the papers, newest first, absolute URLs throughout.
+    Papers are the site's only serial long-form store, so they are the feed. */
 export async function GET(): Promise<Response> {
-  const [settings, notes, papers] = await Promise.all([
-    getSiteSettings(),
-    getNotes(),
-    getPapers(),
-  ]);
+  const [settings, papers] = await Promise.all([getSiteSettings(), getPapers()]);
 
-  const entries: (FeedItem & { sortKey: string })[] = [
-    ...notes.map((note) => ({
-      title: note.title,
-      link: absoluteUrl(`/notater/${note.slug ?? note._id}`),
-      description: excerpt(note.body),
-      date: note.publishedAt ?? note._createdAt,
-      sortKey: note.publishedAt ?? note._createdAt ?? "",
-    })),
-    ...papers.map((paper) => ({
+  const entries: (FeedItem & { sortKey: string })[] = papers
+    .map((paper) => ({
       title: paper.title,
       link: absoluteUrl(`/papers/${paper._id}`),
       description: paper.description,
       date: paper._createdAt,
       sortKey: paper._createdAt ?? "",
-    })),
-  ].sort((a, b) => b.sortKey.localeCompare(a.sortKey));
+    }))
+    .sort((a, b) => b.sortKey.localeCompare(a.sortKey));
 
   const latest = entries[0]?.date;
   const xml = [

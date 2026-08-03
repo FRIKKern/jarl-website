@@ -134,10 +134,19 @@ export interface Page extends BarkparkDoc {
       metadata strips the markers via stripEmphasis). */
   title?: string;
   slug?: string;
+  /** The kicker over an index page's title — the small-caps line in the
+      centered ceremony (article.module.css `.overline`). Absent means the
+      hero opens straight on the title, exactly as it did before. */
+  overline?: string;
   /** Same *emphasis* convention as `title`. On the home page the intro joins
       the title as ONE centered hero declaration; the italic inflection is
       authored here, never hardcoded. */
   intro?: string;
+  /** Home page only — the heading over the featured-project board. The board
+      draws from `featured`, which mixes both shelves, so its head is a
+      statement rather than a door and needs a name of its own. Absent means
+      the board renders headless. */
+  featuredTitle?: string;
   /** The home hero's single arrow link. */
   ctaLabel?: string;
   ctaHref?: string;
@@ -163,6 +172,15 @@ export interface Project extends BarkparkDoc {
   url?: string;
   order?: number;
   featured?: boolean;
+  /** WHICH SHELF THE POST STANDS ON. `project` is ONE document type; the
+      only thing that differs between /prosjekter and /kuriositeter is who
+      asked for the work — «kunde» is done for someone else, «egen» is what
+      I build for my own part. Widened to `string` like `Section.kind` and
+      `Page.theme`: only the exact word «kunde» claims the client shelf, and
+      anything else — absent, misspelt, authored ahead of the code — reads
+      as «egen» (see projectKategori in src/content/loaders.ts), so a typo
+      can never empty a shelf and lose a post. */
+  kategori?: string;
   /** A real, captured image of the thing itself — the card and hero visual.
       `src` is served by the Barkpark media library, root-relative through the
       same-origin `/media` proxy. Absent means no capture exists yet, and the
@@ -188,14 +206,6 @@ export interface ProjectImage {
       Tolerant on purpose: an unparseable value falls back to center-crop,
       never to a broken style — see src/lib/focus.ts. */
   focus?: string;
-}
-
-export interface Note extends BarkparkDoc {
-  _type: "note";
-  title?: string;
-  slug?: string;
-  publishedAt?: string;
-  body?: string;
 }
 
 /* ---- Bulldocs papers ---------------------------------------------------- */

@@ -105,7 +105,14 @@ async function census() {
     );
     process.exit(2);
   }
-  return ["/prosjekter", ...slugs.map((s) => `/prosjekter/${s}`)];
+  /* Both shelves, then every post once. `project` is one document type split
+     across two indexes by `kategori`, and the detail pages never split — so
+     the census is the two index routes plus each slug exactly once. */
+  return [
+    "/prosjekter",
+    "/kuriositeter",
+    ...slugs.map((s) => `/prosjekter/${s}`),
+  ];
 }
 
 let routes = await census();
